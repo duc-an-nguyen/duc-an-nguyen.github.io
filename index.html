@@ -1,315 +1,497 @@
 <!DOCTYPE html>
 <html lang="en">
+
+<!--
+=============================================
+ STYLES FOR THE SITE
+=============================================
+-->
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Duc An Nguyen | Portfolio</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+
+    <!---------------------------------
+                Meta tags
+    ----------------------------------->
+    <meta charset="UTF-8">
+    <meta name="description" content="Duc An Nguyen's Portfolio Website">
+    <meta name="author" content="Duc An Nguyen">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!---------------------------------
+                Title
+    ----------------------------------->
+    <title>Duc An Nguyen | Portfolio</title>
+
+
+    <!---------------------------------
+                Styles
+    ----------------------------------->
+    <style>
+    * {                 margin          : 0;
+                        padding         : 0;
+                        box-sizing      : border-box;
+                    }
+
+    html {              scroll-behavior : smooth;}
+
+    body {              font-family     : Arial, Helvetica, sans-serif;
+
+                        /* Light blue-gray page background */
+                        background      : #f8fafc;
+
+                        /* Dark navy main text color */
+                        color           : #0f172a;
+
+                        line-height     : 1.6;
+                    }
+        
+
+    /*----------- Main menu ---------*/
+    nav {               
+                        position        : fixed;
+                        top             : 0;
+                        left            : 0;
+                        width           : 100%;
+                        padding         : 15px 8%;
+                        display         : flex;
+
+                        justify-content : space-between;
+                        align-items     : center;
+
+                        /* Transparent light blue-white navigation */
+                        background      : rgba(248, 250, 252, 0.88);
+
+                        backdrop-filter : blur(10px);
+
+                        /* Soft navy shadow */
+                        box-shadow      : 0 2px 12px rgba(15, 23, 42, 0.08);
+
+                        z-index         : 100;   
+                    }
+               
+    .logo_position {
+                    width           : 90px;
+                    height          : 90px;
+
+                    display         : flex;
+                    align-items     : center;
+                    justify-content : center;
+
+                    /* Prevents the logo from shrinking */
+                    flex-shrink     : 0;
+
+                    /* Hides anything outside the container */
+                    overflow        : hidden;
+    }
+    
+    .logo_image {
+                        width           : 100%;
+                        height          : 100%;
+
+                        /* Keeps the logo proportions */
+                        object-fit      : contain;
+
+                        /* Removes the small inline-image space underneath */
+                        display         : block;
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
+    
 
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f7f7f5;
-      color: #222;
-      line-height: 1.6;
-    }
+    .menu_links a {     margin-left     : 22px;
+                        text-decoration : none;
 
-    header {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 40px 20px;
-      background: linear-gradient(135deg, #ffffff, #ece7dc);
-    }
+                        /* Slate-blue menu links */
+                        color           : #334155;
+                        font-weight     : normal;
+                    }
+    
+    .menu_links a:hover {
+                        /* Strong blue when hovering */
+                        color           : #1b83d8;
+                    }
 
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      padding: 18px 8%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-      z-index: 10;
-    }
 
-    .logo {
-      font-weight: 700;
-      font-size: 1.2rem;
-    }
-
-    .nav-links a {
-      margin-left: 22px;
-      text-decoration: none;
-      color: #333;
-      font-weight: 500;
-    }
-
-    .nav-links a:hover {
-      color: #9b7b45;
-    }
-
+    /*--------Profile and greeting-----*/
     .hero {
-      max-width: 850px;
-      animation: fadeUp 1s ease forwards;
+                        display         : flex;
+                        align-items     : center;
+                        justify-content : space-between;
+                        gap             : 25px;
+                        padding         : 150px 6% 40px;
+
+                        /* White to soft-blue background */
+                        background      : linear-gradient(
+                                            135deg,
+                                            #ffffff 0%,
+                                            #dbeafe 100%
+                                          );
     }
 
-    .hero h1 {
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: clamp(3rem, 8vw, 6rem);
-      line-height: 1.05;
-      margin-bottom: 18px;
+    .hero-content {
+                        /* max-width       : 650px; */
+                        align-items     : center;
+                        animation       : fadeUp 0.7s ease forwards;
+                    }
+
+    .hero-content h1 {
+                        font-family     : Georgia, "Times New Roman", serif;
+                        font-size       : clamp(2rem, 2.9vw, 4.5rem);
+                        line-height     : 1.05;
+                        letter-spacing  : -0.03em;
+                        margin-bottom   : 10px;
+
+                        /* Dark navy heading */
+                        color           : #0f172a;
+    }
+    
+    .hero-subtitle {
+                        font-size       : 1.5rem;
+                        font-weight     : 600;
+                        /* Professional blue subtitle */
+                        color           : #5a8dcb;
+                    }
+
+    .hero-content p {
+                        font-size       : clamp(1rem, 2vw, 1.5rem);
+
+                        /* Readable slate-gray paragraph */
+                        color           : #475569;
+
+                        margin-bottom   : 10px;
+                    }
+
+
+    .hero-image {
+                        flex-shrink     : 0;
+                        display         : flex;
+                        align-items     : center;
+                        justify-content : center;
     }
 
-    .hero p {
-      font-size: 1.25rem;
-      color: #555;
-      margin-bottom: 32px;
-    }
+    .profile_picture {
+                        width           : clamp(230px, 28vw, 360px);
+                        aspect-ratio    : 1 / 1;
 
-    .btn {
-      display: inline-block;
-      padding: 14px 28px;
-      border-radius: 999px;
-      background: #222;
-      color: white;
-      text-decoration: none;
-      font-weight: 600;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
+                        object-fit      : cover;
+                        object-position : center;
+                        border-radius   : 24px;
 
-    .btn:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.18);
-    }
+                        /* Clean white picture frame */
+                        border          : 6px solid rgba(255, 255, 255, 0.92);
 
-    section {
-      padding: 90px 8%;
-    }
+                        /* Soft navy picture shadow */
+                        box-shadow      : 0 20px 50px rgba(15, 23, 42, 0.16);
 
-    .section-title {
-      font-family: Georgia, 'Times New Roman', serif;
-      text-align: center;
-      font-size: 2.8rem;
-      margin-bottom: 14px;
-    }
+                        transition:
+                            transform 0.3s ease,
+                            box-shadow 0.3s ease;
+                    }
 
-    .underline {
-      width: 80px;
-      height: 4px;
-      background: #b49a6a;
-      margin: 0 auto 45px;
-      border-radius: 99px;
-    }
+    .profile_picture:hover {
+                        transform       : translateY(-6px);
 
-    .about-box,
-    .contact-box {
-      max-width: 900px;
-      margin: 0 auto;
-      background: white;
-      padding: 40px;
-      border-radius: 18px;
-      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
-    }
-
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 24px;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .project-card {
-      background: white;
-      padding: 28px;
-      border-radius: 18px;
-      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .project-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.12);
-    }
-
-    .project-card h3 {
-      margin-bottom: 10px;
-    }
-
-    .project-card p {
-      color: #666;
-      margin-bottom: 18px;
-    }
-
-    .project-card a {
-      color: #9b7b45;
-      font-weight: 700;
-      text-decoration: none;
-    }
-
-    form {
-      display: grid;
-      gap: 18px;
-    }
-
-    label {
-      font-weight: 600;
-      margin-bottom: -8px;
-    }
-
-    input,
-    textarea {
-      width: 100%;
-      padding: 15px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      font-size: 1rem;
-      font-family: inherit;
-    }
-
-    textarea {
-      min-height: 150px;
-      resize: vertical;
-    }
-
-    button {
-      border: none;
-      cursor: pointer;
-      width: fit-content;
-    }
-
-    footer {
-      text-align: center;
-      padding: 30px 20px;
-      color: #666;
-      background: #eee9df;
+                        /* Stronger navy shadow on hover */
+                        box-shadow      : 0 26px 60px rgba(15, 23, 42, 0.23);
     }
 
     @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+                    from {
+                        opacity         : 0;
+                        transform       : translateY(25px);
+                        }
+
+                    to {
+                        opacity         : 1;
+                        transform       : translateY(0);
+                    }
     }
 
-    @media (max-width: 700px) {
-      nav {
-        padding: 15px 5%;
-      }
+    /* Mobile and tablet layout */
+    @media (max-width: 768px) {
+                    .hero {
+                        min-height      : auto;
+                        flex-direction  : column-reverse;
+                        justify-content : center;
+                        gap             : 35px;
+                        padding         : 150px 24px 70px;
+                        text-align      : center;
+                    }
 
-      .nav-links a {
-        margin-left: 12px;
-        font-size: 0.9rem;
-      }
+                    .hero-content {
+                        max-width       : 100%;
+                    }
 
-      .about-box,
-      .contact-box {
-        padding: 28px;
-      }
+                    .profile_picture {
+                        width           : min(270px, 75vw);
+                    }}
+    
+    /*----------- Project section ---------*/
+    .section_heading {  
+                        margin-top      : 12px;
+                        text-align      : center;
+                    }
+    .section_title {   
+                        font-family     : Georgia, "Times New Roman", serif;
+                        text-align      : center;
+                        font-size       : 1.5rem;
+                        margin-bottom   : 7px;
+                    }
+
+    .underline {
+                        width           : 90px;
+                        height          : 4px;
+                        background      : #365f91;
+                        margin          : 0 auto 45px;
+                        border-radius   : 0px;
+                        }
+
+
+
+/* .projects-heading {
+                        text-align      : center;
+                        margin-bottom   : 55px;
+                    } */
+
+/* .section-label {
+    margin-bottom: 8px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: #365f91;
+} */
+
+/* .projects-heading h2 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    color: #0b1f33;
+} */
+
+ .projects-grid {
+    display: grid;
+
+    /* Creates responsive project columns */
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    gap: 30px;
+    max-width: 1400px;
+    margin: 0 auto;
+} 
+
+.project-card {
+    overflow: hidden;
+    background: #ffffff;
+    border-radius: 24px;
+    border: 1px solid rgba(11, 31, 51, 0.06);
+
+    box-shadow: 0 18px 45px rgba(11, 31, 51, 0.10);
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 26px 60px rgba(11, 31, 51, 0.16);
+}
+
+.project-video {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+
+    display: block;
+    object-fit: cover;
+
+    background: #e7eef8;
+}
+
+.project-content {
+    padding: 26px;
+}
+
+.project-content h3 {
+    margin-bottom: 12px;
+    font-size: 1.35rem;
+    color: #0b1f33;
+}
+
+.project-content p {
+    margin-bottom: 20px;
+    color: #52657a;
+    line-height: 1.7;
+}
+
+.project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    margin-bottom: 22px;
+}
+
+.project-tags span {
+    padding: 6px 11px;
+
+    border-radius: 999px;
+    background: #e7effb;
+
+    color: #365f91;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.project-link {
+    color: #365f91;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.project-link:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 950px) {
+    .projects-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-  </style>
+}
+
+/* @media (max-width: 650px) {
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+} */
+
+    </style>
+
 </head>
+
+
+
+<!--
+=============================================
+CONTENT OF THE SITE
+=============================================
+-->
 <body>
-  <nav>
-    <div class="logo">Duc An Nguyen</div>
-    <div class="nav-links">
-      <a href="#about">About</a>
-      <a href="#projects">Projects</a>
-      <a href="#contact">Contact</a>
-    </div>
-  </nav>
 
-  <header>
-    <div class="hero">
-      <h1>Duc An Nguyen</h1>
-      <p>Aspiring Web Developer | Portfolio Website</p>
-      <a href="#projects" class="btn">View My Work</a>
-    </div>
-  </header>
+    <!-- -------------------------------
+            Main menu
+     ----------------------------------->
+    <nav>
+        <div class="logo_position">
+            <img    class="logo_image" 
+                    src="images/profile/logo.svg"
+                    alt="Logo"
+            >
+        </div>
 
-  <section id="about">
-    <h2 class="section-title">About Me</h2>
-    <div class="underline"></div>
-    <div class="about-box">
-      <p>
-        Hi, my name is Duc An Nguyen. This is my simple portfolio website.
-        I am learning web development and building projects with HTML, CSS,
-        JavaScript, and GitHub Pages.
-      </p>
+        <div class="menu_links">
+            <a href="#about">About</a>
+            <a href="#projects">Projects</a>
+            <a href="#knowledge_sharing">Knowledge</a>
+            <a href="#life_and_events">Life & Events</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+
+    <!-- -------------------------------
+            Profile header section
+     ----------------------------------->
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Duc An Nguyen, PhD</h1>
+            <p class="hero-subtitle">Edge AI | Explainable AI | Computer Vision</p>
+            <p>Focusing on developing AI solutions spaning from computer vision to prognostics and health management, with a particular interest in
+                researching, developing and deploying explainable AI solutions across hardware platforms, from resource-constrained edge devices to server infrastructure. </p>
+        </div>
+
+        <div class="hero-image">
+            <img    class="profile_picture"
+                    src="images/profile/profile.jpg" 
+                    alt="Profile picture" 
+                    >
+            
+        </div>
+    </header>
+
+    <!-- -------------------------------
+            Projects section
+     ----------------------------------->
+    <div class="section_heading">
+        <h2 class="section_title">Highlight Projects</h2>
+        <div class="underline"></div>
     </div>
+            <!-- <div class="projects-grid"> -->
+
+            <!-- <div class="project-card">
+                <h3>Project One</h3>
+                <p>A short description of your first project. Explain what it does and what technology you used.</p>
+                <a href="#">View Project</a>
+            </div>
+
+            <div class="project-card">
+                <h3>Project Two</h3>
+                <p>A short description of your second project. You can add GitHub links or live demo links here.</p>
+                <a href="#">View Project</a>
+            </div>
+
+            <div class="project-card">
+                <h3>Project Three</h3>
+                <p>A short description of your third project. Add screenshots, videos, or demos later.</p>
+                <a href="#">View Project</a>
+            </div> -->
+            </div>
   </section>
 
-  <section id="projects">
-    <h2 class="section-title">Projects</h2>
-    <div class="underline"></div>
-    <div class="projects-grid">
-      <div class="project-card">
-        <h3>Project One</h3>
-        <p>A short description of your first project. Explain what it does and what technology you used.</p>
-        <a href="#">View Project</a>
-      </div>
 
-      <div class="project-card">
-        <h3>Project Two</h3>
-        <p>A short description of your second project. You can add GitHub links or live demo links here.</p>
-        <a href="#">View Project</a>
-      </div>
+    <!-- <section id="projects" class="projects_section">
+        <div class="projects_heading">
+            <h2>Highlight Projects</h2>
+            <div class="underline"></div>
+        </div>
 
-      <div class="project-card">
-        <h3>Project Three</h3>
-        <p>A short description of your third project. Add screenshots, videos, or demos later.</p>
-        <a href="#">View Project</a>
-      </div>
+        <div class="projects-grid">
+
+        <article class="project-card">
+
+            <video
+                class="project-video"
+                autoplay
+                muted
+                loop
+                playsinline
+                poster="images/projects/project-1-cover.jpg"
+            >
+                <source src="videos/project-1.mp4" type="video/mp4">
+            </video>
+
+            <div class="project-content">
+                <h3>Real-Time Visual Inspection</h3>
+
+                <p>
+                    An Edge AI system for real-time defect detection
+                    on resource-constrained hardware.
+                </p>
+
+                <div class="project-tags">
+                    <span>Python</span>
+                    <span>PyTorch</span>
+                    <span>OpenCV</span>
+                    <span>Jetson</span>
+                </div>
+
+                <a href="#" class="project-link">View project →</a>
+            </div>
+
+        </article>
+
+
     </div>
-  </section>
 
-  <section id="contact">
-    <h2 class="section-title">Send Me a Message</h2>
-    <div class="underline"></div>
-    <div class="contact-box">
-      <p style="margin-bottom: 22px; color: #555;">
-        Interested in collaborating or have questions about my work? Kindly reach out!
-      </p>
+</section> 
 
-      <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-        <label for="name">Name</label>
-        <input id="name" type="text" name="name" placeholder="Your name" required />
-
-        <label for="email">Email</label>
-        <input id="email" type="email" name="email" placeholder="Your email" required />
-
-        <label for="subject">Subject</label>
-        <input id="subject" type="text" name="subject" placeholder="Subject" />
-
-        <label for="message">Message</label>
-        <textarea id="message" name="message" placeholder="Your message" required></textarea>
-
-        <button type="submit" class="btn">Send Message</button>
-      </form>
-    </div>
-  </section>
-
-  <footer>
-    <p>© 2026 Duc An Nguyen. Built with HTML, CSS, JavaScript, and GitHub Pages.</p>
-  </footer>
 </body>
+
+
 </html>
