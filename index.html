@@ -19,89 +19,28 @@
     <!---------------------------------
                 Title
     ----------------------------------->
-    <title>Duc An Nguyen | Portfolio</title>
+    <title>Duc An Nguyen</title>
     <link rel="icon" type="image/x-icon" href="media/profile/favicon.ico">
 
 
     <!---------------------------------
-                Styles
+                Styles and links
     ----------------------------------->
-    <style>
-    * {                 margin          : 0;
-                        padding         : 0;
-                        box-sizing      : border-box;
-                    }
-
-    html {              scroll-behavior : smooth;}
-
-    body {              font-family     : Arial, Helvetica, sans-serif;
-
-                        /* Light blue-gray page background */
-                        background      : #f8fafc;
-
-                        /* Dark navy main text color */
-                        color           : #0f172a;
-                        line-height     : 1.6;
-                    }
-        
-
-    /*=========================================
-    MAIN MENU STYLES
-     ------------------------------------------*/
-    nav {               
-                        position        : fixed;
-                        top             : 0;
-                        left            : 0;
-                        width           : 100%;
-                        padding         : 15px 8%;
-                        display         : flex;
-
-                        justify-content : space-between;
-                        align-items     : center;
-
-                        /* Transparent light blue-white navigation */
-                        background      : rgba(248, 250, 252, 0.88);
-
-                        backdrop-filter : blur(10px);
-
-                        /* Soft navy shadow */
-                        box-shadow      : 0 2px 12px rgba(15, 23, 42, 0.08);
-                        z-index         : 100;   
-                    }
-               
-
-    .logo_image {
-                        width           : auto;
-                        height          : 90px;
-
-    }
-
-    
-
-    .menu_links a {     margin-left     : 22px;
-                        text-decoration : none;
-
-                        /* Slate-blue menu links */
-                        color           : #334155;
-                        font-weight     : normal;
-                    }
-    
-    .menu_links a:hover {
-                        /* Strong blue when hovering */
-                        color           : #1b83d8;
-                    }
+    <link rel="stylesheet" href="css/global.css">
 
 
+  
+    <style> 
     /*=========================================
     HERO SECTION STYLES
      ------------------------------------------*/
-
+    
     .hero {
                         display         : flex;
                         align-items     : center;
                         justify-content : space-between;
                         gap             : 25px;
-                        padding         : 150px 6% 120px;
+                        padding         : 70px 6% 120px;
 
                         /* White to soft-blue background */
                         background      : linear-gradient(
@@ -118,7 +57,6 @@
                     }
 
     .hero-content h1 {
-                        font-family     : Georgia, "Times New Roman", serif;
                         font-size       : clamp(2rem, 2.9vw, 4.5rem);
                         line-height     : 1.05;
                         letter-spacing  : -0.03em;
@@ -221,7 +159,6 @@
                         text-align      : center;
                     }
     .section_title {   
-                        font-family     : Georgia, "Times New Roman", serif;
                         text-align      : center;
                         font-size       : 1.7rem;
                         margin-bottom   : 4px;
@@ -355,7 +292,6 @@
     }
 
     .contact_greeting{
-                        font-family     : Georgia, "Times New Roman", serif;
                         font-size       : clamp(1rem, 1.2rem, 1.3rem);
                         color           : #475569;;
                         margin-bottom   : 10px;
@@ -423,7 +359,9 @@
                         transform               : translateY(-1px);
     }
 
-
+    /*=========================================
+    FOOTER STYLES
+     ------------------------------------------*/
 
 
     </style>
@@ -442,23 +380,22 @@ CONTENT OF THE SITE
     <!--=========================================
                     MAIN MENU
      -------------------------------------------->
-
-    <nav>
-        <a href="index.html">
+    <header class="header_menu">
+        <a href="/" aria-label="Go to homepage">
             <img    class="logo_image" 
                     src="media/profile/logo.svg"
                     alt="Logo"
             >
         </a>
 
-        <div class="menu_links">
-            <a href="#about">About</a>
+        <nav class="menu_links">
+            <a href="about.html">About</a>
             <a href="#projects">Projects</a>
             <a href="#knowledge_sharing">Knowledge</a>
             <a href="#life_and_events">Life & Events</a>
-            <a href="#contact">Contact</a>
-        </div>
-    </nav>
+            <a href="mailto:ducannguyen.da@gmail.com">Contact</a>
+        </nav>
+    </header>
 
 
 
@@ -493,7 +430,7 @@ CONTENT OF THE SITE
     <!------------- Header ------------->
 
     <div class="section_heading">
-      <h2 class="section_title">Highlight Projects</h2>
+      <h2 class="section_title">Project Highlights</h2>
       <div class="underline"></div>
     </div>
 
@@ -604,7 +541,7 @@ CONTENT OF THE SITE
         Interested in collaborating or have questions about my work? Kindly reach out!
       </p>
 
-      <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+      <form action="https://formspree.io/f/mgogqbyz" method="POST">
         <label for="name">Name</label>
         <input id="name" type="text" name="name" placeholder="Your name" required />
 
@@ -620,10 +557,42 @@ CONTENT OF THE SITE
         <button class="contact_button" type="submit" class="btn">Send Message</button>
       </form>
     </div>
-  </section>
+    </section>
 
 
+   <!--=========================================
+            FOOTER
+     -------------------------------------------->
+    <footer class="site-footer">
+    <div class="container footer-inner">
+      <span>© <span id="current-year"></span> Duc An Nguyen</span>
 
+      <div class="footer-links">
+        <a href="mailto:ducannguyen.da@gmail.com">Email</a>
+        <a
+          href="https://github.com/duc-an-nguyen"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          GitHub
+        </a>
+        <a
+          href="https://www.linkedin.com/in/ducannguyen"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          LinkedIn
+        </a>
+        <a href="/">Back to top ↑</a>
+      </div>
+    </div>
+    </footer>
+
+    <script>
+    // Automatically update the footer year.
+    document.getElementById("current-year").textContent =
+      new Date().getFullYear();
+  </script>
 
 </body>
 

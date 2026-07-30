@@ -1,0 +1,171 @@
+    
+
+/*=========================================
+FOR BODY
+------------------------------------------*/
+:root {
+      --page-bg         : #f5f8fc;
+      --surface         : #ffffff;
+      --surface-soft    : #eef6fb;
+      --text            : #142437;
+      --text-muted      : #5d6b7a;
+      --heading         : #0d2d4d;
+      --primary         : #176b9e;
+      --primary-dark    : #0f537d;
+      --primary-light   : #d9edf8;
+      --line            : #b8d6e7;
+      --border          : #dbe7ef;
+      --success         : #1f7a5a;
+      --shadow          : 0 18px 45px rgba(19, 55, 82, 0.10);
+
+      --radius-sm       : 12px;
+      --radius-md       : 20px;
+      --radius-lg       : 28px;
+
+      --container       : 1200px;
+      --transition      : 180ms ease;
+    }
+*,
+*::before,
+*::after  {                 
+                    margin          : 0;
+                    padding         : 0;
+                    box-sizing      : border-box;
+                    }
+
+html {              scroll-behavior : smooth;}
+
+
+/* -----Background and color  --------*/
+body {
+                    margin                  : 0;
+                    background              :
+                                            radial-gradient(circle at 10% 0%, rgba(23, 107, 158, 0.10), transparent 34rem),
+                                            var(--page-bg);
+                    color                   : var(--text);
+                    line-height             : 1.65;
+                    -webkit-font-smoothing  : antialiased;
+                    }
+
+
+/* -----Font for header  --------*/
+h1,
+h2,
+h3,
+.section_title {
+                    font-family     : Georgia, "Times New Roman", serif;
+                }
+/* -----Font for body  --------*/
+body,
+button,
+input,
+textarea        {
+                    font-family     : "Inter", Arial, Helvetica, sans-serif;
+                }
+
+
+
+.container {
+                    width           : min(calc(100% - 40px), var(--container));
+                    margin-inline   : auto;
+    }
+
+/*=========================================
+MAIN MENU STYLES
+------------------------------------------*/
+.header_menu    {
+                    position        : sticky;
+                    top             : 0;
+                    left            : 0;
+                    width           : 100%;
+                    padding         : 15px 8%;
+                    display         : flex;
+
+                    justify-content : space-between;
+                    align-items     : center;
+
+                    /* Transparent light blue-white navigation */
+                    background      : rgba(248, 250, 252, 0.88);
+
+                    backdrop-filter : blur(10px);
+
+                    /* Soft navy shadow */
+                    box-shadow      : 0 2px 12px rgba(15, 23, 42, 0.08);
+                    z-index         : 100;   
+}
+
+
+.logo_image {
+                    width           : auto;
+                    height          : 50px;
+
+}
+
+
+
+.menu_links a {     
+                    margin-left     : 16px;
+                    text-decoration : none;
+
+                    /* Slate-blue menu links */
+                    color           : #334155;
+                    font-weight     : bold;
+                }
+
+.menu_links a:hover {
+                    /* Strong blue when hovering */
+                    color           : #1b83d8;
+                }
+
+
+/*=========================================
+FOOTER
+------------------------------------------*/
+
+.site-footer {
+                    padding         : 32px 0 44px;
+                    color           : var(--text-muted);
+                    font-size       : 0.86rem;
+            }
+
+.footer-inner {
+                    display         : flex;
+                    align-items     : center;
+                    justify-content : space-between;
+                    gap             : 20px;
+                    padding-top     : 26px;
+                    border-top      : 1px solid var(--border);
+    }
+
+.footer-links {
+                    display         : flex;
+                    flex-wrap       : wrap;
+                    gap             : 16px;
+}
+
+.footer-links a {
+                    color           : var(--text-muted);
+                    font-weight     : 700;
+                    text-decoration : none;
+}
+
+.footer-links a:hover,
+.footer-links a:focus-visible {
+                    color           : var(--primary);
+}   
+
+
+
+/*=========================================
+MOBILE VERSION
+------------------------------------------*/
+@media (max-width: 720px) {
+    .container {
+        width: min(calc(100% - 28px), var(--container));
+    }
+
+    .footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
