@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Case study: Real-Time Multi-Camera Smart City Vision System by Duc An Nguyen.">
+    <meta name="author" content="Duc An Nguyen">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Multi-Camera Smart City Vision System | Duc An Nguyen</title>
+    <link rel="icon" type="image/x-icon" href="media/profile/favicon.ico">
+    <link rel="stylesheet" href="css/global.css">
+
+    <style>
+        /*=========================================
+        PROJECT CASE STUDY
+        ------------------------------------------*/
+        main {
+            overflow: hidden;
+        }
+
+        .case_hero {
+            padding: 66px 0 76px;
+            background:
+                radial-gradient(circle at 90% 0%, rgba(23, 107, 158, 0.20), transparent 28rem),
+                linear-gradient(135deg, #ffffff 0%, #e7f3fa 100%);
+        }
+
+        .breadcrumb {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 28px;
+            color: var(--text-muted);
+            font-size: 0.88rem;
+        }
+
+        .breadcrumb a {
+            color: var(--primary-dark);
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover,
+        .breadcrumb a:focus-visible {
+            text-decoration: underline;
+        }
+
+        .hero_grid {
+            display: grid;
+            grid-template-columns: minmax(0, 0.95fr) minmax(420px, 1.05fr);
+            align-items: center;
+            gap: clamp(36px, 7vw, 86px);
+        }
+
+        .eyebrow {
+            margin-bottom: 11px;
+            color: var(--primary);
+            font-size: 0.82rem;
+            font-weight: 800;
+            letter-spacing: 0.13em;
+            text-transform: uppercase;
+        }
+
+        .hero_copy h1 {
+            margin-bottom: 18px;
+            color: var(--heading);
+            font-size: clamp(2.35rem, 5.5vw, 4.75rem);
+            line-height: 1.02;
+            letter-spacing: -0.04em;
+        }
+
+        .hero_summary {
+            margin-bottom: 28px;
+            color: var(--text-muted);
+            font-size: clamp(1.03rem, 1.8vw, 1.24rem);
+        }
+
+        .hero_meta {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px 26px;
+        }
+
+        .meta_item {
+            padding-top: 12px;
+            border-top: 1px solid var(--line);
+        }
+
+        .meta_item dt {
+            color: var(--text-muted);
+            font-size: 0.74rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .meta_item dd {
+            margin: 4px 0 0;
+            color: var(--text);
+            font-weight: 800;
+        }
+
+        .hero_visual {
+            padding: clamp(20px, 4vw, 38px);
+            border-radius: var(--radius-lg);
+            background: linear-gradient(135deg, rgba(13, 45, 77, 0.98), rgba(23, 107, 158, 0.88));
+            color: #ffffff;
+            box-shadow: var(--shadow);
+        }
+
+        .hero_visual svg {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .case_section {
+            padding: 76px 0;
+        }
+
+        .case_section:nth-of-type(even) {
+            background: rgba(255, 255, 255, 0.58);
+        }
+
+        .section_grid {
+            display: grid;
+            grid-template-columns: minmax(220px, 0.32fr) minmax(0, 0.68fr);
+            gap: clamp(34px, 7vw, 90px);
+        }
+
+        .section_label {
+            position: sticky;
+            top: 108px;
+            align-self: start;
+        }
+
+        .section_label h2 {
+            color: var(--heading);
+            font-size: clamp(1.75rem, 3vw, 2.45rem);
+            line-height: 1.15;
+        }
+
+        .section_content {
+            color: var(--text);
+        }
+
+        .section_content > p {
+            margin-bottom: 20px;
+            color: var(--text-muted);
+            font-size: 1.03rem;
+        }
+
+        .section_content > p:last-child {
+            margin-bottom: 0;
+        }
+
+        .callout {
+            margin-top: 28px;
+            padding: 22px 24px;
+            border-left: 5px solid var(--primary);
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            background: var(--primary-light);
+            color: var(--heading);
+        }
+
+        /* Challenges */
+        .challenge_grid,
+        .implementation_grid,
+        .result_grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .info_card {
+            padding: 24px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--surface);
+            box-shadow: 0 12px 30px rgba(19, 55, 82, 0.07);
+        }
+
+        .info_card .card_number {
+            display: inline-grid;
+            place-items: center;
+            width: 34px;
+            height: 34px;
+            margin-bottom: 16px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            font-weight: 900;
+        }
+
+        .info_card h3 {
+            margin-bottom: 9px;
+            color: var(--heading);
+            font-size: 1.18rem;
+            line-height: 1.3;
+        }
+
+        .info_card p {
+            color: var(--text-muted);
+            font-size: 0.94rem;
+        }
+
+        /* Contribution list */
+        .contribution_list {
+            display: grid;
+            gap: 14px;
+            list-style: none;
+        }
+
+        .contribution_list li {
+            position: relative;
+            padding: 17px 20px 17px 54px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--surface);
+        }
+
+        .contribution_list li::before {
+            content: "✓";
+            position: absolute;
+            left: 19px;
+            top: 17px;
+            display: grid;
+            place-items: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            font-weight: 900;
+        }
+
+        /* Architecture */
+        .architecture_figure {
+            margin: 0;
+            padding: clamp(20px, 4vw, 38px);
+            overflow-x: auto;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--surface);
+            box-shadow: var(--shadow);
+        }
+
+        .architecture_figure svg {
+            display: block;
+            min-width: 720px;
+            width: 100%;
+            height: auto;
+        }
+
+        .architecture_figure figcaption {
+            margin-top: 18px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .architecture_notes {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px 20px;
+            margin-top: 22px;
+            list-style: none;
+        }
+
+        .architecture_notes li {
+            padding-left: 18px;
+            position: relative;
+            color: var(--text-muted);
+        }
+
+        .architecture_notes li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.7em;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--primary);
+        }
+
+        /* Implementation */
+        .implementation_grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .implementation_grid .info_card {
+            min-height: 220px;
+        }
+
+        /* Optimization */
+        .optimization_list {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .optimization_item {
+            padding: 20px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--surface);
+        }
+
+        .optimization_item h3 {
+            margin-bottom: 5px;
+            color: var(--heading);
+            font-size: 1.08rem;
+        }
+
+        .optimization_item p {
+            color: var(--text-muted);
+            font-size: 0.92rem;
+        }
+
+        /* Results */
+        .result_grid .info_card {
+            border-top: 4px solid var(--primary);
+        }
+
+        .result_grid strong {
+            display: block;
+            margin-bottom: 7px;
+            color: var(--heading);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 1.2rem;
+        }
+
+        /* Technologies */
+        .tag_list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            list-style: none;
+        }
+
+        .tag_list li {
+            padding: 8px 13px;
+            border-radius: 999px;
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            font-size: 0.84rem;
+            font-weight: 800;
+        }
+
+        .confidential_note {
+            margin-top: 26px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+
+        /* Case study navigation */
+        .case_navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            padding: 34px;
+            border-radius: var(--radius-lg);
+            background: linear-gradient(135deg, var(--heading), var(--primary));
+            color: #ffffff;
+        }
+
+        .case_navigation p {
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 0.86rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .case_navigation strong {
+            display: block;
+            margin-top: 5px;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(1.25rem, 3vw, 1.7rem);
+        }
+
+        .navigation_links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .navigation_links a {
+            padding: 11px 17px;
+            border-radius: 999px;
+            background: #ffffff;
+            color: var(--heading);
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .navigation_links a:hover,
+        .navigation_links a:focus-visible {
+            background: var(--primary-light);
+        }
+
+        .menu_links a[aria-current="page"] {
+            color: var(--primary);
+        }
+
+        @media (max-width: 980px) {
+            .hero_grid,
+            .section_grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section_label {
+                position: static;
+            }
+
+            .challenge_grid,
+            .result_grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 720px) {
+            .header_menu {
+                padding-inline: 20px;
+            }
+
+            .menu_links {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: flex-end;
+                gap: 5px 12px;
+            }
+
+            .menu_links a {
+                margin-left: 0;
+                font-size: 0.86rem;
+            }
+
+            .case_hero {
+                padding: 48px 0 62px;
+            }
+
+            .hero_grid {
+                gap: 38px;
+            }
+
+            .hero_meta,
+            .challenge_grid,
+            .implementation_grid,
+            .optimization_list,
+            .result_grid,
+            .architecture_notes {
+                grid-template-columns: 1fr;
+            }
+
+            .case_section {
+                padding: 62px 0;
+            }
+
+            .case_navigation {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .logo_image {
+                height: 42px;
+            }
+
+            .header_menu {
+                align-items: flex-start;
+                gap: 16px;
+            }
+
+            .menu_links a:nth-child(3),
+            .menu_links a:nth-child(4) {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body id="top">
+    <header class="header_menu">
+        <a href="index.html" aria-label="Go to homepage">
+            <img class="logo_image" src="media/profile/logo.svg" alt="Duc An Nguyen logo">
+        </a>
+
+        <nav class="menu_links" aria-label="Main navigation">
+            <a href="about.html">About</a>
+            <a href="project.html" aria-current="page">Projects</a>
+            <a href="index.html#knowledge_sharing">Knowledge</a>
+            <a href="index.html#life_and_events">Life &amp; Events</a>
+            <a href="mailto:ducannguyen.da@gmail.com">Contact</a>
+        </nav>
+    </header>
+
+    <main>
+        <header class="case_hero">
+            <div class="container">
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html">Home</a>
+                    <span aria-hidden="true">/</span>
+                    <a href="project.html">Projects</a>
+                    <span aria-hidden="true">/</span>
+                    <span aria-current="page">Smart City Vision System</span>
+                </nav>
+
+                <div class="hero_grid">
+                    <div class="hero_copy">
+                        <p class="eyebrow">Computer vision case study</p>
+                        <h1>Real-Time Multi-Camera Smart City Vision System</h1>
+                        <p class="hero_summary">
+                            A shared-backbone, multi-process and multi-threaded computer vision system
+                            developed for real-time multi-camera detection, tracking, segmentation,
+                            classification, and face recognition.
+                        </p>
+
+                        <dl class="hero_meta">
+                            <div class="meta_item">
+                                <dt>Role</dt>
+                                <dd>AI Engineer – Computer Vision</dd>
+                            </div>
+                            <div class="meta_item">
+                                <dt>Organization</dt>
+                                <dd>Nova Intelligent Technology JSC</dd>
+                            </div>
+                            <div class="meta_item">
+                                <dt>Period</dt>
+                                <dd>Oct 2021 – Jan 2023</dd>
+                            </div>
+                            <div class="meta_item">
+                                <dt>Project type</dt>
+                                <dd>Production computer vision system</dd>
+                            </div>
+                        </dl>
+                    </div>
+
+                    <figure class="hero_visual">
+                        <svg viewBox="0 0 760 500" role="img" aria-labelledby="hero-svg-title hero-svg-desc">
+                            <title id="hero-svg-title">Smart city multi-camera vision overview</title>
+                            <desc id="hero-svg-desc">Multiple cameras feed a shared computer vision backbone that supports several AI tasks and product integration.</desc>
+                            <g fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="32" y="70" width="132" height="84" rx="17" opacity="0.95"/>
+                                <rect x="32" y="208" width="132" height="84" rx="17" opacity="0.95"/>
+                                <rect x="32" y="346" width="132" height="84" rx="17" opacity="0.95"/>
+                                <circle cx="98" cy="112" r="18"/>
+                                <circle cx="98" cy="250" r="18"/>
+                                <circle cx="98" cy="388" r="18"/>
+                                <path d="M164 112H260M164 250H260M164 388H260"/>
+                                <path d="M260 112V388" opacity="0.65"/>
+                                <rect x="260" y="168" width="214" height="164" rx="28" fill="rgba(255,255,255,0.12)"/>
+                                <path d="M474 196H564M474 250H564M474 304H564"/>
+                                <rect x="564" y="160" width="164" height="66" rx="17"/>
+                                <rect x="564" y="233" width="164" height="66" rx="17"/>
+                                <rect x="564" y="306" width="164" height="66" rx="17"/>
+                                <path d="M646 372V423H474" opacity="0.7"/>
+                                <rect x="310" y="400" width="164" height="58" rx="17"/>
+                            </g>
+                            <g fill="currentColor" font-family="Arial, sans-serif" text-anchor="middle">
+                                <text x="367" y="232" font-size="21" font-weight="700">HydraNet</text>
+                                <text x="367" y="261" font-size="17">shared backbone</text>
+                                <text x="367" y="286" font-size="17">vision pipeline</text>
+                                <text x="646" y="200" font-size="16">Detection</text>
+                                <text x="646" y="273" font-size="16">Segmentation</text>
+                                <text x="646" y="346" font-size="16">Tracking + others</text>
+                                <text x="392" y="436" font-size="16">Product / UI integration</text>
+                            </g>
+                        </svg>
+                    </figure>
+                </div>
+            </div>
+        </header>
+
+        <section class="case_section" aria-labelledby="overview-title">
+            <div class="container section_grid">
+                <div class="section_label">
+                    <p class="eyebrow">01</p>
+                    <h2 id="overview-title">Project overview</h2>
+                </div>
+
+                <div class="section_content">
+                    <p>
+                        The project focused on a real-time multi-camera computer vision platform for
+                        smart-city monitoring. Rather than running separate, isolated applications for
+                        every vision task, the system used a shared-backbone architecture to support
+                        several functions within one processing pipeline.
+                    </p>
+                    <p>
+                        The system combined detection, tracking, semantic segmentation, classification,
+                        and face recognition. It was designed as part of a complete product, so the work
+                        also included coordination with software and user-interface teams during integration.
+                    </p>
+                    <div class="callout">
+                        <strong>Portfolio message:</strong> this project demonstrates system architecture,
+                        real-time vision engineering, deployment optimization, and product integration—not
+                        only model training.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="case_section" aria-labelledby="challenge-title">
+            <div class="container section_grid">
+                <div class="section_label">
+                    <p class="eyebrow">02</p>
+                    <h2 id="challenge-title">Engineering challenge</h2>
+                </div>
+
+                <div class="section_content">
+                    <div class="challenge_grid">
+                        <article class="info_card">
+                            <span class="card_number">1</span>
+                            <h3>Multiple real-time streams</h3>
+                            <p>
+                                The pipeline had to process multiple camera sources while coordinating
+                                several computer vision tasks.
+                            </p>
+                        </article>
+
+                        <article class="info_card">
+                            <span class="card_number">2</span>
+                            <h3>Memory constraints</h3>
+                            <p>
+                                The system needed stable inference in environments where GPU memory and
+                                computing resources were limited.
+                            </p>
+                        </article>
+
+                        <article class="info_card">
+                            <span class="card_number">3</span>
+                            <h3>Production integration</h3>
+                            <p>
+                                Vision outputs had to connect with the wider software product and its
+                                user-interface workflow.
+                            </p>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="case_section" aria-labelledby="contribution-title">
+            <div class="container section_grid">
+                <div class="section_label">
+                    <p class="eyebrow">03</p>
+                    <h2 id="contribution-title">My contribution</h2>
+                </div>
+
+                <div class="section_content">
+                    <ul class="contribution_list">
+                        <li>Architected and developed HydraNet, a multi-process and multi-threaded shared-backbone computer vision system.</li>
+                        <li>Developed real-time vision applications using YOLO-based models, DeepLabV3+, and tracking algorithms.</li>
+                        <li>Implemented detection, tracking, segmentation, classification, and face-recognition capabilities.</li>
+                        <li>Optimized the inference pipeline with ONNX, TensorRT, FP16 quantization, motion-triggered inference, and resolution scaling.</li>
+                        <li>Developed lightweight image-processing methods to improve preprocessing quality and pipeline efficiency.</li>
+                        <li>Collaborated with software and UI teams to integrate the AI system into a complete product.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="case_section" aria-labelledby="architecture-title">
+            <div class="container section_grid">
+                <div class="section_label">
+                    <p class="eyebrow">04</p>
+                    <h2 id="architecture-title">System architecture</h2>
+                </div>
+
+                <div class="section_content">
+                    <figure class="architecture_figure">
+                        <svg viewBox="0 0 1120 620" role="img" aria-labelledby="architecture-svg-title architecture-svg-desc">
+                            <title id="architecture-svg-title">Simplified HydraNet processing architecture</title>
+                            <desc id="architecture-svg-desc">Multiple cameras connect to acquisition and preprocessing, then a shared backbone, task-specific modules, tracking, and product integration.</desc>
+                            <defs>
+                                <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#176b9e"/>
+                                </marker>
+                            </defs>
+
+                            <g font-family="Arial, sans-serif">
+                                <g fill="#eef6fb" stroke="#176b9e" stroke-width="3">
+                                    <rect x="35" y="85" width="155" height="74" rx="18"/>
+                                    <rect x="35" y="236" width="155" height="74" rx="18"/>
+                                    <rect x="35" y="387" width="155" height="74" rx="18"/>
+                                    <rect x="258" y="201" width="180" height="142" rx="23"/>
+                                    <rect x="510" y="201" width="190" height="142" rx="23"/>
+                                    <rect x="785" y="55" width="210" height="70" rx="18"/>
+                                    <rect x="785" y="147" width="210" height="70" rx="18"/>
+                                    <rect x="785" y="239" width="210" height="70" rx="18"/>
+                                    <rect x="785" y="331" width="210" height="70" rx="18"/>
+                                    <rect x="785" y="423" width="210" height="70" rx="18"/>
+                                    <rect x="510" y="478" width="190" height="82" rx="18"/>
+                                    <rect x="785" y="520" width="210" height="70" rx="18"/>
+                                </g>
+
+                                <g stroke="#176b9e" stroke-width="4" fill="none" marker-end="url(#arrow)">
+                                    <path d="M190 122H238V244H258"/>
+                                    <path d="M190 273H258"/>
+                                    <path d="M190 424H238V300H258"/>
+                                    <path d="M438 272H510"/>
+                                    <path d="M700 235H750V90H785"/>
+                                    <path d="M700 253H750V182H785"/>
+                                    <path d="M700 272H785"/>
+                                    <path d="M700 291H750V366H785"/>
+                                    <path d="M700 309H750V458H785"/>
+                                    <path d="M890 493V520"/>
+                                    <path d="M785 555H700"/>
+                                </g>
+
+                                <g fill="#0d2d4d" text-anchor="middle">
+                                    <text x="112" y="116" font-size="20" font-weight="700">Camera 1</text>
+                                    <text x="112" y="267" font-size="20" font-weight="700">Camera 2</text>
+                                    <text x="112" y="418" font-size="20" font-weight="700">Camera N</text>
+
+                                    <text x="348" y="248" font-size="20" font-weight="700">Acquisition &amp;</text>
+                                    <text x="348" y="278" font-size="20" font-weight="700">preprocessing</text>
+                                    <text x="348" y="309" font-size="16">multi-process pipeline</text>
+
+                                    <text x="605" y="246" font-size="21" font-weight="700">HydraNet</text>
+                                    <text x="605" y="278" font-size="19" font-weight="700">shared backbone</text>
+                                    <text x="605" y="309" font-size="16">shared features</text>
+
+                                    <text x="890" y="98" font-size="18" font-weight="700">Detection</text>
+                                    <text x="890" y="190" font-size="18" font-weight="700">Segmentation</text>
+                                    <text x="890" y="282" font-size="18" font-weight="700">Classification</text>
+                                    <text x="890" y="374" font-size="18" font-weight="700">Face recognition</text>
+                                    <text x="890" y="466" font-size="18" font-weight="700">Tracking</text>
+
+                                    <text x="605" y="516" font-size="18" font-weight="700">Result coordination</text>
+                                    <text x="605" y="541" font-size="15">events &amp; structured outputs</text>
+
+                                    <text x="890" y="563" font-size="18" font-weight="700">Software / UI product</text>
+                                </g>
+                            </g>
+                        </svg>
+                        <figcaption>
+                            Simplified portfolio diagram based on the project functions described in the CV.
+                            Internal product details are intentionally omitted.
+                        </figcaption>
+                    </figure>
+
+                    <ul class="architecture_notes">
+                        <li>Multiple camera streams enter a coordinated acquisition and preprocessing pipeline.</li>
+                        <li>A shared backbone reduces duplication across related vision tasks.</li>
+                        <li>Task-specific components provide detection, segmentation, classification, face recognition, and tracking.</li>
+                        <li>Structured outputs are passed to the wider software and UI product.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="case_section" aria-labelledby="implementation-title">
+            <div class="container section_grid">
+                <div class="section_label">
+                    <p class="eyebrow">05</p>
+                    <h2 id="implementation-title">Technical implementation</h2>
+                </div>
+
+                <div class="section_content">
+                    <div class="implementation_grid">
+                        <article class="info_card">
+                            <span class="card_number">A</span>
+                            <h3>Multi-process, multi-threaded execution</h3>
+                            <p>
+                                The system architecture coordinated camera acquisition and vision processing
+                                across concurrent execution paths to support real-time operation.
+                            </p>
+                        </article>
+
+                        <article class="info_card">
+                            <span class="card_number">B</span>
+                            <h3>Shared-backbone design</h3>
+                            <p>
+                                HydraNet used shared feature extraction for multiple downstream computer vision
+                                functions instead of treating every task as an independent pipeline.
+                            </p>
+                        </article>
+
+                        <article class="info_card">
+                            <span class="card_number">C</span>
+                            <h3>Applied vision models</h3>
+                            <p>
+                                The project used YOLO-based models, DeepLabV3+, and tracking algorithms for
+                                the required detection, segmentation, and temporal analysis tasks.
+                            </p>
+                        </article>
+
+                        <article class="info_card">
+                            <span class="card_number">D</span>
+                            <h3>Lightweight preprocessing</h3>
+                            <p>
+                                Image-processing methods were developed to improve preprocessing quality,
+                                model accuracy, and pipeline efficiency without adding unnecessary overhead.
+                            </p>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="case_section" aria-labelledby="optimization-title">
+            <div class="container section_grid">
+                <div class="section_label">
+                    <p class="eyebrow">06</p>
+                    <h2 id="optimization-title">Deployment &amp; optimization</h2>
+                </div>
+
+                <div class="section_content">
+                    <p>
+                        The optimization work focused on maintaining stable performance in memory-constrained
+                        environments while preserving the functions needed by the product.
+                    </p>
+
+                    <div class="optimization_list">
+                        <article class="optimization_item">
+                            <h3>ONNX</h3>
+                            <p>Prepared trained models for a deployment-oriented inference workflow.</p>
+                        </article>
+
+                        <article class="optimization_item">
+                            <h3>TensorRT</h3>
+                            <p>Optimized GPU inference for production deployment.</p>
+                        </article>
+
+                        <article class="optimization_item">
+                            <h3>FP16 quantization</h3>
+                            <p>Reduced computational and memory requirements using half-precision inference.</p>
+                        </article>
+
+                        <article class="optimization_item">
+                            <h3>Motion-triggered inference</h3>
+                            <p>Avoided unnecessary model execution when visual activity did not require it.</p>
+                        </article>
+
+                        <article class="optimization_item">
+                            <h3>Resolution scaling</h3>
+                            <p>Balanced visual detail with inference efficiency and system stability.</p>
+                        </article>
+
+                        <article class="optimization_item">
+                            <h3>Memory-aware pipeline design</h3>
+                            <p>Reduced pressure on constrained environments through architecture and runtime decisions.</p>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="case_section" aria-labelledby="results-title">
+            <div class="container section_grid">
+                <div class="section_label">
+                    <p class="eyebrow">07</p>
+                    <h2 id="results-title">Project outcomes</h2>
+                </div>
+
+                <div class="section_content">
+                    <div class="result_grid">
+                        <article class="info_card">
+                            <strong>Unified vision pipeline</strong>
+                            <p>Supported several computer vision functions within one shared system architecture.</p>
+                        </article>
+
+                        <article class="info_card">
+                            <strong>Stable constrained deployment</strong>
+                            <p>Improved inference efficiency and stability in memory-constrained environments.</p>
+                        </article>
+
+                        <article class="info_card">
+                            <strong>Complete product integration</strong>
+                            <p>Connected the AI system with the software and user-interface components of the product.</p>
+                        </article>
+                    </div>
+
+                    <p class="confidential_note">
+                        Exact performance figures and internal product details are not included because they
+                        are not provided in the CV and may be confidential. Add verified metrics here only when
+                        they can be shared publicly.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="case_section" aria-labelledby="technology-title">
+            <div class="container section_grid">
+                <div class="section_label">
+                    <p class="eyebrow">08</p>
+                    <h2 id="technology-title">Technology stack</h2>
+                </div>
+
+                <div class="section_content">
+                    <ul class="tag_list" aria-label="Technology stack">
+                        <li>Python</li>
+                        <li>PyTorch</li>
+                        <li>OpenCV</li>
+                        <li>YOLO-based models</li>
+                        <li>DeepLabV3+</li>
+                        <li>Tracking algorithms</li>
+                        <li>ONNX</li>
+                        <li>TensorRT</li>
+                        <li>FP16 quantization</li>
+                        <li>Linux</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="case_section" aria-label="Project navigation">
+            <div class="container">
+                <div class="case_navigation">
+                    <div>
+                        <p>Continue exploring</p>
+                        <strong>More edge and computer vision projects</strong>
+                    </div>
+
+                    <div class="navigation_links">
+                        <a href="project.html">← All projects</a>
+                        <a href="mailto:ducannguyen.da@gmail.com">Discuss this work</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <span>© <span id="current-year"></span> Duc An Nguyen</span>
+
+            <div class="footer-links">
+                <a href="mailto:ducannguyen.da@gmail.com">Email</a>
+                <a href="https://github.com/duc-an-nguyen" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="https://www.linkedin.com/in/ducannguyen" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="#top">Back to top ↑</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById("current-year").textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

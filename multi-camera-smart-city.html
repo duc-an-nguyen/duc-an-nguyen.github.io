@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Case study of a real-time multi-camera smart city computer vision system developed by Duc An Nguyen.">
+    <meta name="author" content="Duc An Nguyen">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Multi-Camera Smart City Vision System | Duc An Nguyen</title>
+    <link rel="icon" type="image/x-icon" href="media/profile/favicon.ico">
+    <link rel="stylesheet" href="css/global.css">
+
+    <style>
+    /*=========================================
+        PROJECT HEADER
+    ------------------------------------------*/
+    .project_hero {
+        padding: 75px 6%;
+        background: linear-gradient(135deg, #ffffff 0%, #dbeafe 100%);
+    }
+
+    .project_hero_inner {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .back_link {
+        display: inline-block;
+        margin-bottom: 24px;
+        color: #365f91;
+        text-decoration: none;
+        font-weight: 800;
+    }
+
+    .back_link:hover {
+        text-decoration: underline;
+    }
+
+    .project_label {
+        margin-bottom: 10px;
+        color: #176b9e;
+        font-size: 0.85rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+
+    .project_hero h1 {
+        max-width: 900px;
+        margin-bottom: 16px;
+        color: #0f172a;
+        font-size: clamp(2.2rem, 5vw, 4rem);
+        line-height: 1.08;
+    }
+
+    .project_summary {
+        max-width: 850px;
+        margin-bottom: 28px;
+        color: #475569;
+        font-size: clamp(1rem, 2vw, 1.22rem);
+    }
+
+    .project_meta_grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 15px;
+    }
+
+    .project_meta_item {
+        padding: 17px;
+        background: rgba(255, 255, 255, 0.75);
+        border: 1px solid rgba(11, 31, 51, 0.08);
+        border-radius: 15px;
+    }
+
+    .project_meta_item strong {
+        display: block;
+        margin-bottom: 3px;
+        color: #0b1f33;
+    }
+
+    .project_meta_item span {
+        color: #52657a;
+        font-size: 0.92rem;
+    }
+
+    /*=========================================
+        MAIN PROJECT MEDIA
+    ------------------------------------------*/
+    .project_media_section {
+        padding: 55px 6%;
+        background: #f5f9fc;
+    }
+
+    .project_video_box {
+        max-width: 1100px;
+        margin: 0 auto;
+        overflow: hidden;
+        background: #e7eef8;
+        border-radius: 24px;
+        box-shadow: 0 18px 45px rgba(11, 31, 51, 0.12);
+    }
+
+    .project_video {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        display: block;
+        object-fit: cover;
+    }
+
+    .media_note {
+        padding: 15px 20px;
+        color: #52657a;
+        background: #ffffff;
+        font-size: 0.9rem;
+    }
+
+    /*=========================================
+        CASE STUDY SECTIONS
+    ------------------------------------------*/
+    .case_section {
+        padding: 65px 6%;
+    }
+
+    .case_section_soft {
+        background: #f5f9fc;
+    }
+
+    .case_content {
+        max-width: 1050px;
+        margin: 0 auto;
+    }
+
+    .case_heading {
+        margin-bottom: 26px;
+    }
+
+    .case_heading h2 {
+        margin-bottom: 6px;
+        color: #0b1f33;
+        font-size: 1.9rem;
+    }
+
+    .case_heading p {
+        color: #52657a;
+    }
+
+    .text_block {
+        color: #475569;
+        font-size: 1.03rem;
+    }
+
+    .text_block p + p {
+        margin-top: 15px;
+    }
+
+    .info_grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 22px;
+    }
+
+    .info_card {
+        padding: 25px;
+        background: #ffffff;
+        border: 1px solid rgba(11, 31, 51, 0.08);
+        border-radius: 20px;
+        box-shadow: 0 12px 30px rgba(11, 31, 51, 0.08);
+    }
+
+    .info_card h3 {
+        margin-bottom: 9px;
+        color: #0b1f33;
+        font-size: 1.2rem;
+    }
+
+    .info_card p {
+        color: #52657a;
+    }
+
+    .contribution_list,
+    .result_list {
+        padding-left: 22px;
+        color: #475569;
+    }
+
+    .contribution_list li,
+    .result_list li {
+        margin-bottom: 11px;
+    }
+
+    /*=========================================
+        SIMPLE SYSTEM ARCHITECTURE
+    ------------------------------------------*/
+    .architecture_box {
+        padding: 30px;
+        background: #ffffff;
+        border: 1px solid rgba(11, 31, 51, 0.08);
+        border-radius: 22px;
+        box-shadow: 0 12px 30px rgba(11, 31, 51, 0.08);
+    }
+
+    .architecture_note {
+        margin-bottom: 22px;
+        color: #52657a;
+        font-size: 0.92rem;
+    }
+
+    .architecture_flow {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr auto 1.4fr auto 1fr;
+        gap: 12px;
+        align-items: center;
+    }
+
+    .architecture_step {
+        min-height: 110px;
+        padding: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: #0b1f33;
+        font-weight: 800;
+        background: #edf5fc;
+        border: 1px solid #d5e6f2;
+        border-radius: 16px;
+    }
+
+    .architecture_arrow {
+        color: #365f91;
+        font-size: 1.6rem;
+        font-weight: 800;
+    }
+
+    .task_list {
+        margin-top: 22px;
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    .task_item {
+        padding: 12px;
+        text-align: center;
+        color: #365f91;
+        font-size: 0.87rem;
+        font-weight: 800;
+        background: #e7effb;
+        border-radius: 999px;
+    }
+
+    /*=========================================
+        TECHNICAL IMPLEMENTATION
+    ------------------------------------------*/
+    .technical_grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 22px;
+    }
+
+    .technical_item {
+        padding: 25px;
+        background: #ffffff;
+        border-left: 5px solid #365f91;
+        border-radius: 16px;
+        box-shadow: 0 10px 28px rgba(11, 31, 51, 0.08);
+    }
+
+    .technical_item h3 {
+        margin-bottom: 8px;
+        color: #0b1f33;
+        font-size: 1.16rem;
+    }
+
+    .technical_item p {
+        color: #52657a;
+    }
+
+    /*=========================================
+        TECHNOLOGY TAGS AND NAVIGATION
+    ------------------------------------------*/
+    .technology_tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .technology_tags span {
+        padding: 8px 13px;
+        border-radius: 999px;
+        background: #e7effb;
+        color: #365f91;
+        font-size: 0.88rem;
+        font-weight: 800;
+    }
+
+    .project_navigation {
+        max-width: 1050px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+    }
+
+    .project_navigation a {
+        color: #365f91;
+        text-decoration: none;
+        font-weight: 800;
+    }
+
+    .project_navigation a:hover {
+        text-decoration: underline;
+    }
+
+    .menu_links .active {
+        color: #176b9e;
+    }
+
+    /*=========================================
+        RESPONSIVE DESIGN
+    ------------------------------------------*/
+    @media (max-width: 900px) {
+        .project_meta_grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .info_grid {
+            grid-template-columns: 1fr;
+        }
+
+        .architecture_flow {
+            grid-template-columns: 1fr;
+        }
+
+        .architecture_arrow {
+            text-align: center;
+            transform: rotate(90deg);
+        }
+
+        .task_list {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @media (max-width: 650px) {
+        .project_hero,
+        .project_media_section,
+        .case_section {
+            padding-left: 24px;
+            padding-right: 24px;
+        }
+
+        .project_meta_grid,
+        .technical_grid {
+            grid-template-columns: 1fr;
+        }
+
+        .task_list {
+            grid-template-columns: 1fr;
+        }
+
+        .project_navigation {
+            flex-direction: column;
+        }
+    }
+    </style>
+</head>
+
+<body id="top">
+
+    <!--=========================================
+                    MAIN MENU
+    -------------------------------------------->
+    <header class="header_menu">
+        <a href="index.html" aria-label="Go to homepage">
+            <img class="logo_image" src="media/profile/logo.svg" alt="Logo">
+        </a>
+
+        <nav class="menu_links" aria-label="Main navigation">
+            <a href="about.html">About</a>
+            <a class="active" href="project.html">Projects</a>
+            <a href="index.html#knowledge_sharing">Knowledge</a>
+            <a href="index.html#life_and_events">Life &amp; Events</a>
+            <a href="mailto:ducannguyen.da@gmail.com">Contact</a>
+        </nav>
+    </header>
+
+    <main>
+        <!--=========================================
+                    PROJECT HEADER
+        -------------------------------------------->
+        <header class="project_hero">
+            <div class="project_hero_inner">
+                <a class="back_link" href="project.html">← Back to all projects</a>
+
+                <div class="project_label">Production computer vision case study</div>
+                <h1>Multi-Camera Smart City Vision System</h1>
+                <p class="project_summary">
+                    A real-time, shared-backbone computer vision system developed for
+                    multi-camera detection, tracking, segmentation, classification,
+                    and face recognition.
+                </p>
+
+                <div class="project_meta_grid">
+                    <div class="project_meta_item">
+                        <strong>Role</strong>
+                        <span>AI Engineer – Computer Vision</span>
+                    </div>
+
+                    <div class="project_meta_item">
+                        <strong>Organization</strong>
+                        <span>Nova Intelligent Technology JSC</span>
+                    </div>
+
+                    <div class="project_meta_item">
+                        <strong>Period</strong>
+                        <span>October 2021 – January 2023</span>
+                    </div>
+
+                    <div class="project_meta_item">
+                        <strong>Location</strong>
+                        <span>Ho Chi Minh City, Vietnam</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!--=========================================
+                    MAIN PROJECT MEDIA
+        -------------------------------------------->
+        <section class="project_media_section">
+            <div class="project_video_box">
+                <!-- Replace this video with your real smart-city project demonstration. -->
+                <video class="project_video" autoplay muted loop playsinline>
+                    <source src="media/profile/project1.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <p class="media_note">
+                    Replace <strong>media/profile/project1.mp4</strong> with your own project video when ready.
+                </p>
+            </div>
+        </section>
+
+        <!--=========================================
+                    PROJECT OVERVIEW
+        -------------------------------------------->
+        <section class="case_section">
+            <div class="case_content">
+                <div class="case_heading">
+                    <h2>Project Overview</h2>
+                    <p>What the system was designed to do.</p>
+                </div>
+
+                <div class="text_block">
+                    <p>
+                        The project focused on a real-time multi-camera vision platform for smart-city monitoring.
+                        The system combined several computer vision tasks within one shared-backbone architecture,
+                        including object detection, tracking, semantic segmentation, classification, and face recognition.
+                    </p>
+
+                    <p>
+                        My work covered system architecture, AI pipeline development, inference optimization,
+                        lightweight image preprocessing, and collaboration with software and UI engineers
+                        to integrate the computer vision pipeline into a complete product.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!--=========================================
+                    ENGINEERING CHALLENGE
+        -------------------------------------------->
+        <section class="case_section case_section_soft">
+            <div class="case_content">
+                <div class="case_heading">
+                    <h2>The Engineering Challenge</h2>
+                    <p>The project required more than running a single model on a single video.</p>
+                </div>
+
+                <div class="info_grid">
+                    <article class="info_card">
+                        <h3>Multiple Camera Streams</h3>
+                        <p>
+                            The system needed to process several real-time camera streams while supporting
+                            different computer vision tasks.
+                        </p>
+                    </article>
+
+                    <article class="info_card">
+                        <h3>Memory Constraints</h3>
+                        <p>
+                            The AI pipeline had to remain stable in memory-constrained environments,
+                            especially when several models and streams were active.
+                        </p>
+                    </article>
+
+                    <article class="info_card">
+                        <h3>Production Integration</h3>
+                        <p>
+                            The AI components had to connect with the software and user-interface layers
+                            of a complete smart-city product.
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!--=========================================
+                    MY CONTRIBUTION
+        -------------------------------------------->
+        <section class="case_section">
+            <div class="case_content">
+                <div class="case_heading">
+                    <h2>My Contribution</h2>
+                    <p>The main areas I designed and implemented.</p>
+                </div>
+
+                <ul class="contribution_list">
+                    <li>
+                        Architected and developed HydraNet, a multi-process and multi-threaded
+                        shared-backbone computer vision system.
+                    </li>
+                    <li>
+                        Developed vision pipelines for detection, tracking, segmentation,
+                        classification, and face recognition.
+                    </li>
+                    <li>
+                        Optimized AI inference using ONNX, TensorRT, FP16 quantization,
+                        motion-triggered inference, and resolution scaling.
+                    </li>
+                    <li>
+                        Developed lightweight image-processing methods to improve preprocessing quality,
+                        accuracy, and inference efficiency.
+                    </li>
+                    <li>
+                        Collaborated with the software and UI teams to integrate the AI system
+                        into a complete product.
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!--=========================================
+                    SYSTEM ARCHITECTURE
+        -------------------------------------------->
+        <section class="case_section case_section_soft">
+            <div class="case_content">
+                <div class="case_heading">
+                    <h2>Simplified System Architecture</h2>
+                    <p>A portfolio-level overview of the processing flow.</p>
+                </div>
+
+                <div class="architecture_box">
+                    <p class="architecture_note">
+                        This diagram is intentionally simple. Replace it later with your real project architecture
+                        when you are ready to publish more technical detail.
+                    </p>
+
+                    <div class="architecture_flow">
+                        <div class="architecture_step">Multiple Camera Streams</div>
+                        <div class="architecture_arrow">→</div>
+                        <div class="architecture_step">Frame Acquisition &amp; Preprocessing</div>
+                        <div class="architecture_arrow">→</div>
+                        <div class="architecture_step">HydraNet Shared Backbone</div>
+                        <div class="architecture_arrow">→</div>
+                        <div class="architecture_step">Software / UI Integration</div>
+                    </div>
+
+                    <div class="task_list">
+                        <div class="task_item">Detection</div>
+                        <div class="task_item">Tracking</div>
+                        <div class="task_item">Segmentation</div>
+                        <div class="task_item">Classification</div>
+                        <div class="task_item">Face Recognition</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!--=========================================
+                TECHNICAL IMPLEMENTATION
+        -------------------------------------------->
+        <section class="case_section">
+            <div class="case_content">
+                <div class="case_heading">
+                    <h2>Technical Implementation</h2>
+                    <p>The main engineering decisions highlighted in the project.</p>
+                </div>
+
+                <div class="technical_grid">
+                    <article class="technical_item">
+                        <h3>Multi-Process and Multi-Threaded Design</h3>
+                        <p>
+                            The architecture separated camera acquisition and computer vision processing
+                            so that several streams and tasks could run efficiently.
+                        </p>
+                    </article>
+
+                    <article class="technical_item">
+                        <h3>Shared-Backbone Vision System</h3>
+                        <p>
+                            HydraNet used a shared-backbone approach to support several vision tasks
+                            within one system architecture.
+                        </p>
+                    </article>
+
+                    <article class="technical_item">
+                        <h3>Lightweight Preprocessing</h3>
+                        <p>
+                            Image-processing methods were used to improve input quality and reduce unnecessary
+                            computational load before model inference.
+                        </p>
+                    </article>
+
+                    <article class="technical_item">
+                        <h3>Product Integration</h3>
+                        <p>
+                            The AI pipeline was developed in coordination with software and UI teams
+                            so that model outputs could be used inside the complete application.
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!--=========================================
+                DEPLOYMENT AND OPTIMIZATION
+        -------------------------------------------->
+        <section class="case_section case_section_soft">
+            <div class="case_content">
+                <div class="case_heading">
+                    <h2>Deployment &amp; Optimization</h2>
+                    <p>Methods used to improve inference efficiency and system stability.</p>
+                </div>
+
+                <div class="info_grid">
+                    <article class="info_card">
+                        <h3>ONNX &amp; TensorRT</h3>
+                        <p>
+                            Models were prepared and optimized for efficient GPU inference in the production pipeline.
+                        </p>
+                    </article>
+
+                    <article class="info_card">
+                        <h3>FP16 Quantization</h3>
+                        <p>
+                            Reduced-precision inference was used to lower memory and computational requirements.
+                        </p>
+                    </article>
+
+                    <article class="info_card">
+                        <h3>Adaptive Inference</h3>
+                        <p>
+                            Motion-triggered inference and resolution scaling helped avoid unnecessary computation
+                            and balance processing speed with visual detail.
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!--=========================================
+                    PROJECT RESULTS
+        -------------------------------------------->
+        <section class="case_section">
+            <div class="case_content">
+                <div class="case_heading">
+                    <h2>Results</h2>
+                    <p>Qualitative outcomes are used because exact performance numbers are not included in the CV.</p>
+                </div>
+
+                <ul class="result_list">
+                    <li>Supported real-time multi-camera computer vision processing.</li>
+                    <li>Combined several vision tasks in one shared system architecture.</li>
+                    <li>Improved pipeline efficiency and maintained stable operation in memory-constrained environments.</li>
+                    <li>Integrated the AI system into a complete software product.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!--=========================================
+                    TECHNOLOGIES
+        -------------------------------------------->
+        <section class="case_section case_section_soft">
+            <div class="case_content">
+                <div class="case_heading">
+                    <h2>Technologies</h2>
+                    <p>The main technologies associated with this project.</p>
+                </div>
+
+                <div class="technology_tags">
+                    <span>Python</span>
+                    <span>PyTorch</span>
+                    <span>OpenCV</span>
+                    <span>YOLO</span>
+                    <span>DeepLabV3+</span>
+                    <span>Tracking Algorithms</span>
+                    <span>ONNX</span>
+                    <span>TensorRT</span>
+                    <span>FP16</span>
+                    <span>Linux</span>
+                </div>
+            </div>
+        </section>
+
+        <!--=========================================
+                    PROJECT NAVIGATION
+        -------------------------------------------->
+        <section class="case_section">
+            <div class="project_navigation">
+                <a href="project.html">← Back to all projects</a>
+                <a href="mailto:ducannguyen.da@gmail.com">Discuss a collaboration →</a>
+            </div>
+        </section>
+    </main>
+
+    <!--=========================================
+                    FOOTER
+    -------------------------------------------->
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <span>© <span id="current-year"></span> Duc An Nguyen</span>
+
+            <div class="footer-links">
+                <a href="mailto:ducannguyen.da@gmail.com">Email</a>
+                <a href="https://github.com/duc-an-nguyen" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="https://www.linkedin.com/in/ducannguyen" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="#top">Back to top ↑</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Automatically update the footer year.
+        document.getElementById("current-year").textContent =
+            new Date().getFullYear();
+    </script>
+</body>
+
+</html>

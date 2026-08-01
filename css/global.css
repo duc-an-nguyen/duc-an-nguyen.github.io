@@ -3,6 +3,9 @@
 /*=========================================
 FOR BODY
 ------------------------------------------*/
+html {
+    scrollbar-gutter: stable;
+}
 :root {
       --page-bg         : #f5f8fc;
       --surface         : #ffffff;
