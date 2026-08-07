@@ -1,1 +1,2 @@
-# duc-an-nguyen.github.io
+# duc-an-nguyen.github.io 
+# ducannguyen.net
