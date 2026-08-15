@@ -272,6 +272,86 @@
                     }
 
 
+
+
+    /* =========================================================
+       3. LATEST NOTES
+    ========================================================== */
+    .latest-grid {
+                        display                 : grid;
+                        grid-template-columns   : repeat(4, minmax(0, 1fr));
+                        gap                     : 16px;
+                        }
+
+    .note-card {
+                        display                 : flex;
+                        min-height              : 340px;
+                        flex-direction          : column;
+                        padding                 : 28px;
+                        border                  : 1px solid var(--border);
+                        border-radius           : var(--radius-lg);
+                        background              : var(--surface);
+                        text-decoration         : none;
+                        transition:
+                            transform var(--transition),
+                            border-color var(--transition),
+                            box-shadow var(--transition);
+                        }
+
+    .note-card:hover,
+    .note-card:focus-visible {
+                        transform               : translateY(-4px);
+                        border-color            : var(--line);
+                        box-shadow              : var(--shadow);
+                        }
+
+    .note-type {
+                        width                   : fit-content;
+                        margin-bottom           : 28px;
+                        padding                 : 6px 9px;
+                        border-radius           : 999px;
+                        background              : var(--primary-light);
+                        color                   : var(--primary-dark);
+                        font-size               : 0.7rem;
+                        font-weight             : 850;
+                        letter-spacing          : 0.05em;
+                        text-transform          : uppercase;
+                        }
+
+    .note-card h3 {
+                        margin                  : 0;
+                        color                   : var(--heading);
+                        font-size               : 1.25rem;
+                        line-height             : 1.35;
+                        letter-spacing          : -0.025em;
+                        }
+
+    .note-card p {
+                        margin                  : 14px 0 0;
+                        color                   : var(--text-muted);
+                        font-size               : 0.9rem;
+                        line-height             : 1.65;
+                        }
+
+    .note-footer {
+                        display                 : flex;
+                        align-items             : center;
+                        justify-content         : space-between;
+                        gap                     : 18px;
+                        margin-top              : auto;
+                        padding-top             : 28px;
+                        color                   : var(--text-muted);
+                        font-size               : 0.75rem;
+                        font-weight             : 700;
+                        }
+
+    .note-arrow {
+                        color                   : var(--primary);
+                        font-size               : 1rem;
+                        font-weight             : 900;
+                        }
+
+
     
     /*=========================================
     CONTACT FORM STYLES
@@ -292,9 +372,9 @@
     }
 
     .contact_greeting{
-                        font-size       : clamp(1rem, 1.2rem, 1.3rem);
-                        color           : #475569;;
-                        margin-bottom   : 10px;
+                        font-size               : clamp(1rem, 1.2rem, 1.3rem);
+                        color                   : #475569;;
+                        margin-bottom           : 10px;
     }
                         
                         
@@ -391,8 +471,8 @@ CONTENT OF THE SITE
         <nav class="menu_links">
             <a href="about.html">About</a>
             <a href="project.html">Projects</a>
-            <a href="#knowledge_sharing">Knowledge</a>
-            <!-- <a href="#life_and_events">Life & Events</a> -->
+            <a href="blog.html">Blog</a>
+            <a href="life_and_events.html">Life & Events</a>
             <a href="mailto:ducannguyen.da@gmail.com">Contact</a>
         </nav>
     </header>
@@ -424,7 +504,7 @@ CONTENT OF THE SITE
     <!--=========================================
             HIGHLIGHT PROJECTS SECTION
      -------------------------------------------->
-    <section id ="highlight_project_section">
+    <section id ="highlight_project_section" class="container">
 
     <!------------- Header ------------->
 
@@ -520,6 +600,82 @@ CONTENT OF THE SITE
         <a href="project.html#all-projects-title" class="project_link">View all projects →</a>
     </div>
     </section>
+
+
+
+
+    <!-- =====================================================
+           LATEST NOTES
+           These are sample article cards. Replace the href values
+           and text when you publish your real notes.
+      ====================================================== -->
+    <section id="latest_notes_section" class="container">
+        <!-- --------Header ------------ -->
+        <div class="section_heading">
+        <h2 class="section_title">Latest Blog Posts</h2>
+        <div class="underline"></div>
+        </div>
+
+        <!-- -------Grid ------------ -->
+        <div class="latest-grid">
+          <a class="note-card" href="#">
+            <span class="note-type">Experiment</span>
+            <h3>Understanding detection failures in low contrast infrared imagery</h3>
+            <p>
+              A practical look at how contrast, noise, and image quality influence
+              object detection behavior and model refinement.
+            </p>
+            <div class="note-footer">
+              <span>Computer Vision</span>
+              <span class="note-arrow" aria-hidden="true">→</span>
+            </div>
+          </a>
+
+          <a class="note-card" href="#">
+            <span class="note-type">Engineering Note</span>
+            <h3>Evaluating the trade offs of computer vision on edge devices</h3>
+            <p>
+              How accuracy, inference speed, memory usage, and energy consumption
+              influence deployment decisions.
+            </p>
+            <div class="note-footer">
+              <span>Edge AI</span>
+              <span class="note-arrow" aria-hidden="true">→</span>
+            </div>
+          </a>
+
+          <a class="note-card" href="#">
+            <span class="note-type">Concept</span>
+            <h3>Post hoc and intrinsic explainability for multimodal AI</h3>
+            <p>
+              A structured comparison of two ways to understand model behavior in
+              monitoring and prognostics applications.
+            </p>
+            <div class="note-footer">
+              <span>Explainable AI</span>
+              <span class="note-arrow" aria-hidden="true">→</span>
+            </div>
+          </a>
+
+          <a class="note-card" href="#">
+            <span class="note-type">Concept</span>
+            <h3>Post hoc and intrinsic explainability for multimodal AI</h3>
+            <p>
+              A structured comparison of two ways to understand model behavior in
+              monitoring and prognostics applications.
+            </p>
+            <div class="note-footer">
+              <span>Explainable AI</span>
+              <span class="note-arrow" aria-hidden="true">→</span>
+            </div>
+          </a>
+        </div>
+
+        <!-- View All Projects -->
+            <div class="view_all_projects">
+        <a href="project.html#all-projects-title" class="project_link">View all blog posts →</a>
+    </div>
+      </section>
 
 
 
