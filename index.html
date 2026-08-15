@@ -249,7 +249,7 @@
                     }
 
     .project_link:hover {
-                        text-decoration         : underline;
+                        text-decoration         : none;
                     }
 
 
@@ -391,7 +391,7 @@ CONTENT OF THE SITE
         <nav class="menu_links">
             <a href="about.html">About</a>
             <a href="project.html">Projects</a>
-            <!-- <a href="#knowledge_sharing">Knowledge</a> -->
+            <a href="#knowledge_sharing">Knowledge</a>
             <!-- <a href="#life_and_events">Life & Events</a> -->
             <a href="mailto:ducannguyen.da@gmail.com">Contact</a>
         </nav>
@@ -409,13 +409,13 @@ CONTENT OF THE SITE
             <p>Working across edge computer vision, explainable AI, and industrial AI, with 7+ years of experience and a PhD focused on Applied and Explainable AI. Open to applied research and industry collaborations.</p>
         </div>
 
-        <div class="hero-image">
+        <a class="hero-image" href="about.html">
             <img    class="profile_picture"
                     src="media/profile/profile.jpg" 
                     alt="Profile picture" 
                     >
             
-        </div>
+        </a>
     </header>
 
     
@@ -446,12 +446,12 @@ CONTENT OF THE SITE
                 muted
                 loop
                 playsinline>
-                <source src="media/profile/project1.mp4" type="video/mp4">
+                <source src="media/profile/infrared_object_detection.mp4" type="video/mp4">
             </video>
 
             <div class="project_content">
                 <h3> Infrared vision </h3>
-                <p> An Edge AI system for real-time defect detection</p>
+                <p> An Edge AI system for real-time object detection in night vision</p>
                 <div class="project_tags">
                     <span>Python</span>
                     <span>PyTorch</span>
@@ -464,7 +464,7 @@ CONTENT OF THE SITE
 
 
         <!----------- Project 2-------->
-                <article class="project_card">
+        <article class="project_card">
             <a href="#" class="project_link">
             <video 
                 class="project_video"
@@ -472,24 +472,24 @@ CONTENT OF THE SITE
                 muted
                 loop
                 playsinline>
-                <source src="media/profile/project1.mp4" type="video/mp4">
+                <source src="media/profile/aqua_smart_city.mp4" type="video/mp4">
             </video>
 
             <div class="project_content">
-                <h3> Infrared vision </h3>
-                <p> An Edge AI system for real-time defect detection</p>
+                <h3> Vision production </h3>
+                <p> Real-Time Multi-Camera Smart City Surveillance System</p>
                 <div class="project_tags">
                     <span>Python</span>
                     <span>PyTorch</span>
                     <span>OpenCV</span>
-                    <span>Jetson</span>
+                    <span>GStreamer</span>
                 </div>
             </div>
             </a>
         </article>
 
         <!----------- Project 3-------->
-                <article class="project_card">
+        <article class="project_card">
             <a href="#" class="project_link">
             <video 
                 class="project_video"
@@ -497,17 +497,17 @@ CONTENT OF THE SITE
                 muted
                 loop
                 playsinline>
-                <source src="media/profile/project1.mp4" type="video/mp4">
+                <source src="media/profile/coffee_bean.mp4" type="video/mp4">
             </video>
 
             <div class="project_content">
-                <h3> Infrared vision </h3>
-                <p> An Edge AI system for real-time defect detection</p>
+                <h3> Embedded Vision </h3>
+                <p> Coffee bean sorting system using global shutter camera</p>
                 <div class="project_tags">
-                    <span>Python</span>
-                    <span>PyTorch</span>
+                    <span>C++</span>
                     <span>OpenCV</span>
-                    <span>Jetson</span>
+                    <span>Matlab</span>
+                    <span>Jetson Nano</span>
                 </div>
             </div>
             </a>
@@ -517,7 +517,7 @@ CONTENT OF THE SITE
 
     <!---Create view all projects --->
     <div class="view_all_projects">
-        <a href="#" class="project_link">View all projects →</a>
+        <a href="project.html#all-projects-title" class="project_link">View all projects →</a>
     </div>
     </section>
 

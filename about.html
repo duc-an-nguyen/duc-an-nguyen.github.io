@@ -151,7 +151,7 @@
 
     .story-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       margin-top: clamp(38px, 5vw, 60px);
       overflow: hidden;
       border: 1px solid var(--border);
@@ -442,13 +442,13 @@
     .highlight-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
+      gap: 12px;
       margin-top: 34px;
     }
 
     .highlight-card {
       min-height: 148px;
-      padding: 19px;
+      padding: 14px;
       border: 1px solid var(--border);
       border-radius: var(--radius-md);
       background: var(--surface);
@@ -469,7 +469,7 @@
       width: 34px;
       height: 34px;
       place-items: center;
-      margin-bottom: 17px;
+      margin-bottom: 8px;
       border-radius: 10px;
       background: var(--surface-soft);
       color: var(--primary);
@@ -797,7 +797,7 @@ CONTENT OF THE SITE
       <nav class="menu_links">
           <a href="about.html">About</a>
           <a href="project.html">Projects</a>
-          <!-- <a href="#knowledge_sharing">Knowledge</a> -->
+          <a href="#knowledge_sharing">Knowledge</a>
           <!-- <a href="#life_and_events">Life & Events</a> -->
           <a href="mailto:ducannguyen.da@gmail.com">Contact</a>
       </nav>
@@ -812,40 +812,46 @@ CONTENT OF THE SITE
         <p class="eyebrow">About me</p>
 
         <div class="intro-top">
-          <h1>From embedded systems to applied and explainable AI.</h1>
+          <h1>From embedded systems to reliable edge computer vision</h1>
 
           <p class="intro-summary">
-            My work has evolved from low-level embedded computing and image
-            processing to real-time computer vision, Edge AI deployment, and
-            explainable solutions for practical industrial systems.
+            My work has evolved from embedded image processing under resource-constrained 
+            computing to production computer vision, edge AI, and explainable systems designed 
+            for real-world deployment.
           </p>
         </div>
 
         <div class="story-grid" aria-label="Professional development">
           <article class="story-item">
             <span class="story-number">01</span>
-            <h2>Engineering foundations</h2>
+            <h2>EMBEDDED COMPUTER VISION</h2>
             <p>
-              Embedded systems, image processing, and efficient computing on
-              resource-constrained hardware.
+              Embedded systems, image processing, and real-time vision on resource-constrained hardware.
             </p>
           </article>
 
           <article class="story-item">
             <span class="story-number">02</span>
-            <h2>Applied computer vision</h2>
+            <h2>PRODUCTION COMPUTER VISION</h2>
             <p>
-              Real-time detection, tracking, segmentation, recognition, and
-              optimized deployment across edge and server platforms.
+              Multi-camera detection, tracking, segmentation, recognition, and optimized AI deployment.
             </p>
           </article>
 
           <article class="story-item">
             <span class="story-number">03</span>
-            <h2>Current focus</h2>
+            <h2>APPLIED & EXPLAINABLE AI</h2>
             <p>
-              Applied AI through efficient edge deployment, explainable models,
-              and intelligent monitoring systems.
+              Explainable AI for multimodal models, system health monitoring, and prognostics.
+            </p>
+          </article>
+
+          <article class="story-item">
+            <span class="story-number">04</span>
+            <h2>Current Direction </h2>
+            <!-- <h2>RELIABLE EDGE COMPUTER VISION</h2> -->
+            <p>
+              Explainable and reliable computer vision solutions for edge deployment.
             </p>
           </article>
         </div>
@@ -866,7 +872,7 @@ CONTENT OF THE SITE
           <div class="journey-heading">
             <div>
               <h2 id="journey-title">My journey</h2>
-              <p>From embedded systems to Edge AI and XAI.</p>
+              <p>From embedded systems to reliable edge computer vision</p>
             </div>
             <span class="location-badge">Vietnam → France</span>
           </div>
@@ -996,70 +1002,70 @@ CONTENT OF THE SITE
         <article class="about-copy reveal">
           <p class="eyebrow">Who I am</p>
           <h2>
-            An engineer and researcher focused on efficient, trustworthy AI.
+            A passionate engineer and researcher focused on computer vision
           </h2>
 
           <p class="lead">
-            I am Duc An Nguyen, a Computer Vision and Edge AI Engineer with
-            hands-on experience developing and deploying deep-learning systems
-            across resource-constrained devices and server infrastructure.
+            My experience covers the full computer vision workflow,
+            from research and model development to optimization, deployment, and explainability, 
+            with an emphasis on building production-ready systems.
           </p>
 
           <p>
-            My work sits at the intersection of computer vision, embedded
-            computing, model optimization, and explainable artificial
-            intelligence. I enjoy taking an idea from research and turning it
-            into a reliable system that can operate under real constraints:
-            limited memory, limited computation, noisy data, and real-time
-            performance requirements.
+            I approach computer vision as a complete system rather than only a model. 
+            That means considering data quality, preprocessing, model behavior, hardware 
+            constraints, inference efficiency, and integration from the beginning of development.
+
           </p>
 
           <p>
-            I have developed vision systems for industrial sorting, embedded
-            fingerprint recognition, smart-city surveillance, neural-signal
-            analysis, and system-health monitoring. Across these projects, my
-            goal has remained the same: create AI that is technically strong,
-            efficient to deploy, and understandable to the people who use it.
+            Working across both research and production has shaped how I evaluate solutions, 
+            considering not only accuracy, but also reliability and the trade-offs between 
+            accuracy, inference speed, memory usage, and energy consumption.
           </p>
 
           <div class="highlight-grid" aria-label="Professional highlights">
             <section class="highlight-card">
               <span class="highlight-number">01</span>
-              <h3>Edge-first engineering</h3>
-              <p>
-                Deployment on NVIDIA Jetson, Raspberry Pi, STM32, and
-                ARM-based systems.
-              </p>
+              <h3>System perspective</h3>
+              <p> Data</p>
+              <p> Preprocessing</p>
+              <p> Model</p>
+              <p> Hardware</p>
+              <p> Integration</p>
+
             </section>
 
             <section class="highlight-card">
               <span class="highlight-number">02</span>
-              <h3>Real-time computer vision</h3>
-              <p>
-                Detection, tracking, segmentation, classification, recognition,
-                and multi-camera processing.
-              </p>
+              <h3>Engineering trade-offs</h3>
+              <p> Accuracy</p>
+              <p> Reliability</p>
+              <p> Inference speed</p>
+              <p> Memory usage</p>
+              <p> Energy consumption</p>
             </section>
 
             <section class="highlight-card">
               <span class="highlight-number">03</span>
-              <h3>Explainable AI</h3>
-              <p>
-                Post-hoc, intrinsic, and pre-model explainability for
-                multimodal industrial AI.
-              </p>
+              <h3>Research to production</h3>
+              <p> Experimentation</p>
+              <p> Failure analysis</p>
+              <p> Optimization</p>
+              <p> Deployment</p>
+              <p> Iteration</p>
             </section>
           </div>
 
           <section class="content-block" id="expertise">
             <h3>What I work on</h3>
             <ul class="focus-list">
-              <li>Real-time computer vision pipelines</li>
-              <li>Edge AI deployment and optimization</li>
-              <li>Multimodal and explainable AI</li>
-              <li>Industrial monitoring and prognostics</li>
-              <li>Embedded image processing</li>
-              <li>Research-to-production engineering</li>
+              <li>Data processing</li>
+              <li>Model development</li>
+              <li>System optimization and efficiency</li>
+              <li>Edge deployment</li>
+              <li>Reliability evaluation</li>
+              <li>Explainability</li>
             </ul>
           </section>
 
@@ -1082,8 +1088,6 @@ CONTENT OF THE SITE
                   <span class="tag">PyTorch</span>
                   <span class="tag">TensorFlow</span>
                   <span class="tag">OpenCV</span>
-                  <span class="tag">YOLO</span>
-                  <span class="tag">DeepLabV3+</span>
                 </div>
               </div>
 
@@ -1144,16 +1148,13 @@ CONTENT OF THE SITE
               <span aria-hidden="true">↗</span>
             </a>
 
-            <!--
-              Rename your CV file to "Duc-An-Nguyen-CV.pdf" and place it
-              in the same folder as this HTML file, then uncomment:
 
-              <a class="button button-secondary"
-                  href="./Duc-An-Nguyen-CV.pdf"
-                  download>
-                Download CV
-              </a>
-            -->
+            <a class="button button-secondary"
+                href="media/about/CV_DAN_EN.pdf"
+                download>
+              Download CV
+            </a>
+   
           </div>
         </article>
       </div>

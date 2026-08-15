@@ -69,7 +69,7 @@ textarea        {
 
 
 .container {
-                    width           : min(calc(100% - 40px), var(--container));
+                    width           : min(calc(100% - 30px), var(--container));
                     margin-inline   : auto;
     }
 
