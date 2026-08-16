@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+
+  <!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- 
+                    META DATA
+  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- -->
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Life & Events | Duc An Nguyen</title>
+  <meta
+    name="description"
+    content="Professional events and solo trips from Duc An Nguyen, presented as a visual timeline."
+  />
+
+  <!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- 
+                      LINKS AND GLOBAL STYLES
+  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- -->
+  <link rel="icon" type="image/x-icon" href="media/profile/favicon.ico">
+  <link rel="stylesheet" href="css/global.css">
+
+
+  <!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- 
+                   CSS STYLES
+  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- -->
+  <style>
+    
+
+
+    /* =========================================================
+       4. PAGE INTRO
+    ========================================================== */
+    .life-page {
+      padding: clamp(64px, 8vw, 108px) 0 84px;
+    }
+
+    .life-intro {
+      display: grid;
+      grid-template-columns: minmax(0, 1.12fr) minmax(300px, 0.88fr);
+      gap: clamp(42px, 6vw, 80px);
+      align-items: center;
+      animation: fadeUp 0.8s ease forwards;
+    }
+
+    .life-intro-content {
+      min-width: 0;
+    }
+
+    .life-intro h1 {
+      max-width: 720px;
+      margin: 0;
+      color: var(--heading);
+      font-size: clamp(2.8rem, 5vw, 5rem);
+      letter-spacing: -0.05em;
+      line-height: 1.02;
+    }
+
+    .intro-copy {
+      max-width: 620px;
+      margin: 22px 0 0;
+      color: var(--text-muted);
+      font-size: clamp(1rem, 1.25vw, 1.1rem);
+      line-height: 1.75;
+    }
+
+    .intro-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .intro-links a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 46px;
+      padding: 0 16px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.78);
+      color: var(--primary-dark);
+      font-size: 0.82rem;
+      font-weight: 800;
+      text-decoration: none;
+      transition:
+        border-color var(--transition),
+        background-color var(--transition),
+        color var(--transition),
+        transform var(--transition);
+    }
+
+    .intro-links a:hover,
+    .intro-links a:focus-visible {
+      transform: translateY(-2px);
+      border-color: var(--line);
+      background: var(--surface);
+      color: var(--primary);
+    }
+
+    .life-intro-media {
+      width: min(100%, 460px);
+      margin: 0;
+      justify-self: end;
+    }
+
+    .life-intro-image {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 24px;
+      object-fit: contain;
+    }
+
+    /* =========================================================
+       5. SECTION HEADER
+    ========================================================== */
+    .timeline-section {
+      margin-top: clamp(76px, 10vw, 128px);
+      animation: fadeUp 0.8s ease forwards;
+    }
+
+    .section-header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(260px, 0.55fr);
+      gap: 40px;
+      align-items: end;
+      margin-bottom: 48px;
+    }
+
+    .section-header h2 {
+      margin: 0;
+      color: var(--heading);
+      font-size: clamp(2.1rem, 4vw, 3.5rem);
+      letter-spacing: -0.04em;
+      line-height: 1.08;
+    }
+
+    .section-header p {
+      margin: 0;
+      color: var(--text-muted);
+      line-height: 1.75;
+    }
+
+    /* =========================================================
+       6. VISUAL TIMELINE
+    ========================================================== */
+    .visual-timeline {
+      position: relative;
+      margin: 0;
+      padding: 0 0 0 82px;
+      list-style: none;
+    }
+
+    .visual-timeline::before {
+      content: "";
+      position: absolute;
+      top: 12px;
+      bottom: 18px;
+      left: 28px;
+      width: 2px;
+      background: linear-gradient(
+        to bottom,
+        var(--primary) 0%,
+        var(--line) 88%,
+        transparent 100%
+      );
+    }
+
+    .timeline-entry {
+      position: relative;
+      padding-bottom: clamp(62px, 8vw, 94px);
+    }
+
+    .timeline-entry:last-child {
+      padding-bottom: 0;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      top: 8px;
+      left: -61px;
+      width: 18px;
+      height: 18px;
+      border: 4px solid var(--page-bg);
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 0 0 2px var(--primary);
+    }
+
+    .timeline-year {
+      position: absolute;
+      top: 2px;
+      left: -158px;
+      width: 72px;
+      color: var(--primary-dark);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-align: right;
+    }
+
+    .entry-card {
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: 0 14px 36px rgba(19, 55, 82, 0.07);
+    }
+
+    /* =========================================================
+       7. ASYMMETRIC IMAGE PAIR
+    ========================================================== */
+    .photo-pair {
+      display: grid;
+      grid-template-columns: minmax(0, 1.75fr) minmax(180px, 0.85fr);
+      gap: 10px;
+      min-height: 420px;
+      padding: 10px;
+      background: var(--surface-soft);
+    }
+
+    .photo-main,
+    .photo-side {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border-radius: 18px;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .photo-main {
+      min-height: 400px;
+    }
+
+    .photo-side-stack {
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) auto;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .photo-side {
+      min-height: 290px;
+    }
+
+    .photo-caption {
+      padding: 16px 17px;
+      border-radius: 18px;
+      background: var(--surface);
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    .entry-content {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(220px, 0.42fr);
+      gap: 34px;
+      padding: clamp(26px, 4vw, 40px);
+    }
+
+    .entry-label {
+      margin: 0 0 10px;
+      color: var(--primary);
+      font-size: 0.74rem;
+      font-weight: 850;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .entry-content h3 {
+      margin: 0;
+      color: var(--heading);
+      font-size: clamp(1.4rem, 2.5vw, 2.05rem);
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+    }
+
+    .entry-description {
+      max-width: 760px;
+      margin: 16px 0 0;
+      color: var(--text-muted);
+      line-height: 1.75;
+    }
+
+    .entry-meta {
+      display: grid;
+      align-content: start;
+      gap: 14px;
+      padding-left: 24px;
+      border-left: 1px solid var(--border);
+    }
+
+    .meta-item span {
+      display: block;
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .meta-item strong {
+      display: block;
+      margin-top: 3px;
+      color: var(--heading);
+      font-size: 0.92rem;
+      font-weight: 800;
+    }
+
+    /* =========================================================
+       8. SOLO TRIP VARIANT
+    ========================================================== */
+    .trip-entry .entry-card {
+      background: rgba(255, 255, 255, 0.84);
+    }
+
+    .trip-entry .photo-pair {
+      grid-template-columns: minmax(220px, 0.85fr) minmax(0, 1.75fr);
+    }
+
+    .trip-entry .photo-side-stack {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .trip-entry .photo-main {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    .trip-entry .entry-label {
+      color: var(--primary-dark);
+    }
+
+
+    /* =========================================================
+       9. RESPONSIVE
+    ========================================================== */
+    @media (max-width: 1050px) {
+      .timeline-year {
+        position: static;
+        width: auto;
+        margin-bottom: 12px;
+        text-align: left;
+      }
+
+      .visual-timeline {
+        padding-left: 60px;
+      }
+
+      .timeline-dot {
+        left: -39px;
+      }
+
+      .visual-timeline::before {
+        left: 20px;
+      }
+    }
+
+    @media (max-width: 880px) {
+      .life-intro {
+        grid-template-columns: 1fr;
+      }
+
+      .life-intro-media {
+        width: min(100%, 540px);
+        justify-self: center;
+      }
+
+      .section-header,
+      .entry-content {
+        grid-template-columns: 1fr;
+      }
+
+      .entry-meta {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        padding-top: 22px;
+        padding-left: 0;
+        border-top: 1px solid var(--border);
+        border-left: 0;
+      }
+
+      .photo-pair,
+      .trip-entry .photo-pair {
+        grid-template-columns: minmax(0, 1.6fr) minmax(150px, 0.75fr);
+        min-height: 350px;
+      }
+
+      .photo-main,
+      .trip-entry .photo-main {
+        grid-column: 1;
+        grid-row: 1;
+        min-height: 330px;
+      }
+
+      .photo-side-stack,
+      .trip-entry .photo-side-stack {
+        grid-column: 2;
+        grid-row: 1;
+      }
+
+      .photo-side {
+        min-height: 235px;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .container {
+        width: min(calc(100% - 28px), var(--container));
+      }
+
+      .life-intro h1 {
+        font-size: clamp(2.45rem, 11vw, 3.8rem);
+      }
+
+      .visual-timeline {
+        padding-left: 38px;
+      }
+
+      .visual-timeline::before {
+        left: 10px;
+      }
+
+      .timeline-dot {
+        left: -35px;
+      }
+
+      .photo-pair,
+      .trip-entry .photo-pair {
+        grid-template-columns: 1fr;
+        min-height: 0;
+      }
+
+      .photo-main,
+      .trip-entry .photo-main,
+      .photo-side-stack,
+      .trip-entry .photo-side-stack {
+        grid-column: 1;
+        grid-row: auto;
+      }
+
+      .photo-main,
+      .trip-entry .photo-main {
+        min-height: 280px;
+      }
+
+      .photo-side-stack {
+        grid-template-columns: minmax(0, 1fr) minmax(150px, 0.55fr);
+        grid-template-rows: 1fr;
+      }
+
+      .photo-side {
+        min-height: 190px;
+      }
+
+      .entry-meta {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .life-page {
+        padding-top: 52px;
+      }
+
+      .intro-links a {
+        flex: 1 1 100%;
+        justify-content: center;
+      }
+
+      .visual-timeline {
+        padding-left: 28px;
+      }
+
+      .visual-timeline::before {
+        left: 7px;
+      }
+
+      .timeline-dot {
+        left: -28px;
+        width: 16px;
+        height: 16px;
+      }
+
+      .photo-side-stack {
+        grid-template-columns: 1fr;
+      }
+
+      .entry-card {
+        border-radius: 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!--================================================
+                MAIN MENU
+  ====================================================-->
+  <header class="header_menu">
+      <a href="/" aria-label="Go to homepage">
+          <img    class="logo_image" 
+                  src="media/profile/logo.svg"
+                  alt="Logo"
+          >
+      </a>
+
+      <nav class="menu_links">
+          <a href="about.html">About</a>
+            <a href="project.html">Projects</a>
+            <a href="blog.html">Blog</a>
+            <a href="life_and_events.html">Life & Events</a>
+            <a href="mailto:ducannguyen.da@gmail.com">Contact</a>
+      </nav>
+  </header>
+
+
+  <main id="main-content" class="life-page">
+    <div class="container">
+
+      <!-- =========================================
+           INTRO
+      --------------------------------------------- -->
+      <header class="life-intro">
+        <div class="life-intro-content">
+          <p class="eyebrow">Life &amp; Events</p>
+
+          <h1>Moments that shaped the journey.</h1>
+
+          <p class="intro-copy">
+            Beyond work, I enjoy solo travel, discovering new places,
+            experiencing different cultures, and collecting new perspectives
+            along the way.
+          </p>
+
+          <div class="intro-links">
+            <a href="#formal-events"><span>01</span> Formal Events</a>
+            <a href="#solo-trips"><span>02</span> Solo Trips</a>
+          </div>
+        </div>
+
+        <figure class="life-intro-media">
+          <img
+            class="life-intro-image"
+            src="media/events/feature.jpg"
+            alt="A personal moment from the research journey"
+          />
+        </figure>
+      </header>
+
+      <!-- =========================================
+           FORMAL EVENTS
+      --------------------------------------------- -->
+      <section
+        class="timeline-section"
+        id="formal-events"
+        aria-labelledby="formal-events-title"
+      >
+        <header class="section-header">
+          <div>
+            <p class="eyebrow">Formal Events</p>
+            <h2 id="formal-events-title">Professional moments along the journey.</h2>
+          </div>
+
+          <p>
+            Conferences, workshops, presentations, research visits, and other
+            professional events.
+          </p>
+        </header>
+
+        <ol class="visual-timeline">
+
+          <!-- ---------------------------------------------
+                            Defense
+          ---------------------------------------------  -->
+
+          <li class="timeline-entry">
+            <span class="timeline-dot" aria-hidden="true"></span>
+            <span class="timeline-year">Jan 2026</span>
+
+            <article class="entry-card">
+              <div class="photo-pair">
+                <img
+                  class="photo-main"
+                  src="media/events/formal/defense/jury.jpg"
+                  alt="Jury members and the candidate during the defense presentation"
+                />
+
+                <div class="photo-side-stack">
+                  <img
+                    class="photo-side"
+                    src="media/events/formal/defense/myself.jpg"
+                    alt="Detail photo of the defense presentation"
+                  />
+                  
+                  <div class="photo-caption">
+                    I was representing my research
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="entry-content">
+                <div>
+                  <p class="entry-label">Presentation / Research Event</p>
+                  <h3>PhD Defense</h3>
+                  <p class="entry-description">
+                    The defense presentation was a culmination of years of research and hard work. It was an opportunity to share my findings, receive feedback from experts in the field, and celebrate the journey with colleagues and mentors.
+                  </p>
+                </div>
+
+                <div class="entry-meta">
+                  <div class="meta-item">
+                    <strong>January 16, 2026</strong>
+                  </div>
+
+                  <div class="meta-item">
+                    <span>Location</span>
+                    <strong>Tarbes, France</strong>
+                  </div>
+
+                  <div class="meta-item">
+                    <span>Type</span>
+                    <strong>Defense</strong>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </li>
+
+
+          <!-- ---------------------------------------------
+                            Workshop 15/1/2026
+          ---------------------------------------------  -->
+          <li class="timeline-entry">
+            <span class="timeline-dot" aria-hidden="true"></span>
+            <span class="timeline-year">Jan 2026</span>
+
+            <article class="entry-card">
+              <div class="photo-pair">
+                <img
+                  class="photo-main"
+                  src="media/events/formal/workshop_16_1_2026/main.jpg"
+                  alt="Main photo from the event"
+                />
+
+                <div class="photo-side-stack">
+                  <img
+                    class="photo-side"
+                    src="media/events/formal/workshop_16_1_2026/side.jpg"
+                    alt="Secondary photo from the event"
+                  />
+
+                  <div class="photo-caption">
+                    People attending the workshop
+                  </div>
+                </div>
+              </div>
+
+              <div class="entry-content">
+                <div>
+                  <p class="entry-label">Workshop / Presentation</p>
+                  <h3>XIMS Project Workshop</h3>
+                  <p class="entry-description">
+                    This is the opportunity to share my work on edge-based federated learning for system monitoring
+                  </p>
+                </div>
+
+                <div class="entry-meta">
+                  <div class="meta-item">
+                    <span>Date</span>
+                    <strong>January 15, 2026</strong>
+                  </div>
+
+                  <div class="meta-item">
+                    <span>Location</span>
+                    <strong>Tarbes, France</strong>
+                  </div>
+
+                  <div class="meta-item">
+                    <span>Type</span>
+                    <strong>Workshop</strong>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </li>
+
+          <!-- ---------------------------------------------
+                            LGP Workshop
+          ---------------------------------------------  -->
+          <li class="timeline-entry">
+            <span class="timeline-dot" aria-hidden="true"></span>
+            <span class="timeline-year">Sep 2025</span>
+
+            <article class="entry-card">
+              <div class="photo-pair">
+                <img
+                  class="photo-main"
+                  src="media/events/formal/lgp_workshop/main.jpeg"
+                  alt="Main photo from the LGP workshop"
+                />
+
+                <div class="photo-side-stack">
+                  <img
+                    class="photo-side"
+                    src="media/events/formal/lgp_workshop/side.jpeg"
+                    alt="Secondary photo from the LGP workshop"
+                  />
+                  
+                  <div class="photo-caption">
+                    I was representing my research
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="entry-content">
+                <div>
+                  <p class="entry-label">Workshop / Presentation</p>
+                  <h3>Workshop organized by the Production Engineering Laboratory </h3>
+                  <p class="entry-description">
+                    This is the opportunity to share my work on explainable AI for system health monitoring
+                  </p>
+                </div>
+
+                <div class="entry-meta">
+                  <div class="meta-item">
+                    <span>Date</span>
+                    <strong>September 11, 2025</strong>
+                  </div>
+
+                  <div class="meta-item">
+                    <span>Location</span>
+                    <strong>France</strong>
+                  </div>
+
+                  <div class="meta-item">
+                    <span>Type</span>
+                    <strong>Workshop</strong>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </li>
+
+
+          <!-- ---------------------------------------------
+                            IFAC 2025
+          ---------------------------------------------  -->
+          <li class="timeline-entry">
+            <span class="timeline-dot" aria-hidden="true"></span>
+            <span class="timeline-year">July 2025</span>
+
+            <article class="entry-card">
+              <div class="photo-pair">
+                <img
+                  class="photo-main"
+                  src="media/events/formal/ifac2025/main.jpg"
+                  alt="Main photo from the LGP workshop"
+                />
+
+                <div class="photo-side-stack">
+                  <img
+                    class="photo-side"
+                    src="media/events/formal/ifac2025/side.jpg"
+                    alt="Secondary photo from the LGP workshop"
+                  />
+                  
+                  <div class="photo-caption">
+                    A moment with my team
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="entry-content">
+                <div>
+                  <p class="entry-label">Workshop / Presentation</p>
+                  <h3> IFAC Mechatronic 2025</h3>
+                  <p class="entry-description">
+                    The conference has been organized with the attendance of researchers from around the world
+                  </p>
+                </div>
+
+                <div class="entry-meta">
+                  <div class="meta-item">
+                    <span>Date</span>
+                    <strong>July 16, 2025</strong>
+                  </div>
+
+                  <div class="meta-item">
+                    <span>Location</span>
+                    <strong>Paris, France</strong>
+                  </div>
+
+                  <div class="meta-item">
+                    <span>Type</span>
+                    <strong>Conference</strong>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </li>
+
+
+        <!-- ---------------------------------------------
+                            SAGIP
+          ---------------------------------------------  -->
+          <li class="timeline-entry">
+            <span class="timeline-dot" aria-hidden="true"></span>
+            <span class="timeline-year">May 2025</span>
+
+            <article class="entry-card">
+              <div class="photo-pair">
+                <img
+                  class="photo-main"
+                  src="media/events/formal/sagip2025/main.jpg"
+                  alt="Main photo from the sagip 2025"
+                />
+
+                <div class="photo-side-stack">
+                  <img
+                    class="photo-side"
+                    src="media/events/formal/sagip2025/side.jpg"
+                    alt="Secondary photo from the sagip 2025"
+                  />
+                  
+                  <div class="photo-caption">
+                    I was representing my research
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="entry-content">
+                <div>
+                  <p class="entry-label">Conference / Presentation</p>
+                  <h3> SAGIP 2025</h3>
+                  <p class="entry-description">
+                    The conference has been organized in France
+                  </p>
+                </div>
+
+                <div class="entry-meta">
+                  <div class="meta-item">
+                    <span>Date</span>
+                    <strong>May 24, 2025</strong>
+                  </div>
+
+                  <div class="meta-item">
+                    <span>Location</span>
+                    <strong>Mulhouse, France</strong>
+                  </div>
+
+                  <div class="meta-item">
+                    <span>Type</span>
+                    <strong>Conference</strong>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </li>
+
+
+
+
+
+        </ol>
+      </section>
+
+      <!-- =========================================
+           SOLO TRIPS
+      --------------------------------------------- -->
+      <section
+        class="timeline-section"
+        id="solo-trips"
+        aria-labelledby="solo-trips-title"
+      >
+        <header class="section-header">
+          <div>
+            <p class="eyebrow">Solo Trips</p>
+            <h2 id="solo-trips-title">Places explored outside work.</h2>
+          </div>
+
+          <p>
+            Personal trips, landscapes, cities, and quiet moments away from
+            research
+          </p>
+        </header>
+
+        <ol class="visual-timeline">
+          <!-- ---------------------------------------------
+                            Netherlands
+          ---------------------------------------------  -->
+          <li class="timeline-entry trip-entry">
+            <span class="timeline-dot" aria-hidden="true"></span>
+            <span class="timeline-year">2026</span>
+
+            <article class="entry-card">
+              <div class="photo-pair">
+                <img
+                  class="photo-main"
+                  src="media/events/solo/netherland/main.jpg"
+                  alt="Main photo from the trip"
+                />
+
+                <div class="photo-side-stack">
+                  <img
+                    class="photo-side"
+                    src="media/events/solo/netherland/side.jpg"
+                    alt="Detail photo from the trip"
+                  />
+
+                  <div class="photo-caption">
+                    One of the most beautiful city in the world.
+                  </div>
+                </div>
+              </div>
+
+              <div class="entry-content">
+                <div>
+                  <p class="entry-label">Solo Trip</p>
+                  <h3>Amsterdam</h3>
+                  <p class="entry-description">
+                    One of the most beautiful city in the world.
+                  </p>
+                </div>
+
+                <div class="entry-meta">
+                  <div class="meta-item">
+                    <strong>July 2026</strong>
+                  </div>
+
+                  <div class="meta-item">
+                    <span>Location</span>
+                    <strong>Netherlands</strong>
+                  </div>
+
+                  <div class="meta-item">
+                    <span>Journey</span>
+                    <strong>Solo Trip</strong>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </li>
+
+          <!-- ---------- Trip 2 ---------- -->
+          <!-- <li class="timeline-entry trip-entry">
+            <span class="timeline-dot" aria-hidden="true"></span>
+            <span class="timeline-year">2025</span>
+
+            <article class="entry-card">
+              <div class="photo-pair">
+                <img
+                  class="photo-main"
+                  src="media/trips/trip-2/main.jpg"
+                  alt="Main photo from the trip"
+                />
+
+                <div class="photo-side-stack">
+                  <img
+                    class="photo-side"
+                    src="media/trips/trip-2/side.jpg"
+                    alt="Secondary photo from the trip"
+                  />
+
+                  <div class="photo-caption">
+                    A small caption can make the page feel more like a personal journal.
+                  </div>
+                </div>
+              </div>
+
+              <div class="entry-content">
+                <div>
+                  <p class="entry-label">Solo Trip</p>
+                  <h3>Another destination</h3>
+                  <p class="entry-description">
+                    Keep this description simple and human. It does not need to
+                    sound like a professional biography.
+                  </p>
+                </div>
+
+                <div class="entry-meta">
+                  <div class="meta-item">
+                    <span>Date</span>
+                    <strong>Month 2025</strong>
+                  </div>
+
+                  <div class="meta-item">
+                    <span>Location</span>
+                    <strong>City, Country</strong>
+                  </div>
+
+                  <div class="meta-item">
+                    <span>Journey</span>
+                    <strong>Solo Trip</strong>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </li> -->
+        </ol>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span>© <span id="current-year"></span> Duc An Nguyen</span>
+
+      <div class="footer-links">
+        <a href="mailto:ducannguyen.da@gmail.com">Email</a>
+        <a
+          href="https://github.com/duc-an-nguyen"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          GitHub
+        </a>
+        <a
+          href="https://www.linkedin.com/in/ducannguyen"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          LinkedIn
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- 
+                  JAVASCRIPT
+  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- -->
+  <script>
+    /* =========================================================
+       CURRENT YEAR
+    ========================================================== */
+    document.getElementById("current-year").textContent =
+      new Date().getFullYear();
+  </script>
+</body>
+</html>

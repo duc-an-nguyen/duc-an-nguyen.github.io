@@ -1,34 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
+
+<!--
+=============================================
+ STYLES FOR THE SITE
+=============================================
+-->
 <head>
 
-<!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- 
-                    META DATA
- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- -->
-<meta charset="UTF-8">
-<meta name="description" content="Projects of Duc An">
-<meta name="author" content="Duc An Nguyen">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Projects | Duc An Nguyen</title>
+    <!---------------------------------
+                Meta tags
+    ----------------------------------->
+    <meta charset="UTF-8">
+    <meta name="description" content="Projects of Duc An">
+    <meta name="author" content="Duc An Nguyen">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- 
-                    LINKS AND GLOBAL STYLES
- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- -->
-
-<link rel="icon" type="image/x-icon" href="media/profile/favicon.ico">
-<link rel="stylesheet" href="css/global.css">
-
+    <!---------------------------------
+                Title
+    ----------------------------------->
+    <title>Projects | Duc An Nguyen</title>
+    <link rel="icon" type="image/x-icon" href="media/profile/favicon.ico">
+    <link rel="stylesheet" href="css/global.css">
 
 
-
-
-<!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- 
-                   CSS STYLES
- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- -->
 
     <style> 
+/*=========================================
+PROJECTS PAGE STYLES
+=========================================*/
 
 
+/*=========================================
+FADE-UP ANIMATION
+------------------------------------------*/
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
 /*=========================================
 JOINT STYLES
@@ -37,7 +53,7 @@ Used by more than one project-page section.
 
 /* Shared section spacing */
 .section_block {
-                    padding                 : 50px 0;
+                    padding                 : 82px 0;
 }
 
 .section_block:nth-of-type(even) {
@@ -403,62 +419,34 @@ FEATURED PROJECTS
 ALL PROJECTS
 ------------------------------------------*/
 
-/* Project category filters */
-.filter-row {
+/* Project category navigation */
+.category_nav {
                     display                 : flex;
                     flex-wrap               : wrap;
-                    justify-content         : center;
-                    gap                     : 9px;
-                    margin-top              : 15px;
-                    margin-bottom           : 34px;
+                    gap                     : 10px;
 }
 
-.filter-button {
-                    flex                    : 0 1 170px;
-                    min-height              : 48px;
-                    display                 : inline-flex;
-                    align-items             : center;
-                    justify-content         : center;
-                    cursor                  : pointer;
-                    padding                 : 11px 20px;
-                    border                  : 1px solid var(--border);
+.category_nav a {
+                    padding                 : 9px 14px;
+                    border                  : 1px solid var(--line);
                     border-radius           : 999px;
-                    background              : var(--surface);
-                    color                   : var(--text-muted);
-                    font-size               : 0.88rem;
-                    font-weight             : 750;
-                    line-height             : 1.2;
-                    text-align              : center;
-                    transition              :
-                                              background-color var(--transition),
-                                              border-color var(--transition),
-                                              color var(--transition);
-}
-
-.filter-button:hover,
-.filter-button:focus-visible {
-                    border-color            : var(--line);
+                    background              : rgba(255, 255, 255, 0.8);
                     color                   : var(--primary-dark);
+                    font-size               : 0.88rem;
+                    font-weight             : 800;
+                    text-decoration         : none;
 }
 
-.filter-button.is-active {
+.category_nav a:hover,
+.category_nav a:focus-visible {
                     border-color            : var(--primary);
-                    background              : var(--primary);
-                    color                   : #ffffff;
+                    background              : var(--primary-light);
 }
 
 
 /* Project groups */
 .project_group + .project_group {
                     margin-top              : 68px;
-}
-
-.project_group[hidden] {
-                    display                 : none;
-}
-
-.project_group[hidden] + .project_group {
-                    margin-top              : 0;
 }
 
 .group_heading {
@@ -664,13 +652,6 @@ RESPONSIVE STYLES
     .project_grid {
                     grid-template-columns   : 1fr;
     }
-
-    .filter-button {
-                    flex-basis              : 150px;
-                    min-height              : 46px;
-                    padding                 : 10px 16px;
-                    font-size               : 0.84rem;
-    }
 }
 
 
@@ -792,73 +773,41 @@ CONTENT OF THE SITE
         </div>
       </header>
 
+    <!--=========================================
+       FEATURED PROJECTS
+     -------------------------------------------->
+    
 
 
     <!--=========================================
        ALL PROJECTS
      -------------------------------------------->
-    <section class="section_block" aria-labelledby="all-projects-title" id="all_projects">
+    <section class="section_block" aria-labelledby="all-projects-title">
         <div class="container">
-            
-            <!-- ------------------------------ 
-                Project category filters
-            ----------------------------------->
-            <div class="filter-row" aria-label="Filter projects by category">
-                <button class="filter-button is-active" type="button" data-filter="all">All Projects</button>
-                <button class="filter-button" type="button" data-filter="computer_vision">Computer Vision</button>
-                <button class="filter-button" type="button" data-filter="explainable_ai">Explainable AI</button>
-                <button class="filter-button" type="button" data-filter="additional">Others</button>
+            <div class="section_header">
+                <div class="section_header_text">
+                    <p class="eyebrow">Project collection</p>
+                    <h2 id="all-projects-title">Explore all projects</h2>
+                    <p>
+                        Projects are grouped by engineering focus. These links move to sections
+                        on this page, so no filtering JavaScript is required.
+                    </p>
+                </div>
+                <nav class="category_nav" aria-label="Project categories">
+                    <a href="#edge-embedded">Edge &amp; Embedded</a>
+                    <a href="#computer-vision">Computer Vision</a>
+                    <a href="#explainable-ai">Explainable AI</a>
+                    <a href="#additional">Additional</a>
+                </nav>
             </div>
 
-
-
-            <!-- ------------------------------ 
-                Computer vision group
-            ----------------------------------->
-            <section class="project_group" id="computer_vision" aria-labelledby="computer-vision-title" data-category="computer_vision">
+            <section class="project_group" id="edge-embedded" aria-labelledby="edge-title">
                 <div class="group_heading">
-                    <h3 id="computer-vision-title">Computer Vision</h3>
-                    <p>Image processing, computer vision deep learning, real-time applications, edge deployment.</p>
+                    <h3 id="edge-title">Edge &amp; Embedded Vision</h3>
+                    <p>Vision systems designed for constrained hardware and real-time processing.</p>
                 </div>
 
                 <div class="project_grid">
-
-                    <!-- ------Aqua smart city---- -->
-                    <article class="project_card">
-                        <div class="card_visual"><strong>Multi-camera HydraNet</strong></div>
-                        <div class="card_body">
-                            <h4>Smart City Vision System</h4>
-                            <p>
-                                Real-time multi-camera detection, tracking, segmentation, classification,
-                                and face recognition with a shared-backbone architecture.
-                            </p>
-                            <ul class="tag_list">
-                                <li>PyTorch</li><li>OpenCV</li><li>ONNX</li><li>TensorRT</li>
-                            </ul>
-                            <a class="text_link" href="project-smart-city.html">View case study →</a>
-                        </div>
-                    </article>
-
-
-                    <!-- ------Coffee sorting---- -->
-                    <article class="project_card">
-                        <div class="card_visual"><strong>Coffee sorting system</strong></div>
-                        <div class="card_body">
-                            <h4>Coffee Bean Sorting Machine</h4>
-                            <p>
-                                End-to-end image acquisition, enhancement, segmentation, classification,
-                                and embedded optimization for non-uniform lighting conditions.
-                            </p>
-                            <ul class="tag_list">
-                                <li>Jetson Nano</li><li>Raspberry Pi</li><li>OpenCV</li><li>CIELAB</li>
-                            </ul>
-                            <span class="coming_soon">Case study coming soon</span>
-                        </div>
-                    </article>
-
-
-                    <!-- ------Fingerprint recognition---- -->
-
                     <article class="project_card">
                         <div class="card_visual"><strong>STM32 fingerprint pipeline</strong></div>
                         <div class="card_body">
@@ -874,55 +823,21 @@ CONTENT OF THE SITE
                         </div>
                     </article>
 
-                    <!-- ------Object detection with Raspberry Pi---- -->
                     <article class="project_card">
-                        <div class="card_visual"><strong>Raspberry Pi object detection</strong></div>
+                        <div class="card_visual"><strong>Coffee sorting system</strong></div>
                         <div class="card_body">
-                            <h4>Real-Time Object Detection on Raspberry Pi</h4>
+                            <h4>Coffee Bean Sorting Machine</h4>
                             <p>
-                                A lightweight OpenCV and MobileNet application for real-time object detection on Raspberry Pi 3.
+                                End-to-end image acquisition, enhancement, segmentation, classification,
+                                and embedded optimization for non-uniform lighting conditions.
                             </p>
                             <ul class="tag_list">
-                                <li>Raspberry Pi 3</li><li>OpenCV</li><li>MobileNet</li>
+                                <li>Jetson Nano</li><li>Raspberry Pi</li><li>OpenCV</li><li>CIELAB</li>
                             </ul>
                             <span class="coming_soon">Case study coming soon</span>
                         </div>
                     </article>
 
-                    <!-- ------Name Card Recognition---- -->
-                    <article class="project_card">
-                        <div class="card_visual"><strong>OCR workflow</strong></div>
-                        <div class="card_body">
-                            <h4>Name Card Recognition</h4>
-                            <p>
-                                An image-processing and OCR workflow that extracts structured information
-                                such as names, phone numbers, and addresses.
-                            </p>
-                            <ul class="tag_list">
-                                <li>Python</li><li>OpenCV</li><li>PyTesseract</li><li>Regex</li>
-                            </ul>
-                            <span class="coming_soon">Case study coming soon</span>
-                        </div>
-                    </article>
-
-                    
-
-                    
-                </div>
-            </section>
-
-
-            <!-- ------------------------------ 
-                Explainable AI group
-            ----------------------------------->
-            <section class="project_group" id="explainable_ai" aria-labelledby="xai-title" data-category="explainable_ai">
-                <div class="group_heading">
-                    <h3 id="xai-title">Explainable AI</h3>
-                    <p>Pre-model, during-model, and post-model explainability for industrial applications.</p>
-                </div>
-
-                <div class="project_grid">
-                    <!-- ------Edge IoT Monitoring---- -->
                     <article class="project_card">
                         <div class="card_visual"><strong>Jetson edge monitoring</strong></div>
                         <div class="card_body">
@@ -937,7 +852,68 @@ CONTENT OF THE SITE
                         </div>
                     </article>
 
-                    <!-- ------Multimodal Explanation Framework---- -->
+                    <article class="project_card">
+                        <div class="card_visual"><strong>Raspberry Pi object detection</strong></div>
+                        <div class="card_body">
+                            <h4>Real-Time Object Detection on Raspberry Pi</h4>
+                            <p>
+                                A lightweight OpenCV and MobileNet application for real-time object detection on Raspberry Pi 3.
+                            </p>
+                            <ul class="tag_list">
+                                <li>Raspberry Pi 3</li><li>OpenCV</li><li>MobileNet</li>
+                            </ul>
+                            <span class="coming_soon">Case study coming soon</span>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section class="project_group" id="computer-vision" aria-labelledby="vision-title">
+                <div class="group_heading">
+                    <h3 id="vision-title">Computer Vision Systems</h3>
+                    <p>Production-oriented pipelines, multi-camera processing, and applied image analysis.</p>
+                </div>
+
+                <div class="project_grid">
+                    <article class="project_card">
+                        <div class="card_visual"><strong>Multi-camera HydraNet</strong></div>
+                        <div class="card_body">
+                            <h4>Smart City Vision System</h4>
+                            <p>
+                                Real-time multi-camera detection, tracking, segmentation, classification,
+                                and face recognition with a shared-backbone architecture.
+                            </p>
+                            <ul class="tag_list">
+                                <li>PyTorch</li><li>OpenCV</li><li>ONNX</li><li>TensorRT</li>
+                            </ul>
+                            <a class="text_link" href="project-smart-city.html">View case study →</a>
+                        </div>
+                    </article>
+
+                    <article class="project_card">
+                        <div class="card_visual"><strong>OCR workflow</strong></div>
+                        <div class="card_body">
+                            <h4>Name Card Recognition</h4>
+                            <p>
+                                An image-processing and OCR workflow that extracts structured information
+                                such as names, phone numbers, and addresses.
+                            </p>
+                            <ul class="tag_list">
+                                <li>Python</li><li>OpenCV</li><li>PyTesseract</li><li>Regex</li>
+                            </ul>
+                            <span class="coming_soon">Case study coming soon</span>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section class="project_group" id="explainable-ai" aria-labelledby="xai-title">
+                <div class="group_heading">
+                    <h3 id="xai-title">Explainable &amp; Industrial AI</h3>
+                    <p>Methods for interpreting models, understanding data quality, and supporting industrial prognostics.</p>
+                </div>
+
+                <div class="project_grid">
                     <article class="project_card">
                         <div class="card_visual"><strong>Multimodal explanation framework</strong></div>
                         <div class="card_body">
@@ -953,7 +929,6 @@ CONTENT OF THE SITE
                         </div>
                     </article>
 
-                    <!-- ------Interpretable Prognostics---- -->
                     <article class="project_card">
                         <div class="card_visual"><strong>Interpretable prognostics</strong></div>
                         <div class="card_body">
@@ -968,7 +943,6 @@ CONTENT OF THE SITE
                         </div>
                     </article>
 
-                    <!-- ------Data-quality Explainability---- -->
                     <article class="project_card">
                         <div class="card_visual"><strong>Data-quality explainability</strong></div>
                         <div class="card_body">
@@ -983,17 +957,13 @@ CONTENT OF THE SITE
                             <span class="coming_soon">Research case study coming soon</span>
                         </div>
                     </article>
-                    
                 </div>
             </section>
 
-            <!-- ------------------------------ 
-                Other projects group
-            ----------------------------------->
-            <section class="project_group" id="additional" aria-labelledby="additional-title" data-category="additional">
+            <section class="project_group" id="additional" aria-labelledby="additional-title">
                 <div class="group_heading">
-                    <h3 id="additional-title">Other Projects</h3>
-                    <p>Signal processing and related projects.</p>
+                    <h3 id="additional-title">Additional Engineering Projects</h3>
+                    <p>Supporting work in signal processing and engineering tools.</p>
                 </div>
 
                 <div class="project_grid">
@@ -1102,10 +1072,11 @@ CONTENT OF THE SITE
     }
 
     /* =========================================================
-       PROJECT FILTER
+       SUBJECT FILTER
     ========================================================== */
     const filterButtons = document.querySelectorAll(".filter-button");
-    const projectGroups = document.querySelectorAll(".project_group");
+    const knowledgeItems = document.querySelectorAll(".knowledge-item");
+    const subjectLinks = document.querySelectorAll(".subject-filter-link");
 
     function setFilter(filterName) {
       filterButtons.forEach((button) => {
@@ -1113,18 +1084,24 @@ CONTENT OF THE SITE
         button.classList.toggle("is-active", isActive);
       });
 
-      projectGroups.forEach((group) => {
-        const categories = group.dataset.category.split(" ");
+      knowledgeItems.forEach((item) => {
+        const subjects = item.dataset.subject.split(" ");
         const shouldShow =
-          filterName === "all" || categories.includes(filterName);
+          filterName === "all" || subjects.includes(filterName);
 
-        group.hidden = !shouldShow;
+        item.hidden = !shouldShow;
       });
     }
 
     filterButtons.forEach((button) => {
       button.addEventListener("click", () => {
         setFilter(button.dataset.filter);
+      });
+    });
+
+    subjectLinks.forEach((link) => {
+      link.addEventListener("click", () => {
+        setFilter(link.dataset.filterTarget);
       });
     });
   </script>

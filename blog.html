@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- 
+                    META DATA
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- -->
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Blog | Duc An Nguyen</title>
+  <meta
+    name="description"
+    content="Blog posts, research notes, and technical ideas on computer vision, edge AI, embedded vision, and explainable AI."
+  />
+
+
+<!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- 
+                    LINKS AND GLOBAL STYLES
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- -->
+  <link rel="icon" type="image/x-icon" href="media/profile/favicon.ico">
+  <link rel="stylesheet" href="css/global.css">
+
+
+
+<!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- 
+                   CSS STYLES
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- -->
+
+  <style>
+
+
+    /* =========================================================
+       4. SHARED SECTION STYLES
+    ========================================================== */
+    .blog-page {
+      padding: clamp(64px, 8vw, 108px) 0 84px;
+    }
+
+
+    .section {
+                    margin-top              : clamp(72px, 9vw, 118px);
+                    animation               : fadeUp 0.8s ease forwards;
+    }
+  
+
+
+    .section-link {
+      flex: 0 0 auto;
+      color: var(--primary-dark);
+      font-size: 0.88rem;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .section-link:hover,
+    .section-link:focus-visible {
+      color: var(--primary);
+    }
+
+    /* =========================================================
+       5. INTRO
+    ========================================================== */
+    .blog-intro {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+      gap: clamp(32px, 6vw, 90px);
+      align-items: end;
+    }
+
+    .blog-intro h1 {
+      max-width: 820px;
+      margin: 0;
+      color: var(--heading);
+      font-size: clamp(2.7rem, 5.2vw, 5.4rem);
+      letter-spacing: -0.05em;
+      line-height: 1.02;
+    }
+
+    .intro-copy {
+      margin: 0 0 8px;
+      color: var(--text-muted);
+      font-size: clamp(1rem, 1.35vw, 1.15rem);
+      line-height: 1.78;
+    }
+
+    .intro-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 22px;
+    }
+
+    .intro-meta span {
+      padding: 7px 11px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.75);
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    /* =========================================================
+       6. SUBJECT CARDS
+    ========================================================== */
+    .subject-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .subject-card {
+      position: relative;
+      min-height: 275px;
+      overflow: hidden;
+      padding: 28px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.90);
+      box-shadow: 0 12px 30px rgba(19, 55, 82, 0.05);
+      text-decoration: none;
+      transition:
+        transform var(--transition),
+        border-color var(--transition),
+        box-shadow var(--transition);
+    }
+
+    .subject-card:hover,
+    .subject-card:focus-visible {
+      transform: translateY(-5px);
+      border-color: var(--line);
+      box-shadow: 0 18px 38px rgba(19, 55, 82, 0.10);
+    }
+
+    .subject-number {
+      display: inline-grid;
+      width: 52px;
+      height: 52px;
+      place-items: center;
+      margin-bottom: 15px;
+      border-radius: 15px;
+      background: var(--surface-soft);
+      color: var(--primary);
+      font-size: 0.92rem;
+      font-weight: 900;
+    }
+
+    .subject-card h3 {
+      margin: 0;
+      color: var(--heading);
+      font-size: 1.25rem;
+      letter-spacing: -0.025em;
+    }
+
+    .subject-card p {
+      margin: 12px 0 0;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.62;
+    }
+
+    .subject-topics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 21px;
+    }
+
+    .subject-topics span {
+      padding: 5px 8px;
+      border-radius: 999px;
+      background: var(--surface-soft);
+      color: var(--primary-dark);
+      font-size: 0.7rem;
+      font-weight: 750;
+    }
+
+
+    /* =========================================================
+       8. ALL KNOWLEDGE AND FILTERS
+    ========================================================== */
+    .filter-row {
+                      display                   : flex;
+                      flex-wrap                 : wrap;
+                      gap                       : 9px;
+                      margin-bottom             : 26px;
+                      margin-top                : 15px;
+                }
+
+    .filter-button {
+                      cursor                    : pointer;
+                      padding                   : 9px 13px;
+                      border                    : 1px solid var(--border);
+                      border-radius             : 999px;
+                      background                : var(--surface);
+                      color                     : var(--text-muted);
+                      font-size                 : 0.8rem;
+                      font-weight               : 750;
+                      transition                :
+                                                  background-color var(--transition),
+                                                  border-color var(--transition),
+                                                  color var(--transition);
+                    }
+
+    .filter-button:hover,
+    .filter-button:focus-visible {
+                      border-color              : var(--line);
+                      color                     : var(--primary-dark);
+                    }
+
+    .filter-button.is-active {
+                      border-color              : var(--primary);
+                      background                : var(--primary);
+                      color                     : #ffffff;
+                    }
+
+    .knowledge-list {
+                      display                   : grid;
+                      gap                       : 12px;
+                    }
+
+    .knowledge-item {
+                      display                   : grid;
+                      grid-template-columns     : 150px minmax(0, 1fr) auto;
+                      gap                       : 26px;
+                      align-items               : center;
+                      padding                   : 24px 26px;
+                      border                    : 1px solid var(--border);
+                      border-radius             : var(--radius-md);
+                      background                : rgba(255, 255, 255, 0.84);
+                      text-decoration           : none;
+                      transition                :
+                                                  transform var(--transition),
+                                                  border-color var(--transition),
+                                                  background-color var(--transition);
+                    }
+
+    .knowledge-item:hover,
+    .knowledge-item:focus-visible {
+      transform                 : translateX(4px);
+      border-color              : var(--line);
+      background                : #ffffff;
+    }
+
+    .item-meta {
+      color: var(--primary-dark);
+      font-size: 0.72rem;
+      font-weight: 850;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .item-content h3 {
+      margin: 0;
+      color: var(--heading);
+      font-size: 1rem;
+      letter-spacing: -0.015em;
+    }
+
+    .item-content p {
+      margin: 6px 0 0;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      line-height: 1.55;
+    }
+
+    .item-action {
+      color: var(--primary);
+      font-size: 1rem;
+      font-weight: 900;
+    }
+
+    .knowledge-item[hidden] {
+      display: none;
+    }
+
+    /* =========================================================
+       9. CTA
+    ========================================================== */
+    .knowledge-cta {
+                        display                   : grid;
+                        grid-template-columns     : minmax(0, 1fr) auto;
+                        gap                       : 32px;
+                        align-items               : center;
+                        margin-top                : clamp(72px, 9vw, 116px);
+                        padding                   : clamp(30px, 4vw, 48px);
+                        border                    : 1px solid var(--border);
+                        border-radius             : var(--radius-lg);
+                        background                : linear-gradient(
+                                                    145deg,
+                                                    rgba(255, 255, 255, 0.98),
+                                                    rgba(238, 246, 251, 0.96)
+                                                  );
+                        box-shadow                : 0 14px 34px rgba(19, 55, 82, 0.07);
+                      }
+
+    .knowledge-cta h2 {
+                        margin                    : 0;
+                        color                     : var(--heading);
+                        font-size                 : clamp(1.7rem, 3vw, 2.6rem);
+                        letter-spacing            : -0.035em;
+                        line-height               : 1.15;
+    }
+
+    .knowledge-cta p {
+                        max-width                 : 680px;
+                        margin                    : 12px 0 0;
+                        color                     : var(--text-muted);
+    }
+
+    .button {
+                        display                   : inline-flex;
+                        min-height                : 48px;
+                        align-items               : center;
+                        justify-content           : center;
+                        gap                       : 9px;
+                        padding                   : 0 18px;
+                        border                    : 1px solid transparent;
+                        border-radius             : 13px;
+                        background                : var(--primary);
+                        color                     : #ffffff;
+                        font-size                 : 0.9rem;
+                        font-weight               : 800;
+                        text-decoration           : none;
+                        box-shadow                : 0 10px 24px rgba(23, 107, 158, 0.20);
+                        transition                :
+                                                  transform var(--transition),
+                                                  background-color var(--transition);
+                      }
+
+    .button:hover,
+    .button:focus-visible {
+                        transform                 : translateY(-2px);
+                        background: var(--primary-dark);
+                      }
+
+
+    /* =========================================================
+       12. RESPONSIVE
+    ========================================================== */
+    @media (max-width: 980px) {
+      .knowledge-intro {
+        grid-template-columns: 1fr;
+        align-items: start;
+      }
+
+      .subject-grid,
+      .latest-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .knowledge-item {
+        grid-template-columns: 125px minmax(0, 1fr) auto;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .container {
+        width: min(calc(100% - 28px), var(--container));
+      }
+
+
+      .knowledge-intro h1 {
+        font-size: clamp(2.4rem, 12vw, 3.7rem);
+      }
+
+
+      .subject-grid,
+      .latest-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .subject-card,
+      .note-card {
+        min-height: auto;
+      }
+
+      .knowledge-item {
+        grid-template-columns: 1fr auto;
+        gap: 10px 18px;
+      }
+
+      .item-meta {
+        grid-column: 1 / -1;
+      }
+
+      .knowledge-cta {
+        grid-template-columns: 1fr;
+      }
+
+      .knowledge-cta .button {
+        width: fit-content;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .knowledge-page {
+        padding-top: 52px;
+      }
+
+      .subject-card,
+      .note-card,
+      .knowledge-item {
+        padding: 22px;
+      }
+
+      .knowledge-cta .button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- 
+                    HTML BODY
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- -->
+
+<body>
+  
+  <!--================================================
+                MAIN MENU
+  ====================================================-->
+  <header class="header_menu">
+      <a href="/" aria-label="Go to homepage">
+          <img    class="logo_image" 
+                  src="media/profile/logo.svg"
+                  alt="Logo"
+          >
+      </a>
+
+      <nav class="menu_links">
+          <a href="about.html">About</a>
+            <a href="project.html">Projects</a>
+            <a href="blog.html">Blog</a>
+            <a href="life_and_events.html">Life & Events</a>
+            <a href="mailto:ducannguyen.da@gmail.com">Contact</a>
+      </nav>
+  </header>
+
+
+
+  <!--================================================
+                MAIN CONTENT
+  ====================================================-->
+  <main class="container">
+
+      <!-- =========================================
+           EXPLORE BY SUBJECT
+      --------------------------------------------- -->
+      <section class="section" aria-labelledby="subjects" id="explore_subjects">
+
+        <!-- ------------------------------ 
+              Eyebrow
+        ----------------------------------->
+        <p class="eyebrow">Explore by subject</p>
+
+        <!-- ------------------------------ 
+              Subject Cards
+        ----------------------------------->
+        <div class="subject-grid">
+          
+          <!-- Computer Vision -->
+          <a class="subject-card subject-filter-link" href="#all_blog_posts" data-filter-target="computer_vision">
+            <span class="subject-number">01</span>
+            <h3>Computer vision</h3>
+            <p>
+              Computer vision deep learning and image processing topic.
+            </p>
+            <div class="subject-topics">
+              <span>Detection</span>
+              <span>Tracking</span>
+              <span>Segmentation</span>
+              <span>Hough transform</span>
+              <span>Canny</span>
+              <span>Image enhancement</span>
+              <span>Classification</span>
+              <span>Evaluation</span>
+            </div>
+          </a>
+
+          <!-- Explainable AI -->
+          <a class="subject-card subject-filter-link" href="#all_blog_posts" data-filter-target="explainable_ai">
+            <span class="subject-number">02</span>
+            <h3>Explainable AI</h3>
+            <p>
+              Post hoc methods, intrinsic explainability, multimodal models, and
+              interpreting model behavior.
+            </p>
+            <div class="subject-topics">
+              <span>Post hoc</span>
+              <span>Intrinsic</span>
+              <span>Multimodal</span>
+              <span>Interpretation</span>
+            </div>
+          </a>
+
+          <!-- Ubuntu -->
+          <a class="subject-card subject-filter-link" href="#all_blog_posts" data-filter-target="ubuntu">
+            <span class="subject-number">03</span>
+            <h3>Ubuntu</h3>
+            <p>
+              Scripting, command line, functions, and runtime environment
+              management.
+            </p>
+            <div class="subject-topics">
+              <span>Scripting</span>
+              <span>Command line</span>
+              <span>Functions</span>
+              <span>Runtime</span>
+            </div>
+          </a>
+
+          <!-- Deployment and optimization -->
+          <a class="subject-card subject-filter-link" href="#all_blog_posts" data-filter-target="optimization">
+            <span class="subject-number">04</span>
+            <h3>Deployment and optimization</h3>
+            <p>
+              System design, reliability, inference trade offs, debugging,
+              integration, and research to production workflows.
+            </p>
+            <div class="subject-topics">
+              <span>Reliability</span>
+              <span>Optimization</span>
+              <span>Integration</span>
+              <span>Production</span>
+            </div>
+          </a>
+
+        </div>
+      </section>
+
+
+      <!-- =========================================
+           ALL SUBJECTS
+      --------------------------------------------- -->
+      <section class="section" id="all_blog_posts" aria-labelledby="all-title">
+        
+        <!-- -------------------------------
+         Header and intro text
+         ------------------------------- -->
+        <p class="eyebrow">All blog posts</p>
+
+
+        <!-- -------------------------------
+         Blog post filters
+         ------------------------------- -->
+        <div class="filter-row" aria-label="Filter knowledge by subject">
+          <button class="filter-button is-active" type="button" data-filter="all">All</button>
+          <button class="filter-button" type="button" data-filter="computer_vision">Computer Vision</button>
+          <button class="filter-button" type="button" data-filter="explainable_ai">Explainable AI</button>
+          <button class="filter-button" type="button" data-filter="ubuntu">Ubuntu</button>
+          <button class="filter-button" type="button" data-filter="optimization">Deployment and Optimization</button>
+        </div>
+
+
+
+        <!-- -------------------------------
+         Blog post items
+         ------------------------------- -->
+        <div class="knowledge-list">
+
+          <!-- ----------Post 1-------- -->
+          <a class="knowledge-item" href="#" data-subject="computer_vision">
+            <div class="item-meta">Computer vision - Infrared image</div>
+            <div class="item-content">
+              <h3>Detection failure analysis for low contrast infrared imagery</h3>
+              <p>
+                Studying model behavior as image contrast, noise, and visual quality change.
+              </p>
+            </div>
+            <span class="item-action" aria-hidden="true">→</span>
+          </a>
+
+          <!-- ----------Post 2-------- -->
+          <a class="knowledge-item" href="#" data-subject="optimization">
+            <div class="item-meta">Engineering Note · Edge AI</div>
+            <div class="item-content">
+              <h3>Accuracy, latency, memory, and energy as deployment trade offs</h3>
+              <p>
+                A practical framework for evaluating computer vision beyond model accuracy.
+              </p>
+            </div>
+            <span class="item-action" aria-hidden="true">→</span>
+          </a>
+
+          <!-- ----------Post 3-------- -->
+          <a class="knowledge-item" href="#" data-subject="explainable_ai">
+            <div class="item-meta">Concept · Explainable AI</div>
+            <div class="item-content">
+              <h3>Post hoc versus intrinsic explainability</h3>
+              <p>
+                Understanding when explanations are added after prediction and when they are part of the model itself.
+              </p>
+            </div>
+            <span class="item-action" aria-hidden="true">→</span>
+          </a>
+
+        </div>
+      </section>
+
+
+
+      <!-- =========================================
+           BOTTOM CTA
+      ------------------------------------------ -->
+      <section class="knowledge-cta" aria-labelledby="cta-title">
+        <div>
+          <h2 id="cta-title">Interested in the systems behind the notes?</h2>
+          <p>
+            Explore the projects where these ideas are applied in computer
+            vision research, optimization, deployment, and explainability.
+          </p>
+        </div>
+
+        <a class="button" href="project.html">
+          Explore projects <span aria-hidden="true">→</span>
+        </a>
+      </section>
+    </div>
+  
+  </main>
+
+
+  <!--================================================
+                FOOTER
+  ====================================================-->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span>© <span id="current-year"></span> Duc An Nguyen</span>
+
+      <div class="footer-links">
+        <a href="mailto:ducannguyen.da@gmail.com">Email</a>
+        <a
+          href="https://github.com/duc-an-nguyen"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          GitHub
+        </a>
+        <a
+          href="https://www.linkedin.com/in/ducannguyen"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          LinkedIn
+        </a>
+        <a href="#explore_subjects">Back to top ↑</a>
+      </div>
+    </div>
+  </footer>
+
+  
+  
+  <!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- 
+                  JAVASCRIPT
+  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- -->
+  <script>
+    /* =========================================================
+       CURRENT YEAR
+    ========================================================== */
+    document.getElementById("current-year").textContent =
+      new Date().getFullYear();
+
+  
+
+    /* =========================================================
+       SUBJECT FILTER
+    ========================================================== */
+    const filterButtons = document.querySelectorAll(".filter-button");
+    const knowledgeItems = document.querySelectorAll(".knowledge-item");
+    const subjectLinks = document.querySelectorAll(".subject-filter-link");
+
+    function setFilter(filterName) {
+      filterButtons.forEach((button) => {
+        const isActive = button.dataset.filter === filterName;
+        button.classList.toggle("is-active", isActive);
+      });
+
+      knowledgeItems.forEach((item) => {
+        const subjects = item.dataset.subject.split(" ");
+        const shouldShow =
+          filterName === "all" || subjects.includes(filterName);
+
+        item.hidden = !shouldShow;
+      });
+    }
+
+    filterButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        setFilter(button.dataset.filter);
+      });
+    });
+
+    subjectLinks.forEach((link) => {
+      link.addEventListener("click", () => {
+        setFilter(link.dataset.filterTarget);
+      });
+    });
+  </script>
+</body>
+</html>
