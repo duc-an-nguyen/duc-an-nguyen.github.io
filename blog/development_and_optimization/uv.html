@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- 
+                         META DATA
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- -->
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>UV Notes | Duc An Nguyen</title>
+  <meta
+    name="description"
+    content="Personal UV notes covering installation, virtual environments, pip style workflows, project workflows, dependency management, synchronization, and Python version management."
+  >
+
+
+<!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- 
+                    LINKS AND GLOBAL STYLES
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- -->
+
+  <link rel="icon" type="image/x-icon" href="../../media/profile/favicon.ico">
+  <link rel="stylesheet" href="../../css/global.css">
+
+
+<!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- 
+                    ARTICLE PAGE STYLES
+  Only article specific styles are declared here.
+  Shared colors, fonts, container, menu, footer, eyebrow,
+  selection, and fadeUp animation come from css/global.css.
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- -->
+
+  <style>
+
+/*=========================================
+ARTICLE HEADER
+------------------------------------------*/
+.article_header {
+                    padding                 : 76px 0 56px;
+                    border-bottom           : 1px solid var(--border);
+                    animation               : fadeUp 0.8s ease forwards;
+}
+
+.back_link {
+                    display                 : inline-block;
+                    margin-bottom           : 28px;
+                    color                   : var(--primary-dark);
+                    font-size               : 0.88rem;
+                    font-weight             : 800;
+                    text-decoration         : none;
+}
+
+.back_link:hover,
+.back_link:focus-visible {
+                    color                   : var(--primary);
+}
+
+.article_header h1 {
+                    max-width               : 850px;
+                    margin-bottom           : 18px;
+                    color                   : var(--heading);
+                    font-size               : clamp(2.7rem, 6vw, 5.2rem);
+                    line-height             : 1.02;
+                    letter-spacing          : -0.045em;
+}
+
+.article_intro {
+                    max-width               : 820px;
+                    color                   : var(--text-muted);
+                    font-size               : clamp(1.05rem, 2vw, 1.24rem);
+                    line-height             : 1.75;
+}
+
+.article_meta {
+                    display                 : flex;
+                    flex-wrap               : wrap;
+                    gap                     : 9px;
+                    margin-top              : 26px;
+}
+
+.article_meta span {
+                    padding                 : 7px 11px;
+                    border                  : 1px solid var(--border);
+                    border-radius           : 999px;
+                    background              : rgba(255, 255, 255, 0.82);
+                    color                   : var(--text-muted);
+                    font-size               : 0.78rem;
+                    font-weight             : 750;
+}
+
+
+/*=========================================
+ARTICLE LAYOUT
+------------------------------------------*/
+.article_shell {
+                    display                 : grid;
+                    grid-template-columns   : 250px minmax(0, 1fr);
+                    gap                     : 54px;
+                    padding                 : 54px 0 92px;
+}
+
+
+/*=========================================
+TABLE OF CONTENTS
+------------------------------------------*/
+.article_toc {
+                    position                : sticky;
+                    top                     : 104px;
+                    align-self              : start;
+                    padding                 : 22px;
+                    border                  : 1px solid var(--border);
+                    border-radius           : var(--radius-md);
+                    background              : rgba(255, 255, 255, 0.82);
+}
+
+.article_toc p {
+                    margin-bottom           : 14px;
+                    color                   : var(--heading);
+                    font-size               : 0.82rem;
+                    font-weight             : 850;
+                    letter-spacing          : 0.09em;
+                    text-transform          : uppercase;
+}
+
+.article_toc ol {
+                    display                 : grid;
+                    gap                     : 8px;
+                    margin                  : 0;
+                    padding                 : 0;
+                    list-style              : none;
+}
+
+.article_toc a {
+                    color                   : var(--text-muted);
+                    font-size               : 0.84rem;
+                    font-weight             : 700;
+                    line-height             : 1.45;
+                    text-decoration         : none;
+}
+
+.article_toc a:hover,
+.article_toc a:focus-visible {
+                    color                   : var(--primary);
+}
+
+
+/*=========================================
+ARTICLE CONTENT
+------------------------------------------*/
+.article_content {
+                    min-width               : 0;
+}
+
+.article_note {
+                    margin-bottom           : 34px;
+                    padding                 : 18px 20px;
+                    border-left             : 4px solid var(--primary);
+                    border-radius           : 0 var(--radius-sm) var(--radius-sm) 0;
+                    background              : var(--surface-soft);
+                    color                   : var(--text-muted);
+}
+
+.article_section {
+                    scroll-margin-top       : 100px;
+                    padding-top             : 12px;
+}
+
+.article_section + .article_section {
+                    margin-top              : 62px;
+                    padding-top             : 56px;
+                    border-top              : 1px solid var(--border);
+}
+
+.article_section h2 {
+                    margin-bottom           : 12px;
+                    color                   : var(--heading);
+                    font-size               : clamp(1.9rem, 4vw, 2.7rem);
+                    line-height             : 1.15;
+}
+
+.article_section > p {
+                    max-width               : 840px;
+                    margin-bottom           : 20px;
+                    color                   : var(--text-muted);
+}
+
+.note_group + .note_group {
+                    margin-top              : 36px;
+}
+
+.note_group h3 {
+                    margin-bottom           : 10px;
+                    color                   : var(--heading);
+                    font-size               : 1.28rem;
+                    line-height             : 1.25;
+}
+
+.note_group p {
+                    margin-bottom           : 12px;
+                    color                   : var(--text-muted);
+}
+
+.note_group ul,
+.note_group ol {
+                    margin                  : 10px 0 16px;
+                    padding-left            : 22px;
+                    color                   : var(--text-muted);
+}
+
+.note_group li + li {
+                    margin-top              : 7px;
+}
+
+.inline_code {
+                    padding                 : 2px 6px;
+                    border-radius           : 6px;
+                    background              : var(--surface-soft);
+                    color                   : var(--primary-dark);
+                    font-family             : "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+                    font-size               : 0.9em;
+}
+
+
+/*=========================================
+TERMINAL / CODE BLOCKS
+------------------------------------------*/
+.code_block {
+                    position                : relative;
+                    margin                  : 14px 0 18px;
+                    overflow                : hidden;
+                    border                  : 1px solid rgba(13, 45, 77, 0.18);
+                    border-radius           : var(--radius-md);
+                    background              : #082f36;
+                    box-shadow              : 0 14px 30px rgba(19, 55, 82, 0.08);
+}
+
+.code_label {
+                    display                 : flex;
+                    align-items             : center;
+                    gap                     : 12px;
+                    padding                 : 9px 14px;
+                    border-bottom           : 1px solid rgba(255,255,255,0.10);
+                    background              : rgba(255,255,255,0.035);
+                    color                   : rgba(255,255,255,0.58);
+                    font-size               : 0.72rem;
+                    font-weight             : 800;
+                    letter-spacing          : 0.07em;
+                    text-transform          : uppercase;
+}
+
+.code_label::before {
+                    content                 : "";
+                    width                   : 8px;
+                    height                  : 8px;
+                    flex                    : 0 0 auto;
+                    border-radius           : 50%;
+                    background              : #ff6b6b;
+                    box-shadow              :
+                                              14px 0 0 #ffd166,
+                                              28px 0 0 #62c98d;
+                    margin-right            : 28px;
+}
+
+.code_block pre {
+                    margin                  : 0;
+                    overflow-x              : auto;
+                    padding                 : 18px;
+}
+
+.code_block code {
+                    color                   : #d8e7e6;
+                    font-family             : "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+                    font-size               : 0.88rem;
+                    line-height             : 1.75;
+                    white-space             : pre;
+}
+
+.command {
+                    color                   : #ffd34e;
+                    font-weight             : 700;
+}
+
+.comment {
+                    color                   : #8aa2a0;
+                    font-style              : italic;
+}
+
+.placeholder {
+                    color                   : #67d4cf;
+}
+
+.option {
+                    color                   : #9dc8ff;
+}
+
+.value {
+                    color                   : #f1a8d3;
+}
+
+
+/*=========================================
+NOTES AND WARNINGS
+------------------------------------------*/
+.info_box,
+.tip_box,
+.warning_box {
+                    margin                  : 18px 0;
+                    padding                 : 16px 18px;
+                    border-radius           : var(--radius-sm);
+}
+
+.info_box {
+                    border                  : 1px solid rgba(23, 107, 158, 0.18);
+                    background              : rgba(229, 242, 252, 0.72);
+}
+
+.tip_box {
+                    border                  : 1px solid rgba(31, 122, 90, 0.20);
+                    background              : rgba(232, 241, 236, 0.72);
+}
+
+.warning_box {
+                    border                  : 1px solid rgba(203, 148, 52, 0.30);
+                    background              : rgba(249, 243, 220, 0.72);
+}
+
+.info_box strong,
+.tip_box strong,
+.warning_box strong {
+                    color                   : var(--heading);
+}
+
+.info_box p,
+.tip_box p,
+.warning_box p {
+                    margin                  : 5px 0 0;
+                    color                   : var(--text-muted);
+}
+
+
+/*=========================================
+WORKFLOW CARDS
+------------------------------------------*/
+.workflow_grid {
+                    display                 : grid;
+                    grid-template-columns   : repeat(2, minmax(0, 1fr));
+                    gap                     : 14px;
+                    margin-top              : 22px;
+}
+
+.workflow_card {
+                    padding                 : 22px;
+                    border                  : 1px solid var(--border);
+                    border-radius           : var(--radius-md);
+                    background              : rgba(255, 255, 255, 0.84);
+}
+
+.workflow_card span {
+                    display                 : inline-grid;
+                    width                   : 36px;
+                    height                  : 36px;
+                    place-items             : center;
+                    margin-bottom           : 14px;
+                    border-radius           : 10px;
+                    background              : var(--surface-soft);
+                    color                   : var(--primary);
+                    font-size               : 0.78rem;
+                    font-weight             : 850;
+}
+
+.workflow_card h3 {
+                    margin-bottom           : 8px;
+                    color                   : var(--heading);
+                    font-size               : 1.05rem;
+}
+
+.workflow_card p {
+                    margin                  : 0;
+                    color                   : var(--text-muted);
+                    font-size               : 0.88rem;
+                    line-height             : 1.65;
+}
+
+
+/*=========================================
+COMMAND REFERENCE
+------------------------------------------*/
+.command_grid {
+                    display                 : grid;
+                    grid-template-columns   : repeat(2, minmax(0, 1fr));
+                    gap                     : 14px;
+                    margin-top              : 20px;
+}
+
+.command_item {
+                    padding                 : 18px;
+                    border                  : 1px solid var(--border);
+                    border-radius           : var(--radius-md);
+                    background              : rgba(255, 255, 255, 0.84);
+}
+
+.command_item strong {
+                    display                 : block;
+                    margin-bottom           : 6px;
+                    color                   : var(--heading);
+}
+
+.command_item code {
+                    color                   : var(--primary-dark);
+                    font-family             : "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+                    font-size               : 0.82rem;
+}
+
+
+/*=========================================
+BOTTOM NAVIGATION
+------------------------------------------*/
+.article_bottom {
+                    display                 : flex;
+                    justify-content         : space-between;
+                    gap                     : 20px;
+                    margin-top              : 74px;
+                    padding-top             : 28px;
+                    border-top              : 1px solid var(--border);
+}
+
+.article_bottom a {
+                    color                   : var(--primary-dark);
+                    font-weight             : 800;
+                    text-decoration         : none;
+}
+
+.article_bottom a:hover,
+.article_bottom a:focus-visible {
+                    color                   : var(--primary);
+}
+
+
+/*=========================================
+RESPONSIVE
+------------------------------------------*/
+@media (max-width: 900px) {
+    .article_shell {
+                    grid-template-columns   : 1fr;
+                    gap                     : 30px;
+    }
+
+    .article_toc {
+                    position                : static;
+    }
+
+    .article_toc ol {
+                    grid-template-columns   : repeat(2, minmax(0, 1fr));
+    }
+
+    .workflow_grid {
+                    grid-template-columns   : 1fr;
+    }
+}
+
+
+@media (max-width: 720px) {
+    .article_header {
+                    padding                 : 56px 0 42px;
+    }
+
+    .article_shell {
+                    padding                 : 38px 0 72px;
+    }
+
+    .article_toc ol,
+    .command_grid {
+                    grid-template-columns   : 1fr;
+    }
+
+    .article_section + .article_section {
+                    margin-top              : 48px;
+                    padding-top             : 42px;
+    }
+
+    .article_bottom {
+                    flex-direction          : column;
+    }
+}
+
+  </style>
+
+</head>
+
+
+<body>
+
+  <!--================================================
+                    MAIN MENU
+  ====================================================-->
+  <header class="header_menu">
+      <a href="/" aria-label="Go to homepage">
+          <img
+              class="logo_image"
+              src="../../media/profile/logo.svg"
+              alt="Logo"
+          >
+      </a>
+
+      <nav class="menu_links">
+          <a href="../../about.html">About</a>
+          <a href="../../project.html">Projects</a>
+          <a href="../../blog.html" aria-current="page">Blog</a>
+          <a href="../../life_and_events.html">Life &amp; Events</a>
+          <a href="mailto:ducannguyen.da@gmail.com">Contact</a>
+      </nav>
+  </header>
+
+
+  <!--================================================
+                    ARTICLE HEADER
+  ====================================================-->
+  <header class="article_header" id="top">
+    <div class="container">
+
+      <a class="back_link" href="../../blog.html">← Back to Blog</a>
+
+      <p class="eyebrow">Deployment and optimization</p>
+
+      <h1>UV Notes</h1>
+
+      <p class="article_intro">
+        A practical reference for installing UV, creating Python environments,
+        managing dependencies, synchronizing projects, and managing Python
+        versions with either a pip style workflow or the native UV project workflow.
+      </p>
+
+      <div class="article_meta">
+        <span>UV</span>
+        <span>Python</span>
+        <span>Virtual Environments</span>
+        <span>Dependencies</span>
+        <span>Project Management</span>
+      </div>
+
+    </div>
+  </header>
+
+
+  <!--================================================
+                    ARTICLE CONTENT
+  ====================================================-->
+  <main class="container">
+
+    <div class="article_shell">
+
+      <!-- ---------------------------------------------
+                         TABLE OF CONTENTS
+      ---------------------------------------------- -->
+      <aside class="article_toc">
+        <p>On this page</p>
+
+        <ol>
+          <li><a href="#install">Install and update UV</a></li>
+          <li><a href="#workflows">Two UV workflows</a></li>
+          <li><a href="#manual">Manual environment workflow</a></li>
+          <li><a href="#requirements">requirements.txt workflow</a></li>
+          <li><a href="#project">Native UV project workflow</a></li>
+          <li><a href="#sync">Run and synchronize projects</a></li>
+          <li><a href="#commands">Other project commands</a></li>
+          <li><a href="#python">Manage Python versions</a></li>
+        </ol>
+      </aside>
+
+
+      <!-- ---------------------------------------------
+                         MAIN UV NOTES
+      ---------------------------------------------- -->
+      <article class="article_content">
+
+        <div class="article_note">
+          The source note separates UV usage into two approaches: a manual
+          environment workflow similar to pip and venv, and the native UV
+          project workflow that manages dependencies through
+          <code class="inline_code">pyproject.toml</code> and
+          <code class="inline_code">uv.lock</code>.
+        </div>
+
+
+        <!--=========================================
+                    INSTALL AND UPDATE UV
+        ==========================================-->
+        <section class="article_section" id="install">
+
+          <h2>Install and update UV</h2>
+
+          <div class="note_group">
+            <h3>Install UV</h3>
+
+            <div class="code_block">
+              <div class="code_label">Terminal</div>
+              <pre><code><span class="command">curl -LsSf</span> https://astral.sh/uv/install.sh | sh</code></pre>
+            </div>
+          </div>
+
+          <div class="note_group">
+            <h3>Update UV</h3>
+
+            <div class="code_block">
+              <div class="code_label">Terminal</div>
+              <pre><code><span class="command">uv self update</span></code></pre>
+            </div>
+          </div>
+
+        </section>
+
+
+        <!--=========================================
+                      TWO WORKFLOWS
+        ==========================================-->
+        <section class="article_section" id="workflows">
+
+          <h2>Two main ways to use UV</h2>
+
+          <div class="workflow_grid">
+
+            <article class="workflow_card">
+              <span>01</span>
+              <h3>Manual environment workflow</h3>
+              <p>
+                Use UV in a way similar to pyenv, venv, virtualenv, and pip.
+                Create an environment, activate it, then install packages manually.
+              </p>
+            </article>
+
+            <article class="workflow_card">
+              <span>02</span>
+              <h3>Native UV project workflow</h3>
+              <p>
+                Initialize a UV project, store dependencies in
+                <code class="inline_code">pyproject.toml</code>, maintain
+                <code class="inline_code">uv.lock</code>, and use UV to run and sync the project.
+              </p>
+            </article>
+
+          </div>
+
+          <div class="tip_box">
+            <strong>Preferred workflow in the source note</strong>
+            <p>
+              The native UV project workflow is marked as the recommended approach.
+            </p>
+          </div>
+
+        </section>
+
+
+        <!--=========================================
+                MANUAL ENVIRONMENT WORKFLOW
+        ==========================================-->
+        <section class="article_section" id="manual">
+
+          <h2>Manual environment workflow</h2>
+
+          <p>
+            This workflow behaves similarly to the older combination of pyenv,
+            venv, virtualenv, and pip.
+          </p>
+
+          <div class="note_group">
+            <h3>Create an environment</h3>
+
+            <p>
+              Move into the project folder, then create a virtual environment
+              with the required Python version.
+            </p>
+
+            <div class="code_block">
+              <div class="code_label">Terminal</div>
+              <pre><code><span class="command">uv venv</span> <span class="option">--python</span> 3.11</code></pre>
+            </div>
+
+            <div class="info_box">
+              <strong>Environment folder</strong>
+              <p>
+                The source note states that this creates a
+                <code class="inline_code">.venv</code> folder inside the project.
+              </p>
+            </div>
+          </div>
+
+          <div class="note_group">
+            <h3>Activate the environment</h3>
+
+            <div class="code_block">
+              <div class="code_label">Terminal</div>
+              <pre><code><span class="command">source</span> .venv/bin/activate</code></pre>
+            </div>
+          </div>
+
+          <div class="note_group">
+            <h3>Install or remove packages with the pip interface</h3>
+
+            <p>
+              In this workflow, packages installed through
+              <code class="inline_code">uv pip</code> are treated like direct pip operations.
+            </p>
+
+            <div class="code_block">
+              <div class="code_label">Terminal</div>
+              <pre><code><span class="comment"># Install or uninstall a package</span>
+<span class="command">uv pip install</span> pandas
+<span class="command">uv pip uninstall</span> pandas
+
+<span class="comment"># Install packages from pyproject.toml</span>
+<span class="command">uv pip install -r</span> pyproject.toml</code></pre>
+            </div>
+          </div>
+
+        </section>
+
+
+        <!--=========================================
+                  REQUIREMENTS.TXT WORKFLOW
+        ==========================================-->
+        <section class="article_section" id="requirements">
+
+          <h2>requirements.txt workflow</h2>
+
+          <div class="note_group">
+            <h3>Generate requirements.txt</h3>
+
+            <div class="code_block">
+              <div class="code_label">Terminal</div>
+              <pre><code><span class="comment"># Export directly from packages installed in the environment</span>
+<span class="command">uv pip freeze</span> &gt; requirements.txt
+
+<span class="comment"># Project has pyproject.toml and uv.lock</span>
+<span class="command">uv export -o</span> requirements.txt <span class="option">--no-hashes</span>
+
+<span class="comment"># Project has pyproject.toml only</span>
+<span class="command">uv pip compile</span> pyproject.toml <span class="option">-o</span> requirements.txt</code></pre>
+            </div>
+          </div>
+
+          <div class="note_group">
+            <h3>Install or synchronize from requirements.txt</h3>
+
+            <div class="code_block">
+              <div class="code_label">Terminal</div>
+              <pre><code><span class="comment"># Add or update packages while keeping extra packages</span>
+<span class="command">uv pip install -r</span> requirements.txt
+
+<span class="comment"># Make the environment match requirements.txt</span>
+<span class="command">uv pip sync</span> requirements.txt</code></pre>
+            </div>
+
+            <div class="info_box">
+              <strong>Difference in the source note</strong>
+              <p>
+                <code class="inline_code">uv pip install -r</code> keeps packages
+                that are already present but not listed, while
+                <code class="inline_code">uv pip sync</code> removes packages
+                that are not required by the target file.
+              </p>
+            </div>
+          </div>
+
+        </section>
+
+
+        <!--=========================================
+                 NATIVE UV PROJECT WORKFLOW
+        ==========================================-->
+        <section class="article_section" id="project">
+
+          <h2>Native UV project workflow</h2>
+
+          <div class="note_group">
+            <h3>Create a UV project</h3>
+
+            <div class="code_block">
+              <div class="code_label">Terminal</div>
+              <pre><code><span class="comment"># Initialize UV in the current folder</span>
+<span class="command">uv init</span>
+
+<span class="comment"># Create a project with Python 3.11</span>
+<span class="command">uv init</span> my_project <span class="option">--python</span> 3.11
+
+<span class="comment"># Create a package with src layout</span>
+<span class="command">uv init</span> <span class="option">--package</span> my_project <span class="option">--python</span> 3.11</code></pre>
+            </div>
+
+            <div class="tip_box">
+              <strong>Project layout</strong>
+              <p>
+                The source note marks the package style initialization with a
+                <code class="inline_code">src</code> layout as recommended.
+              </p>
+            </div>
+          </div>
+
+          <div class="note_group">
+            <h3>Add or remove dependencies</h3>
+
+            <p>
+              In the native UV workflow, dependencies are stored in
+              <code class="inline_code">pyproject.toml</code>.
+            </p>
+
+            <div class="code_block">
+              <div class="code_label">Terminal</div>
+              <pre><code><span class="command">uv add</span> <span class="placeholder">&lt;package&gt;</span>
+<span class="command">uv remove</span> <span class="placeholder">&lt;package&gt;</span>
+
+<span class="comment"># Example</span>
+uv add pandas</code></pre>
+            </div>
+          </div>
+
+        </section>
+
+
+        <!--=========================================
+                 RUN AND SYNCHRONIZE PROJECTS
+        ==========================================-->
+        <section class="article_section" id="sync">
+
+          <h2>Run and synchronize a UV project</h2>
+
+          <div class="note_group">
+            <h3>Run code</h3>
+
+            <div class="code_block">
+              <div class="code_label">Terminal</div>
+              <pre><code><span class="comment"># Run normally</span>
+<span class="command">uv run</span> python main.py
+
+<span class="comment"># Run with exact dependency synchronization</span>
+<span class="command">uv run --exact</span> python main.py</code></pre>
+            </div>
+
+            <p>
+              The source note also mentions that the environment can be activated
+              manually with <code class="inline_code">source .venv/bin/activate</code>
+              and then used like a traditional Python environment.
+            </p>
+          </div>
+
+          <div class="note_group">
+            <h3>Synchronize an existing project</h3>
+
+            <div class="code_block">
+              <div class="code_label">Terminal</div>
+              <pre><code><span class="comment"># Match the environment to uv.lock</span>
+<span class="command">uv sync</span>
+
+<span class="comment"># Sync while keeping extra packages</span>
+<span class="command">uv sync --inexact</span></code></pre>
+            </div>
+          </div>
+
+        </section>
+
+
+        <!--=========================================
+                    OTHER PROJECT COMMANDS
+        ==========================================-->
+        <section class="article_section" id="commands">
+
+          <h2>Other UV project commands</h2>
+
+          <div class="command_grid">
+
+            <article class="command_item">
+              <strong>Create or refresh the lock file</strong>
+              <code>uv lock</code>
+            </article>
+
+            <article class="command_item">
+              <strong>Run a command in the project environment</strong>
+              <code>uv run</code>
+            </article>
+
+            <article class="command_item">
+              <strong>View the dependency tree</strong>
+              <code>uv tree</code>
+            </article>
+
+            <article class="command_item">
+              <strong>Build distribution archives</strong>
+              <code>uv build</code>
+            </article>
+
+            <article class="command_item">
+              <strong>Publish the project</strong>
+              <code>uv publish</code>
+            </article>
+
+          </div>
+
+          <div class="info_box">
+            <strong>uv lock</strong>
+            <p>
+              The source note suggests using it after manually editing
+              <code class="inline_code">pyproject.toml</code> when you want to
+              refresh the lock file without installing packages.
+            </p>
+          </div>
+
+        </section>
+
+
+        <!--=========================================
+                 MANAGE PYTHON VERSIONS
+        ==========================================-->
+        <section class="article_section" id="python">
+
+          <h2>Manage Python versions with UV</h2>
+
+          <div class="note_group">
+            <h3>Pin a Python version for the project</h3>
+
+            <div class="code_block">
+              <div class="code_label">Terminal</div>
+              <pre><code><span class="command">uv python pin</span> <span class="placeholder">&lt;python_version&gt;</span>
+
+<span class="comment"># Example</span>
+uv python pin 3.11</code></pre>
+            </div>
+
+            <div class="info_box">
+              <strong>Project Python version</strong>
+              <p>
+                The source note uses this command to set or change the Python
+                version associated with the current project.
+              </p>
+            </div>
+          </div>
+
+          <div class="note_group">
+            <h3>Install or uninstall a Python version</h3>
+
+            <div class="code_block">
+              <div class="code_label">Terminal</div>
+              <pre><code><span class="comment"># Install a Python version</span>
+<span class="command">uv python install</span> <span class="placeholder">&lt;python_version&gt;</span>
+
+<span class="comment"># Example</span>
+uv python install 3.11
+
+<span class="comment"># Uninstall a Python version</span>
+<span class="command">uv python uninstall</span> <span class="placeholder">&lt;python_version&gt;</span></code></pre>
+            </div>
+          </div>
+
+          <div class="note_group">
+            <h3>List or find Python versions</h3>
+
+            <div class="code_block">
+              <div class="code_label">Terminal</div>
+              <pre><code><span class="command">uv python list</span>
+<span class="command">uv python find</span> <span class="placeholder">&lt;python_version&gt;</span></code></pre>
+            </div>
+          </div>
+
+        </section>
+
+
+        <!--=========================================
+                    BOTTOM NAVIGATION
+        ==========================================-->
+        <nav class="article_bottom" aria-label="Article navigation">
+          <a href="../../blog.html">← Back to Blog</a>
+          <a href="#top">Back to top ↑</a>
+        </nav>
+
+      </article>
+
+    </div>
+
+  </main>
+
+
+  <!--================================================
+                         FOOTER
+  ====================================================-->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span>© <span id="current-year"></span> Duc An Nguyen</span>
+
+      <div class="footer-links">
+        <a href="mailto:ducannguyen.da@gmail.com">Email</a>
+
+        <a
+          href="https://github.com/duc-an-nguyen"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          GitHub
+        </a>
+
+        <a
+          href="https://www.linkedin.com/in/ducannguyen"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          LinkedIn
+        </a>
+
+        <a href="#top">Back to top ↑</a>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- 
+                         JAVASCRIPT
+  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- -->
+  <script>
+    document.getElementById("current-year").textContent =
+      new Date().getFullYear();
+  </script>
+
+</body>
+
+</html>

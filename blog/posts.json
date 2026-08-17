@@ -1,0 +1,59 @@
+[
+    {
+    "title"             : "DVC Notes",
+    "type"              : "Deployment and optimization",
+    "subject"           : "Tool",
+    "description"       : "Tracking datasets and checkpoints with DVC and synchronizing data across different machines.",
+    "url"               : "blog/development_and_optimization/dvc.html",
+    "updated"           : "2026-08-17T15:30:00+02:00"
+  },
+  {
+    "title"             : "System File",
+    "type"              : "Linux",
+    "subject"           : "Ubuntu",
+    "description"       : "A practical reference for common Linux and Ubuntu directories, including system software, user files, devices, runtime data, and typical locations for configuration and installed applications.",
+    "url"               : "blog/linux/system_file.html",
+    "updated"           : "2026-08-17T13:30:00+02:00"
+  },
+  {
+    "title"             : "UV Notes",
+    "type"              : "Deployment and optimization",
+    "subject"           : "Tool",
+    "description"       : "Installing UV, creating Python environments, managing dependencies, synchronizing projects, and managing Python versions.",
+    "url"               : "blog/development_and_optimization/uv.html",
+    "updated"           : "2026-08-17T10:30:00+02:00"
+  },
+  {
+    "title"             : "Pyenv Notes",
+    "type"              : "Deployment and optimization",
+    "subject"           : "Tool",
+    "description"       : "Installing Pyenv, managing Python versions, and creating environments with venv and pyenv virtualenv.",
+    "url"               : "blog/development_and_optimization/pyenv.html",
+    "updated"           : "2026-08-16"
+  },
+
+  {
+    "title"             : "Docker Notes",
+    "type"              : "Deployment and optimization",
+    "subject"           : "Tool",
+    "description"       : "Docker images, containers, volumes, networks, Docker Compose, and CUDA containers.",
+    "url"               : "blog/development_and_optimization/docker.html",
+    "updated"           : "2026-08-14"
+  },
+  {
+    "title"             : "Git Notes",
+    "type"              : "Deployment and optimization",
+    "subject"           : "Tool",
+    "description"       : "A practical reference for Git repositories, commits, branches, tags, submodules, and common workflows.",
+    "url"               : "blog/development_and_optimization/git.html",
+    "updated"           : "2026-08-13"
+  },
+    {
+    "title"             : "Path in Ubuntu",
+    "type"              : "Linux",
+    "subject"           : "Ubuntu",
+    "description"       : "Notes on how PATH is built in Ubuntu, where persistent and temporary changes come from, and how to make software available as a short command.",
+    "url"               : "blog/linux/path_in_ubuntu.html",
+    "updated"           : "2026-08-17T13:30:00+02:00"
+  }
+]

@@ -179,7 +179,7 @@
 
 
     /* =========================================================
-       8. ALL KNOWLEDGE AND FILTERS
+       8. ALL blog AND FILTERS
     ========================================================== */
     .filter-row {
                       display                   : flex;
@@ -216,12 +216,12 @@
                       color                     : #ffffff;
                     }
 
-    .knowledge-list {
+    .blog-list {
                       display                   : grid;
                       gap                       : 12px;
                     }
 
-    .knowledge-item {
+    .blog-item {
                       display                   : grid;
                       grid-template-columns     : 150px minmax(0, 1fr) auto;
                       gap                       : 26px;
@@ -237,8 +237,8 @@
                                                   background-color var(--transition);
                     }
 
-    .knowledge-item:hover,
-    .knowledge-item:focus-visible {
+    .blog-item:hover,
+    .blog-item:focus-visible {
       transform                 : translateX(4px);
       border-color              : var(--line);
       background                : #ffffff;
@@ -272,14 +272,14 @@
       font-weight: 900;
     }
 
-    .knowledge-item[hidden] {
+    .blog-item[hidden] {
       display: none;
     }
 
     /* =========================================================
        9. CTA
     ========================================================== */
-    .knowledge-cta {
+    .blog-cta {
                         display                   : grid;
                         grid-template-columns     : minmax(0, 1fr) auto;
                         gap                       : 32px;
@@ -296,7 +296,7 @@
                         box-shadow                : 0 14px 34px rgba(19, 55, 82, 0.07);
                       }
 
-    .knowledge-cta h2 {
+    .blog-cta h2 {
                         margin                    : 0;
                         color                     : var(--heading);
                         font-size                 : clamp(1.7rem, 3vw, 2.6rem);
@@ -304,7 +304,7 @@
                         line-height               : 1.15;
     }
 
-    .knowledge-cta p {
+    .blog-cta p {
                         max-width                 : 680px;
                         margin                    : 12px 0 0;
                         color                     : var(--text-muted);
@@ -341,7 +341,7 @@
        12. RESPONSIVE
     ========================================================== */
     @media (max-width: 980px) {
-      .knowledge-intro {
+      .blog-intro {
         grid-template-columns: 1fr;
         align-items: start;
       }
@@ -351,7 +351,7 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
-      .knowledge-item {
+      .blog-item {
         grid-template-columns: 125px minmax(0, 1fr) auto;
       }
     }
@@ -362,7 +362,7 @@
       }
 
 
-      .knowledge-intro h1 {
+      .blog-intro h1 {
         font-size: clamp(2.4rem, 12vw, 3.7rem);
       }
 
@@ -377,7 +377,7 @@
         min-height: auto;
       }
 
-      .knowledge-item {
+      .blog-item {
         grid-template-columns: 1fr auto;
         gap: 10px 18px;
       }
@@ -386,27 +386,27 @@
         grid-column: 1 / -1;
       }
 
-      .knowledge-cta {
+      .blog-cta {
         grid-template-columns: 1fr;
       }
 
-      .knowledge-cta .button {
+      .blog-cta .button {
         width: fit-content;
       }
     }
 
     @media (max-width: 480px) {
-      .knowledge-page {
+      .blog-page {
         padding-top: 52px;
       }
 
       .subject-card,
       .note-card,
-      .knowledge-item {
+      .blog-item {
         padding: 22px;
       }
 
-      .knowledge-cta .button {
+      .blog-cta .button {
         width: 100%;
       }
     }
@@ -496,10 +496,10 @@
             </div>
           </a>
 
-          <!-- Ubuntu -->
-          <a class="subject-card subject-filter-link" href="#all_blog_posts" data-filter-target="ubuntu">
+          <!-- linux -->
+          <a class="subject-card subject-filter-link" href="#all_blog_posts" data-filter-target="linux">
             <span class="subject-number">03</span>
-            <h3>Ubuntu</h3>
+            <h3>Linux</h3>
             <p>
               Scripting, command line, functions, and runtime environment
               management.
@@ -546,11 +546,11 @@
         <!-- -------------------------------
          Blog post filters
          ------------------------------- -->
-        <div class="filter-row" aria-label="Filter knowledge by subject">
+        <div class="filter-row" aria-label="Filter blog by subject">
           <button class="filter-button is-active" type="button" data-filter="all">All</button>
           <button class="filter-button" type="button" data-filter="computer_vision">Computer Vision</button>
           <button class="filter-button" type="button" data-filter="explainable_ai">Explainable AI</button>
-          <button class="filter-button" type="button" data-filter="ubuntu">Ubuntu</button>
+          <button class="filter-button" type="button" data-filter="linux">Linux</button>
           <button class="filter-button" type="button" data-filter="optimization">Deployment and Optimization</button>
         </div>
 
@@ -559,43 +559,129 @@
         <!-- -------------------------------
          Blog post items
          ------------------------------- -->
-        <div class="knowledge-list">
+        <div class="blog-list">
 
+          <!-- ----------Computer vision-------- -->
+
+
+
+
+
+          <!-- ------------------------------------ -->
+          <!-- ----------Linux-------- -->
+          <!-- ------------------------------------ -->
           <!-- ----------Post 1-------- -->
-          <a class="knowledge-item" href="#" data-subject="computer_vision">
-            <div class="item-meta">Computer vision - Infrared image</div>
+          <a class="blog-item" href="blog/linux/path_in_ubuntu.html" data-subject="linux">
+            <div class="item-meta">Path in Ubuntu</div>
             <div class="item-content">
-              <h3>Detection failure analysis for low contrast infrared imagery</h3>
+              <h3>How PATH is built in Ubuntu</h3>
               <p>
-                Studying model behavior as image contrast, noise, and visual quality change.
+                Notes on how PATH is built in Ubuntu, where persistent and 
+                temporary changes come from, and how to make software available 
+                as a short command
               </p>
             </div>
             <span class="item-action" aria-hidden="true">→</span>
           </a>
+
 
           <!-- ----------Post 2-------- -->
-          <a class="knowledge-item" href="#" data-subject="optimization">
-            <div class="item-meta">Engineering Note · Edge AI</div>
+          <a class="blog-item" href="blog/linux/system_file.html" data-subject="linux">
+            <div class="item-meta">System files</div>
             <div class="item-content">
-              <h3>Accuracy, latency, memory, and energy as deployment trade offs</h3>
+              <h3>Common Linux and Ubuntu directories</h3>
               <p>
-                A practical framework for evaluating computer vision beyond model accuracy.
+                System software, user files, devices, runtime data, 
+                and typical locations for configuration and installed 
+                applications.
               </p>
             </div>
             <span class="item-action" aria-hidden="true">→</span>
           </a>
 
-          <!-- ----------Post 3-------- -->
-          <a class="knowledge-item" href="#" data-subject="explainable_ai">
-            <div class="item-meta">Concept · Explainable AI</div>
+
+
+
+          <!-- ----------Explainability-------- -->
+
+
+
+
+
+
+
+
+          <!-- ------------------------------------ -->
+          <!-- ----------Deployment-------- -->
+          <!-- ------------------------------------ -->
+
+          <!-- ----------Git-------- -->
+          <a class="blog-item" href="blog/development_and_optimization/git.html" data-subject="optimization">
+            <div class="item-meta">Git</div>
             <div class="item-content">
-              <h3>Post hoc versus intrinsic explainability</h3>
+              <h3>Practical git usage</h3>
               <p>
-                Understanding when explanations are added after prediction and when they are part of the model itself.
+                From repository setup and everyday commits to branches, tags,
+                submodules, Git LFS, history inspection, and recovery commands.
               </p>
             </div>
             <span class="item-action" aria-hidden="true">→</span>
           </a>
+
+          <!-- ----------Docker-------- -->
+          <a class="blog-item" href="blog/development_and_optimization/docker.html" data-subject="optimization">
+            <div class="item-meta">Docker</div>
+            <div class="item-content">
+              <h3>Practical docker usage</h3>
+              <p>
+                Managing images and containers, working with volumes and networks,
+                building Dockerfiles, using Docker Compose, and running CUDA containers.
+              </p>
+            </div>
+            <span class="item-action" aria-hidden="true">→</span>
+          </a>
+
+
+          <!-- ----------DVC-------- -->
+          <a class="blog-item" href="blog/development_and_optimization/dvc.html" data-subject="optimization">
+            <div class="item-meta">Data version control (DVC)</div>
+            <div class="item-content">
+              <h3>DVC Notes</h3>
+              <p>
+                A practical workflow for using DVC to track datasets and checkpoints.
+              </p>
+            </div>
+            <span class="item-action" aria-hidden="true">→</span>
+          </a>
+
+          <!-- ----------Pyenv-------- -->
+          <a class="blog-item" href="blog/development_and_optimization/pyenv.html" data-subject="optimization">
+            <div class="item-meta">Pyenv</div>
+            <div class="item-content">
+              <h3>How to install and use pyenv</h3>
+              <p>
+                Installing Pyenv, managing multiple Python versions, creating environments 
+                with venv or pyenv-virtualenv, and exporting Python package requirements.
+              </p>
+            </div>
+            <span class="item-action" aria-hidden="true">→</span>
+          </a>
+
+          <!-- ----------uv-------- -->
+          <a class="blog-item" href="blog/development_and_optimization/pyenv.html" data-subject="optimization">
+            <div class="item-meta">UV</div>
+            <div class="item-content">
+              <h3>uv: A Fast Python Package and Environment Manager</h3>
+              <p>
+                Creating Python environments, managing dependencies, synchronizing projects, 
+                and managing Python versions with either a pip style workflow or the native 
+                UV project workflow.
+              </p>
+            </div>
+            <span class="item-action" aria-hidden="true">→</span>
+          </a>
+
+          
 
         </div>
       </section>
@@ -605,7 +691,7 @@
       <!-- =========================================
            BOTTOM CTA
       ------------------------------------------ -->
-      <section class="knowledge-cta" aria-labelledby="cta-title">
+      <section class="blog-cta" aria-labelledby="cta-title">
         <div>
           <h2 id="cta-title">Interested in the systems behind the notes?</h2>
           <p>
@@ -669,7 +755,7 @@
        SUBJECT FILTER
     ========================================================== */
     const filterButtons = document.querySelectorAll(".filter-button");
-    const knowledgeItems = document.querySelectorAll(".knowledge-item");
+    const blogItems = document.querySelectorAll(".blog-item");
     const subjectLinks = document.querySelectorAll(".subject-filter-link");
 
     function setFilter(filterName) {
@@ -678,7 +764,7 @@
         button.classList.toggle("is-active", isActive);
       });
 
-      knowledgeItems.forEach((item) => {
+      blogItems.forEach((item) => {
         const subjects = item.dataset.subject.split(" ");
         const shouldShow =
           filterName === "all" || subjects.includes(filterName);
