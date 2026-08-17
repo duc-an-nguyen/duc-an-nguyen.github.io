@@ -592,80 +592,32 @@ CONTENT OF THE SITE
     </section>
 
 
-
-
-    <!-- =====================================================
-           LATEST NOTES
-           These are sample article cards. Replace the href values
-           and text when you publish your real notes.
-      ====================================================== -->
+    <!--=========================================
+            LATEST NOTES
+     -------------------------------------------->
     <section id="latest_notes_section" class="container">
-        <!-- --------Header ------------ -->
+
+        <!-- -------- Header -------- -->
         <div class="section_heading">
-        <h2 class="section_title">Latest Blog Posts</h2>
-        <div class="underline"></div>
+            <h2 class="section_title">Latest Blog Posts</h2>
+            <div class="underline"></div>
         </div>
 
-        <!-- -------Grid ------------ -->
-        <div class="latest-grid">
-          <a class="note-card" href="#">
-            <span class="note-type">Experiment</span>
-            <h3>Understanding detection failures in low contrast infrared imagery</h3>
-            <p>
-              A practical look at how contrast, noise, and image quality influence
-              object detection behavior and model refinement.
-            </p>
-            <div class="note-footer">
-              <span>Computer Vision</span>
-              <span class="note-arrow" aria-hidden="true">→</span>
-            </div>
-          </a>
 
-          <a class="note-card" href="#">
-            <span class="note-type">Engineering Note</span>
-            <h3>Evaluating the trade offs of computer vision on edge devices</h3>
-            <p>
-              How accuracy, inference speed, memory usage, and energy consumption
-              influence deployment decisions.
-            </p>
-            <div class="note-footer">
-              <span>Edge AI</span>
-              <span class="note-arrow" aria-hidden="true">→</span>
-            </div>
-          </a>
-
-          <a class="note-card" href="#">
-            <span class="note-type">Concept</span>
-            <h3>Post hoc and intrinsic explainability for multimodal AI</h3>
-            <p>
-              A structured comparison of two ways to understand model behavior in
-              monitoring and prognostics applications.
-            </p>
-            <div class="note-footer">
-              <span>Explainable AI</span>
-              <span class="note-arrow" aria-hidden="true">→</span>
-            </div>
-          </a>
-
-          <a class="note-card" href="#">
-            <span class="note-type">Concept</span>
-            <h3>Post hoc and intrinsic explainability for multimodal AI</h3>
-            <p>
-              A structured comparison of two ways to understand model behavior in
-              monitoring and prognostics applications.
-            </p>
-            <div class="note-footer">
-              <span>Explainable AI</span>
-              <span class="note-arrow" aria-hidden="true">→</span>
-            </div>
-          </a>
+        <!-- -------- Latest posts -------- -->
+        <div class="latest-grid" id="latest-blog-posts">
+            <!-- Latest four posts are automatically loaded from blog/posts.json -->
         </div>
 
-        <!-- View All Projects -->
-            <div class="view_all_projects">
-        <a href="blog.html#all_blog_posts" class="project_link">View all blog posts →</a>
-    </div>
-      </section>
+
+        <!-- -------- View all posts -------- -->
+        <div class="view_all_projects">
+            <a href="blog.html#all_blog_posts" class="project_link">
+                View all blog posts →
+            </a>
+        </div>
+
+    </section>
 
 
 
@@ -734,9 +686,85 @@ CONTENT OF THE SITE
     </footer>
 
     <script>
-    // Automatically update the footer year.
+
+    /*=========================================
+    LOAD LATEST BLOG POSTS
+    ------------------------------------------*/
+
+    async function loadLatestBlogPosts() {
+
+        try {
+
+            // Load blog information
+            const response = await fetch("blog/posts.json");
+
+            if (!response.ok) {
+                throw new Error("Could not load blog/posts.json");
+            }
+
+            const posts = await response.json();
+
+
+            // Sort posts from newest update to oldest
+            const latestPosts = posts
+                .sort((a, b) => new Date(b.updated) - new Date(a.updated))
+                .slice(0, 4);
+
+
+            // Find the homepage blog grid
+            const latestGrid =
+                document.getElementById("latest-blog-posts");
+
+
+            // Create the four latest cards
+            latestGrid.innerHTML = latestPosts.map(post => `
+
+                <a class="note-card" href="${post.url}">
+
+                    <span class="note-type">
+                        ${post.type}
+                    </span>
+
+                    <h3>
+                        ${post.title}
+                    </h3>
+
+                    <p>
+                        ${post.description}
+                    </p>
+
+                    <div class="note-footer">
+                        <span>${post.subject}</span>
+                        <span class="note-arrow" aria-hidden="true">→</span>
+                    </div>
+
+                </a>
+
+            `).join("");
+
+        }
+
+        catch (error) {
+
+            console.error("Error loading latest blog posts:", error);
+
+        }
+
+    }
+
+
+    // Load the latest blog posts
+    loadLatestBlogPosts();
+
+
+
+    /*=========================================
+    CURRENT YEAR
+    ------------------------------------------*/
+
     document.getElementById("current-year").textContent =
-      new Date().getFullYear();
+        new Date().getFullYear();
+
   </script>
 
 </body>
