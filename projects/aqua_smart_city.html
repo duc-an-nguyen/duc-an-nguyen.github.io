@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- 
+                    META DATA
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- -->
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Aqua Smart City Project | Duc An Nguyen</title>
+  <meta
+    name="description"
+    content="Aqua Smart City computer vision project covering HydraNet, multi-camera AI deployment, optimization, real-time processing, and computer vision applications."
+  />
+
+
+<!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- 
+                    LINKS AND GLOBAL STYLES
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- -->
+
+  <!--
+    This file is intended for a two-level project folder such as:
+    project/computer_vision/aqua_smart_city.html
+  -->
+  <base href="../../">
+  <link rel="icon" type="image/x-icon" href="media/profile/favicon.ico">
+  <link rel="stylesheet" href="css/global.css">
+
+
+<!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- 
+                   CASE STUDY STYLES
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- -->
+
+  <style>
+
+
+    /* =========================================================
+       4. SHARED CASE STUDY STYLES
+    ========================================================== */
+    .case_page {
+                    padding                 : clamp(64px, 8vw, 108px) 0 88px;
+    }
+
+    .back_link {
+                    display                 : inline-flex;
+                    align-items             : center;
+                    gap                     : 8px;
+                    margin-bottom           : 32px;
+                    color                   : var(--primary-dark);
+                    font-size               : 0.88rem;
+                    font-weight             : 800;
+                    text-decoration         : none;
+    }
+
+    .back_link:hover,
+    .back_link:focus-visible {
+                    color                   : var(--primary);
+    }
+
+
+    /* =========================================================
+       5. PROJECT INTRO
+    ========================================================== */
+    .project_intro {
+                    animation               : fadeUp 0.8s ease forwards;
+    }
+
+    .project_intro h1 {
+                    max-width               : 900px;
+                    margin                  : 0;
+                    color                   : var(--heading);
+                    font-size               : clamp(2.2rem, 4vw, 4.1rem);
+                    letter-spacing          : -0.045em;
+                    line-height             : 1.05;
+    }
+
+    .project_meta_grid {
+                    display                 : grid;
+                    grid-template-columns   : repeat(2, minmax(0, 1fr));
+                    column-gap              : 42px;
+                    row-gap                 : 26px;
+                    margin-top              : 34px;
+    }
+
+    .project_meta_item {
+                    min-height              : 0;
+                    padding                 : 15px 0 0;
+                    border-top              : 1px solid rgba(145, 186, 214, 0.70);
+    }
+
+    .project_meta_item span {
+                    display                 : block;
+                    margin-bottom           : 8px;
+                    color                   : var(--primary-dark);
+                    font-size               : 0.72rem;
+                    font-weight             : 850;
+                    letter-spacing          : 0.07em;
+                    text-transform          : uppercase;
+    }
+
+    .project_meta_item strong {
+                    display                 : block;
+                    max-width               : 560px;
+                    color                   : var(--heading);
+                    font-size               : 0.96rem;
+                    font-weight             : 750;
+                    line-height             : 1.6;
+                    letter-spacing          : 0;
+    }
+
+
+    /* =========================================================
+       6. CASE STUDY LAYOUT
+    ========================================================== */
+    .case_shell {
+                    display                 : grid;
+                    grid-template-columns   : 250px minmax(0, 1fr);
+                    gap                     : clamp(36px, 5vw, 64px);
+                    align-items             : start;
+                    margin-top              : clamp(58px, 8vw, 92px);
+    }
+
+    .case_content {
+                    min-width               : 0;
+    }
+
+
+    /* =========================================================
+       7. TABLE OF CONTENTS
+    ========================================================== */
+    .case_toc {
+                    position                : sticky;
+                    top                     : 100px;
+                    align-self              : start;
+                    padding                 : 22px;
+                    border                  : 1px solid var(--border);
+                    border-radius           : var(--radius-md);
+                    background              : rgba(255, 255, 255, 0.88);
+                    box-shadow              : 0 12px 30px rgba(19, 55, 82, 0.05);
+    }
+
+    .case_toc > p {
+                    margin                  : 0 0 14px;
+                    color                   : var(--heading);
+                    font-size               : 0.78rem;
+                    font-weight             : 850;
+                    letter-spacing          : 0.09em;
+                    text-transform          : uppercase;
+    }
+
+    .case_toc ol {
+                    display                 : grid;
+                    gap                     : 4px;
+                    margin                  : 0;
+                    padding                 : 0;
+                    list-style              : none;
+    }
+
+    .case_toc a {
+                    display                 : grid;
+                    grid-template-columns   : 28px minmax(0, 1fr);
+                    gap                     : 7px;
+                    padding                 : 7px 8px;
+                    border-radius           : 9px;
+                    color                   : var(--text-muted);
+                    font-size               : 0.78rem;
+                    font-weight             : 700;
+                    line-height             : 1.4;
+                    text-decoration         : none;
+                    transition              :
+                                              background-color var(--transition),
+                                              color var(--transition);
+    }
+
+    .case_toc a span {
+                    color                   : var(--primary);
+                    font-size               : 0.7rem;
+                    font-weight             : 850;
+                    letter-spacing          : 0.04em;
+    }
+
+    .case_toc a:hover,
+    .case_toc a:focus-visible,
+    .case_toc a.is-active {
+                    background              : var(--surface-soft);
+                    color                   : var(--primary-dark);
+    }
+
+
+    /* =========================================================
+       8. MAJOR CASE STUDY SECTIONS
+    ========================================================== */
+    .case_section {
+                    scroll-margin-top       : 96px;
+                    padding                 : clamp(30px, 4vw, 44px);
+                    border                  : 1px solid var(--border);
+                    border-radius           : var(--radius-lg);
+                    background              : rgba(255, 255, 255, 0.88);
+                    box-shadow              : 0 14px 34px rgba(19, 55, 82, 0.06);
+                    animation               : fadeUp 0.8s ease forwards;
+    }
+
+    .case_section + .case_section {
+                    margin-top              : 24px;
+    }
+
+    .case_section_header {
+                    display                 : grid;
+                    grid-template-columns   : 54px minmax(0, 1fr);
+                    gap                     : 18px;
+                    align-items             : start;
+                    padding-bottom          : 24px;
+                    border-bottom           : 1px solid var(--border);
+    }
+
+    .section_number {
+                    display                 : grid;
+                    width                   : 50px;
+                    height                  : 50px;
+                    place-items             : center;
+                    border-radius           : 14px;
+                    background              : var(--surface-soft);
+                    color                   : var(--primary);
+                    font-size               : 0.82rem;
+                    font-weight             : 900;
+                    letter-spacing          : 0.05em;
+    }
+
+    .case_section_header h2 {
+                    margin                  : 2px 0 0;
+                    color                   : var(--heading);
+                    font-size               : clamp(1.65rem, 3vw, 2.45rem);
+                    letter-spacing          : -0.035em;
+                    line-height             : 1.15;
+    }
+
+    .case_section_body {
+                    padding-top             : 26px;
+    }
+
+    .case_section_body > p {
+                    max-width               : 900px;
+                    margin                  : 0 0 18px;
+                    color                   : var(--text-muted);
+                    line-height             : 1.78;
+    }
+
+    .case_section_body > p:last-child {
+                    margin-bottom           : 0;
+    }
+
+    .case_section_body strong {
+                    color                   : var(--heading);
+    }
+
+    .subsection_title {
+                    margin                  : 34px 0 14px;
+                    color                   : var(--heading);
+                    font-size               : 1.24rem;
+                    letter-spacing          : -0.02em;
+                    line-height             : 1.3;
+    }
+
+    .case_section_body > .subsection_title:first-child {
+                    margin-top              : 0;
+    }
+
+
+    /* =========================================================
+       9. LISTS
+    ========================================================== */
+    .content_list {
+                    display                 : grid;
+                    gap                     : 9px;
+                    max-width               : 900px;
+                    margin                  : 8px 0 22px;
+                    padding-left            : 22px;
+                    color                   : var(--text-muted);
+    }
+
+    .content_list li {
+                    padding-left            : 5px;
+                    line-height             : 1.7;
+    }
+
+    ol.content_list li::marker {
+                    color                   : var(--primary);
+                    font-weight             : 850;
+    }
+
+    ul.content_list li::marker {
+                    color                   : var(--primary);
+    }
+
+
+    /* =========================================================
+       10. TABLES
+    ========================================================== */
+    .table_wrap {
+                    margin                  : 24px 0 26px;
+                    overflow-x              : auto;
+                    border                  : 1px solid var(--border);
+                    border-radius           : var(--radius-md);
+                    background              : rgba(255, 255, 255, 0.92);
+    }
+
+    .reference_table {
+                    width                   : 100%;
+                    min-width               : 650px;
+                    border-collapse         : collapse;
+    }
+
+    .reference_table th,
+    .reference_table td {
+                    padding                 : 15px 17px;
+                    border-bottom           : 1px solid var(--border);
+                    text-align              : left;
+                    vertical-align          : top;
+                    line-height             : 1.6;
+    }
+
+    .reference_table th {
+                    background              : var(--surface-soft);
+                    color                   : var(--heading);
+                    font-size               : 0.78rem;
+                    font-weight             : 850;
+                    letter-spacing          : 0.04em;
+                    text-transform          : uppercase;
+    }
+
+    .reference_table td {
+                    color                   : var(--text-muted);
+                    font-size               : 0.9rem;
+    }
+
+    .reference_table tr:last-child td {
+                    border-bottom           : 0;
+    }
+
+
+    /* =========================================================
+       11. PROJECT FIGURES
+    ========================================================== */
+    .project_figure {
+                    margin                  : 26px 0 30px;
+    }
+
+    .project_figure img {
+                    display                 : block;
+                    width                   : 100%;
+                    height                  : auto;
+                    border                  : none;
+                    border-radius           : 0;
+                    background              : transparent;
+                    box-shadow              : none;
+}
+
+    /* .project_figure img {
+                    display                 : block;
+                    width                   : 100%;
+                    height                  : auto;
+                    border                  : 1px solid var(--border);
+                    border-radius           : var(--radius-md);
+                    background              : var(--surface-soft);
+                    box-shadow              : var(--shadow);
+    } */
+
+    .project_figure figcaption {
+                    margin-top              : 9px;
+                    color                   : var(--text-muted);
+                    font-size               : 0.79rem;
+                    line-height             : 1.55;
+                    text-align              : center;
+}
+
+    .figure_placeholder_inner {
+                    min-height              : 250px;
+                    display                 : grid;
+                    place-items             : center;
+                    padding                 : 30px;
+                    border                  : 1px dashed var(--line);
+                    border-radius           : var(--radius-md);
+                    background              :
+                                              linear-gradient(
+                                                135deg,
+                                                rgba(229, 242, 252, 0.82),
+                                                rgba(255, 255, 255, 0.92)
+                                              );
+                    color                   : var(--primary-dark);
+                    font-size               : 0.86rem;
+                    font-weight             : 800;
+                    text-align              : center;
+    }
+
+
+
+
+
+
+    /* =========================================================
+       12. SECTION-SPECIFIC EMPHASIS
+    ========================================================== */
+    #engineering-deep-dives .subsection_title,
+    #stabilizing-the-real-time-pipeline .subsection_title {
+                    padding                 : 15px 17px;
+                    border-left             : 4px solid var(--primary);
+                    border-radius           : 0 12px 12px 0;
+                    background              : var(--surface-soft);
+    }
+
+    #results .content_list {
+                    grid-template-columns   : repeat(2, minmax(0, 1fr));
+                    gap                     : 12px;
+                    max-width               : none;
+                    padding                 : 0;
+                    list-style              : none;
+    }
+
+    #results .content_list li {
+                    padding                 : 17px 18px;
+                    border                  : 1px solid var(--border);
+                    border-radius           : 14px;
+                    background              : var(--surface-soft);
+                    color                   : var(--heading);
+                    font-weight             : 700;
+    }
+
+    #engineering-trade-offs-and-limitations .content_list li {
+                    padding                 : 13px 15px;
+                    border                  : 1px solid var(--border);
+                    border-radius           : 12px;
+                    background              : rgba(255, 255, 255, 0.72);
+                    list-style-position     : inside;
+    }
+
+
+    /* =========================================================
+       13. BOTTOM NAVIGATION
+    ========================================================== */
+    .case_bottom {
+                    display                 : flex;
+                    justify-content         : space-between;
+                    gap                     : 20px;
+                    margin-top              : 40px;
+                    padding-top             : 28px;
+                    border-top              : 1px solid var(--border);
+    }
+
+    .case_bottom a {
+                    color                   : var(--primary-dark);
+                    font-weight             : 800;
+                    text-decoration         : none;
+    }
+
+    .case_bottom a:hover,
+    .case_bottom a:focus-visible {
+                    color                   : var(--primary);
+    }
+
+
+    /* =========================================================
+       14. RESPONSIVE
+    ========================================================== */
+    @media (max-width: 980px) {
+      .case_shell {
+                    grid-template-columns   : 1fr;
+                    gap                     : 30px;
+      }
+
+      .case_toc {
+                    position                : static;
+      }
+
+      .case_toc ol {
+                    grid-template-columns   : repeat(2, minmax(0, 1fr));
+                    gap                     : 5px 12px;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .case_page {
+                    padding-top             : 52px;
+      }
+
+      .project_intro h1 {
+                    font-size               : clamp(2rem, 9vw, 3.1rem);
+      }
+
+      .project_meta_grid,
+      #results .content_list {
+                    grid-template-columns   : 1fr;
+      }
+
+      .case_toc ol {
+                    grid-template-columns   : 1fr;
+      }
+
+      .case_section {
+                    padding                 : 26px 22px;
+                    border-radius           : 22px;
+      }
+
+      .case_section_header {
+                    grid-template-columns   : 46px minmax(0, 1fr);
+                    gap                     : 14px;
+      }
+
+      .section_number {
+                    width                   : 44px;
+                    height                  : 44px;
+                    border-radius           : 12px;
+      }
+
+      .case_bottom {
+                    flex-direction          : column;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .project_meta_item {
+                    min-height              : auto;
+                    padding                 : 14px 0 0;
+      }
+
+      .case_section {
+                    padding                 : 23px 18px;
+      }
+
+      .reference_table {
+                    min-width               : 580px;
+      }
+    }
+
+  </style>
+</head>
+
+
+<!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- 
+                    HTML BODY
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- -->
+
+<body>
+
+  <!--================================================
+                MAIN MENU
+  ====================================================-->
+  <header class="header_menu">
+      <a href="/" aria-label="Go to homepage">
+          <img    class="logo_image" 
+                  src="media/profile/logo.svg"
+                  alt="Logo"
+          >
+      </a>
+
+      <nav class="menu_links">
+          <a href="about.html">About</a>
+          <a href="project.html" aria-current="page">Projects</a>
+          <a href="blog.html">Blog</a>
+          <a href="life_and_events.html">Life &amp; Events</a>
+          <a href="index.html#contact_box_section">Contact</a>
+      </nav>
+  </header>
+
+
+  <!--================================================
+                PROJECT CASE STUDY
+  ====================================================-->
+  <main class="case_page" id="top">
+    <div class="container">
+
+      <!-- =========================================
+           PROJECT INTRO
+      --------------------------------------------- -->
+      <header class="project_intro">
+
+        <a class="back_link" href="project.html#computer_vision">
+          ← Back to Projects
+        </a>
+
+        <h1>Real-Time Multi-Camera Smart City Surveillance System</h1>
+
+        <!-- Original project summary content in the compact line-based layout -->
+        <div class="project_meta_grid">
+          <div class="project_meta_item">
+            <span>Role</span>
+            <strong>Computer Vision / AI Engineer</strong>
+          </div>
+
+          <div class="project_meta_item">
+            <span>Main contribution</span>
+            <strong>Designed and optimized HydraNet, a shared-backbone multi-task inference architecture for real-time multi-camera vision.</strong>
+          </div>
+
+          <div class="project_meta_item">
+            <span>Core technologies</span>
+            <strong>Python, PyTorch, OpenCV, ONNX, TensorRT, Linux, Git, Docker, DVC</strong>
+          </div>
+
+          <div class="project_meta_item">
+            <span>Key work</span>
+            <strong>Shared backbone · FP16 · GPU optimization · multithreading · multiprocessing · computer vision</strong>
+          </div>
+        </div>
+
+      </header>
+
+
+      <!-- =========================================
+           CASE STUDY CONTENT
+      --------------------------------------------- -->
+      <div class="case_shell">
+
+        <!-- -------------------------------
+             Table of contents
+        -------------------------------- -->
+        <aside class="case_toc" aria-label="Project table of contents">
+          <p>On this page</p>
+          <ol>
+          <li><a href="projects/aqua_smart_city.html#project-context"><span>01</span>Project context</a></li>
+          <li><a href="projects/aqua_smart_city.html#team-and-my-responsibility"><span>02</span>Team and My Responsibility</a></li>
+          <li><a href="projects/aqua_smart_city.html#system-requirements-and-constraints"><span>03</span>System Requirements and Constraints</a></li>
+          <li><a href="projects/aqua_smart_city.html#initial-architecture-and-the-main-problem"><span>04</span>Initial Architecture and the Main Problem</a></li>
+          <li><a href="projects/aqua_smart_city.html#hydranet-shared-backbone-architecture"><span>05</span>HydraNet: Shared-Backbone Architecture</a></li>
+          <li><a href="projects/aqua_smart_city.html#architecture-evolution-from-one-block-to-processes-and-threads"><span>06</span>Architecture Evolution: From One Block to Processes and Threads</a></li>
+          <li><a href="projects/aqua_smart_city.html#engineering-deep-dives"><span>07</span>Engineering Deep Dives</a></li>
+          <li><a href="projects/aqua_smart_city.html#stabilizing-the-real-time-pipeline"><span>08</span>Stabilizing the Real-Time Pipeline</a></li>
+          <li><a href="projects/aqua_smart_city.html#modular-pipeline-architecture-and-inter-thread-data-management"><span>09</span>Modular Pipeline Architecture and Inter-Thread Data Management</a></li>
+          <li><a href="projects/aqua_smart_city.html#computer-vision-applications"><span>10</span>Computer Vision Applications</a></li>
+          <li><a href="projects/aqua_smart_city.html#results"><span>11</span>Results</a></li>
+          <li><a href="projects/aqua_smart_city.html#engineering-trade-offs-and-limitations"><span>12</span>Engineering Trade-offs and Limitations</a></li>
+          </ol>
+        </aside>
+
+
+        <!-- -------------------------------
+             Original Aqua Smart City content
+        -------------------------------- -->
+        <article class="case_content">
+
+      <!-- =========================================
+           PROJECT CONTEXT
+      --------------------------------------------- -->
+      <section class="case_section" id="project-context" aria-labelledby="project-context-title">
+
+        <!-- -------------------------------
+             Section heading
+        -------------------------------- -->
+        <header class="case_section_header">
+          <span class="section_number">01</span>
+          <h2 id="project-context-title">Project context</h2>
+        </header>
+
+        <!-- -------------------------------
+             Original project content
+        -------------------------------- -->
+        <div class="case_section_body">
+        <p><strong>Real-Time Multi-Camera Smart City Surveillance System </strong>is a large urban development project in Bien Hoa, Dong Nai, Viet Nam. My company, part of Nova Group, developed a computer vision system to support city monitoring across multiple camera locations.</p>
+
+      
+        <figure class="project_figure ">
+            <img    
+              src="media/projects/aqua/aqua_city.svg" 
+              alt="Aqua smart city project" 
+              >
+        </figure>
+
+
+
+        <p>The system supported several practical computer vision applications, such as red-light violation detection, license plate recognition, crowd detection, and face recognition. The table below summarizes the core applications discussed in this case study and the initial vision approach used for each. <br/></p>
+
+        <div class="table_wrap">
+          <table class="reference_table">
+            <thead>
+              <tr>
+                <th>Application</th>
+                <th>Primary vision task</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Red-light violation detection</td>
+                <td>Object detection + tracking</td>
+              </tr>
+              <tr>
+                <td>Number plate detection</td>
+                <td>Object detection +OCR</td>
+              </tr>
+              <tr>
+                <td>Crowd detection</td>
+                <td>Object detection</td>
+              </tr>
+              <tr>
+                <td>Face recognition</td>
+                <td>Face recognition</td>
+              </tr>
+              <tr>
+                <td>Fire detection</td>
+                <td>Fire classification</td>
+              </tr>
+              <tr>
+                <td>Overspeed detection</td>
+                <td>Object detection +tracking</td>
+              </tr>
+              <tr>
+                <td>Wrong-direction detection</td>
+                <td>Object detection + tracking + segmentation</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>The full production system included additional applications, but these selected tasks are sufficient to explain the main architecture and engineering decisions.</p>
+
+        <p>Camera streams were pulled using GStreamer and sent to a server for AI processing. The processed results were then displayed to security operators. The system therefore had to connect video ingestion, multiple AI models, application logic, and real-time output within one stable pipeline.<br/></p>
+
+
+
+        <figure class="project_figure ">
+          <img    
+            src="media/projects/aqua/monitoring_pipeline.svg" 
+            alt="Aqua smart city project" 
+            >
+        </figure>
+
+      </section>
+      <!-- =========================================
+           TEAM AND MY RESPONSIBILITY
+      --------------------------------------------- -->
+      <section class="case_section" id="team-and-my-responsibility" aria-labelledby="team-and-my-responsibility-title">
+
+        <!-- -------------------------------
+             Section heading
+        -------------------------------- -->
+        <header class="case_section_header">
+          <span class="section_number">02</span>
+          <h2 id="team-and-my-responsibility-title">Team and My Responsibility</h2>
+        </header>
+
+        <!-- -------------------------------
+             Original project content
+        -------------------------------- -->
+        <div class="case_section_body">
+        <p>The project was developed by a seven-member team. To preserve privacy, team members are represented by letters.</p>
+
+        <div class="table_wrap">
+          <table class="reference_table">
+            <thead>
+              <tr>
+                <th>Role</th>
+                <th>Responsibility</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Member A</td>
+                <td>GStreamer and video stream ingestion</td>
+              </tr>
+              <tr>
+                <td>Member B</td>
+                <td>Face recognition and tracking</td>
+              </tr>
+              <tr>
+                <td>Member C</td>
+                <td>Fire detection</td>
+              </tr>
+              <tr>
+                <td>Member D</td>
+                <td>Object detection</td>
+              </tr>
+              <tr>
+                <td>Member E</td>
+                <td>Applications based on object detection</td>
+              </tr>
+              <tr>
+                <td>My responsibility</td>
+                <td>Design, manage, integrate, and optimize the HydraNet architecture; develop segmentation; and support object-detection application development</td>
+              </tr>
+              <tr>
+                <td>Team leader</td>
+                <td>Team management, debugging, and technical support</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p><strong>My main ownership: </strong>the HydraNet architecture and its integration, optimization, runtime behavior, and modular pipeline design.</p>
+        </div>
+
+      </section>
+      <!-- =========================================
+           SYSTEM REQUIREMENTS AND CONSTRAINTS
+      --------------------------------------------- -->
+      <section class="case_section" id="system-requirements-and-constraints" aria-labelledby="system-requirements-and-constraints-title">
+
+        <!-- -------------------------------
+             Section heading
+        -------------------------------- -->
+        <header class="case_section_header">
+          <span class="section_number">03</span>
+          <h2 id="system-requirements-and-constraints-title">System Requirements and Constraints</h2>
+        </header>
+
+        <!-- -------------------------------
+             Original project content
+        -------------------------------- -->
+        <div class="case_section_body">
+        <p>The work was driven by two main requirements:</p>
+
+        <ol class="content_list">
+          <li>Build a computer vision system that could be deployed on both edge devices and servers.</li>
+          <li>Keep the system stable and accurate while making it practical to scale across a large number of cameras.</li>
+        </ol>
+
+        <p>In practice, this created several engineering constraints at the same time: limited GPU memory, multiple AI tasks competing for compute, real-time latency requirements, different camera frame rates, and the need to keep the code maintainable as new applications were added.</p>
+        </div>
+
+      </section>
+      <!-- =========================================
+           INITIAL ARCHITECTURE AND THE MAIN PROBLEM
+      --------------------------------------------- -->
+      <section class="case_section" id="initial-architecture-and-the-main-problem" aria-labelledby="initial-architecture-and-the-main-problem-title">
+
+        <!-- -------------------------------
+             Section heading
+        -------------------------------- -->
+        <header class="case_section_header">
+          <span class="section_number">04</span>
+          <h2 id="initial-architecture-and-the-main-problem-title">Initial Architecture and the Main Problem</h2>
+        </header>
+
+        <!-- -------------------------------
+             Original project content
+        -------------------------------- -->
+        <div class="case_section_body">
+        <p>A typical computer vision system streams video from a camera, sends frames to an AI model, and displays the result. When several AI applications are needed, the straightforward approach is to run separate models. For example, one model for object detection, another for face recognition, and another for classification.<br/></p>
+
+        <figure class="project_figure ">
+          <img    
+            src="media/projects/aqua/original_vision_system.png" 
+            alt="A typical vision system" 
+            >
+        </figure>
+
+        <p>From my analysis, these models could usually be viewed as two major parts: a backbone that extracts features and a task-specific neck/head that converts those features into the required output. The key issue was that the backbone represented a large share of the system resource cost, roughly 50–85% in my analysis. Running a separate backbone for every task therefore created a large amount of duplicated work.<br/></p>
+        </div>
+
+      </section>
+      <!-- =========================================
+           HYDRANET: SHARED-BACKBONE ARCHITECTURE
+      --------------------------------------------- -->
+      <section class="case_section" id="hydranet-shared-backbone-architecture" aria-labelledby="hydranet-shared-backbone-architecture-title">
+
+        <!-- -------------------------------
+             Section heading
+        -------------------------------- -->
+        <header class="case_section_header">
+          <span class="section_number">05</span>
+          <h2 id="hydranet-shared-backbone-architecture-title">HydraNet: Shared-Backbone Architecture</h2>
+        </header>
+
+        <!-- -------------------------------
+             Original project content
+        -------------------------------- -->
+        <div class="case_section_body">
+        <p>To reduce this duplication, I proposed HydraNet: a design in which multiple tasks share the same backbone instead of loading a separate backbone for every model.<br/>The backbone needed to balance accuracy and latency, so ResNet-50 was selected. The backbone was trained using the YOLO object-detection task. For the other tasks, the backbone was frozen and only the task-specific neck/head components were trained.</p>
+
+        <figure class="project_figure ">
+          <img    
+            src="media/projects/aqua/hydranet_v1.png" 
+            alt="A typical vision system" 
+            >
+        </figure>
+
+        <p>This design reduced the reported resource cost by more than 50% for the overall system because new tasks added their task-specific components without requiring another full backbone. The benefit became more visible as more AI tasks were integrated.</p>
+
+        <p>The trade-off was accuracy. Because the same backbone was reused across tasks, some models did not reach the accuracy reported by their original standalone implementations. In our practical evaluation, the applications remained above 90% accuracy, with face recognition above 95%, which was considered sufficient for the intended application.</p>
+
+        <p>The first HydraNet design still had three major limitations:</p>
+
+        <ul class="content_list">
+          <li>Serial execution reduced overall FPS.</li>
+          <li>Treating the model as one large block made debugging, updating, and resource control less flexible.</li>
+          <li>The architecture was harder to scale and its outputs were harder to synchronize across parallel tasks.</li>
+        </ul>
+        </div>
+
+      </section>
+      <!-- =========================================
+           ARCHITECTURE EVOLUTION: FROM ONE BLOCK TO PROCESSES AND THREADS
+      --------------------------------------------- -->
+      <section class="case_section" id="architecture-evolution-from-one-block-to-processes-and-threads" aria-labelledby="architecture-evolution-from-one-block-to-processes-and-threads-title">
+
+        <!-- -------------------------------
+             Section heading
+        -------------------------------- -->
+        <header class="case_section_header">
+          <span class="section_number">06</span>
+          <h2 id="architecture-evolution-from-one-block-to-processes-and-threads-title">Architecture Evolution: From One Block to Processes and Threads</h2>
+        </header>
+
+        <!-- -------------------------------
+             Original project content
+        -------------------------------- -->
+        <div class="case_section_body">
+        <p>To address these limitations, I split the system into multiple processes and threads. Each process handled a group of cameras, while individual model tasks were separated into threads.<br/>The backbone ran in its own thread, and the task-specific neck/head components ran in separate threads. This allowed independent stages to overlap instead of forcing every task to execute serially. As more applications were added, additional application threads could be connected to the pipeline.</p>
+
+        <figure class="project_figure ">
+          <img    
+            src="media/projects/aqua/hydranet_system.png" 
+            alt="Hydranet system" 
+            >
+        </figure>
+
+        <p>The number of threads depended mainly on the tasks inside the pipeline. The number of processes depended on the available GPU, CPU, RAM, and VRAM. If one HydraNet process did not use all available resources, another process could be added to handle more cameras.<br/>The AI pipeline was configured so that both the effective input rate and the processed output rate were typically around <strong>5–10 FPS per camera</strong>, which was sufficient for the tracking, AI analysis, and monitoring tasks in this project. Additional processes were introduced only when the system still had enough available GPU, VRAM, CPU, and RAM capacity. We also deliberately avoided using the hardware at 100% utilization, leaving some resource headroom to absorb short-term workload spikes without causing instability, excessive frame drops, or out-of-memory errors.</p>
+        </div>
+
+      </section>
+      <!-- =========================================
+           ENGINEERING DEEP DIVES
+      --------------------------------------------- -->
+      <section class="case_section" id="engineering-deep-dives" aria-labelledby="engineering-deep-dives-title">
+
+        <!-- -------------------------------
+             Section heading
+        -------------------------------- -->
+        <header class="case_section_header">
+          <span class="section_number">07</span>
+          <h2 id="engineering-deep-dives-title">Engineering Deep Dives</h2>
+        </header>
+
+        <!-- -------------------------------
+             Original project content
+        -------------------------------- -->
+        <div class="case_section_body">
+        <h3 class="subsection_title"><strong>GPU Memory Optimization</strong></h3>
+
+        <p>At the beginning of optimization, I used a <strong>single process</strong> so that resource behavior was easier to isolate. On a 4 GB GPU, the unoptimized HydraNet pipeline repeatedly ran out of CUDA memory, so I profiled the system stage by stage.</p>
+
+        <p>I first disabled later threads and enabled components one at a time. For example, the input thread first, then the backbone, and then the remaining tasks. This made it possible to observe how much RAM and VRAM each block added. Because the backbone consumed the largest share, I focused on it first and then applied the same principles to the other stages.</p>
+
+        <ul class="content_list">
+          <li>Disabled gradient tracking with torch.no_grad() during inference.</li>
+          <li>Deleted tensors that were no longer needed and cleared cached GPU memory when appropriate.</li>
+          <li>Moved AI outputs back to the CPU with detach().cpu() when GPU processing was no longer required.</li>
+          <li>Used lightweight image-processing methods instead of AI models for simple tasks such as motion or color detection.</li>
+          <li>Reduced inference precision from FP32 to FP16 before integrating the models into HydraNet.</li>
+        </ul>
+
+        <p>After these changes, the system used approximately 3.2–3.8 GB of VRAM and ran stably within the 4 GB limit.</p>
+
+        <h3 class="subsection_title"><strong>Reducing Computation Cost and Improving FPS</strong></h3>
+
+        <p>The next stage focused on throughput. In a pipeline, the overall FPS is constrained by the stage that takes the longest to process. In HydraNet, one important bottleneck was the backbone thread, so I focused on reducing its processing time and then applied similar methods to the other stages.</p>
+
+        <ul class="content_list">
+          <li>Converted the models to TensorRT for NVIDIA GPU inference. This produced a significant speed improvement in our tests.</li>
+          <li>Reduced the input resolution from HD to 640 × 640 to improve speed while maintaining acceptable accuracy.</li>
+          <li>Used FP16 inference instead of FP32 to reduce computation and memory cost.</li>
+          <li>Split expensive pipeline stages into separate threads so that AI inference could run at the same time as supporting operations such as tensor copying, data preparation, or post-processing. This improved throughput, but it introduced a trade-off: higher FPS could come with higher end-to-end latency.</li>
+          <li>Tested larger batch sizes instead of processing only single frames. Batching could increase throughput, but it also increased VRAM usage.</li>
+        </ul>
+
+
+        <p>These optimizations were applied across the broader pipeline. The purpose of this case study is to show the main techniques rather than every implementation detail used during development.</p>
+        </div>
+
+      </section>
+      <!-- =========================================
+           STABILIZING THE REAL-TIME PIPELINE
+      --------------------------------------------- -->
+      <section class="case_section" id="stabilizing-the-real-time-pipeline" aria-labelledby="stabilizing-the-real-time-pipeline-title">
+
+        <!-- -------------------------------
+             Section heading
+        -------------------------------- -->
+        <header class="case_section_header">
+          <span class="section_number">08</span>
+          <h2 id="stabilizing-the-real-time-pipeline-title">Stabilizing the Real-Time Pipeline</h2>
+        </header>
+
+        <!-- -------------------------------
+             Original project content
+        -------------------------------- -->
+        <div class="case_section_body">
+        <h3 class="subsection_title"><strong>Motion-Triggered Inference</strong></h3>
+
+        <p>Running expensive AI inference continuously is wasteful when the scene does not change. To reduce unnecessary processing, I used motion-triggered inference. A lightweight image-processing stage compared the current image with the background and triggered AI processing when motion was detected. Additional filtering was used to reduce noise.<br/></p>
+
+        <h3 class="subsection_title"><strong>Dropping Frames When Buffers Are Full</strong></h3>
+
+        <p>Frames were passed between threads using Python queues. During temporary processing peaks, a downstream stage could fall behind and its buffer could fill. Instead of allowing latency to grow continuously, the pipeline dropped older frames and prioritized newer ones. For this real-time use case, keeping the displayed information current was more useful than processing every historical frame.<br/></p>
+
+        <h3 class="subsection_title"><strong> FPS Control</strong></h3>
+
+        <p>Camera streams could arrive at different frame rates depending on the camera and network conditions. I added an FPS-control block to prevent the AI pipeline from receiving frames faster than it could process them. Frames were sampled at a controlled rate so that the AI stages received a workload closer to their actual processing capacity, reducing random buffer overflow and unnecessary latency.</p>
+
+        <h3 class="subsection_title"><strong>Output Synchronization</strong></h3>
+
+        <p>Parallel tasks do not finish at the same time, so combining their results into one output frame required synchronization. I reduced unnecessary copying by passing NumPy references so that multiple threads could work and draw results with the same underlying image object.<br/>The remaining challenge was timing. For example, if one task finished in 0.1 ms and another in 0.3 ms, the first result could be ready before the second task had finished drawing its output.<br/>The main implementation treated the object-detection application as the priority output thread because it was the longest-running task in the HydraNet pipeline. The final displayed reference was taken from that thread, so faster tasks had time to finish and draw their results onto the shared image before the object-detection output was released.<br/>I also tested a mutex-based alternative in which completed tasks waited until the slowest task finished before results were merged. This approach worked in testing but was not integrated into the final pipeline.</p>
+        </div>
+
+      </section>
+      <!-- =========================================
+           MODULAR PIPELINE ARCHITECTURE AND INTER-THREAD DATA MANAGEMENT
+      --------------------------------------------- -->
+      <section class="case_section" id="modular-pipeline-architecture-and-inter-thread-data-management" aria-labelledby="modular-pipeline-architecture-and-inter-thread-data-management-title">
+
+        <!-- -------------------------------
+             Section heading
+        -------------------------------- -->
+        <header class="case_section_header">
+          <span class="section_number">09</span>
+          <h2 id="modular-pipeline-architecture-and-inter-thread-data-management-title">Modular Pipeline Architecture and Inter-Thread Data Management</h2>
+        </header>
+
+        <!-- -------------------------------
+             Original project content
+        -------------------------------- -->
+        <div class="case_section_body">
+        <p>As the number of threads increased, I organized the system as a sequence of pipeline blocks instead of allowing every component to connect directly to every other component.</p>
+
+        <p>I thought of the information moving through the pipeline as a shared packet. Each packet carried two main groups of data:</p>
+
+        <ul class="content_list">
+          <li>Fundamental information, such as the image and its ID.</li>
+          <li>AI information produced by the previous pipeline stages.</li>
+        </ul>
+
+        <p>These values were stored in a dictionary using consistent field names across the different threads. Keeping the same structure made the data easier to track and reduced the amount of thread-specific handling code.</p>
+
+        <p>Threads were connected and synchronized using queue and condition objects. I wrapped this connection logic in separate functions instead of passing all synchronization objects directly through every thread constructor. This kept the pipeline structure clearer as the system grew.</p>
+        </div>
+
+      </section>
+      <!-- =========================================
+           COMPUTER VISION APPLICATIONS
+      --------------------------------------------- -->
+      <section class="case_section" id="computer-vision-applications" aria-labelledby="computer-vision-applications-title">
+
+        <!-- -------------------------------
+             Section heading
+        -------------------------------- -->
+        <header class="case_section_header">
+          <span class="section_number">10</span>
+          <h2 id="computer-vision-applications-title">Computer Vision Applications</h2>
+        </header>
+
+        <!-- -------------------------------
+             Original project content
+        -------------------------------- -->
+        <div class="case_section_body">
+        <p>In addition to designing and optimizing HydraNet, I also guided and supported other team members in developing applications around YOLO and related vision methods. The table below summarizes the main approaches described in this case study.<br/></p>
+
+        <div class="table_wrap">
+          <table class="reference_table">
+            <thead>
+              <tr>
+                <th>Application</th>
+                <th>Vision method</th>
+                <th>Application logic</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Red-light violation detection</td>
+                <td>Object detection + tracking</td>
+                <td>Place a virtual line at the traffic-light/stop-line position. Track vehicles and trigger a notification when a vehicle crosses the line under the violation condition.</td>
+              </tr>
+              <tr>
+                <td>Number plate detection</td>
+                <td>Object detection + OCR</td>
+                <td>Detect the plate, use lightweight image processing to correct its orientation, and use OCR to extract the plate number.</td>
+              </tr>
+              <tr>
+                <td>Crowd detection</td>
+                <td>Object detection</td>
+                <td>Count detected objects inside a defined area. If the count exceeds a threshold, treat the situation as a crowd.</td>
+              </tr>
+              <tr>
+                <td>Overspeed detection</td>
+                <td>Object detection</td>
+                <td>Estimate distance from the relationship between practical road distance and image pixels, then calculate speed from movement distance divided by time.</td>
+              </tr>
+              <tr>
+                <td>Wrong-direction detection</td>
+                <td>Object detection + tracking + segmentation</td>
+                <td>Track object direction and compare it with the allowed lane direction. A fixed virtual line can be used, or segmentation can be used to detect the lane/line instead of defining it manually.</td>
+              </tr>
+              <tr>
+                <td>Car color detection</td>
+                <td>Image processing</td>
+                <td>Use HSV color information and a lookup table to assign the detected vehicle to a color category.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        </div>
+
+      </section>
+      <!-- =========================================
+           RESULTS
+      --------------------------------------------- -->
+      <section class="case_section" id="results" aria-labelledby="results-title">
+
+        <!-- -------------------------------
+             Section heading
+        -------------------------------- -->
+        <header class="case_section_header">
+          <span class="section_number">11</span>
+          <h2 id="results-title">Results</h2>
+        </header>
+
+
+
+        <figure class="project_figure ">
+          <img    
+            src="media/projects/aqua/demo_time.jpg" 
+            alt="The demo" 
+            title="Final project demo with stakeholders"
+            >
+          <figcaption class="">
+            Final project demo with stakeholders
+          </figcaption>
+        </figure>
+
+
+        <!-- -------------------------------
+             Original project content
+        -------------------------------- -->
+        <div class="case_section_body">
+        <p>The work produced several practical outcomes reported in this draft:</p>
+
+        <ul class="content_list">
+          <li>The shared-backbone design reduced the reported system resource cost by more than 50%.</li>
+          <li>After GPU-memory optimization, HydraNet ran at approximately 3.2–3.8 GB VRAM on a 4 GB GPU.</li>
+          <li>The shared-backbone approach maintained more than 90% accuracy across the applications in the practical evaluation, with face recognition above 95%.</li>
+          <li>The final system ran on an NVIDIA A5000 with 24 cameras at the same time and achieved approximately 5–10 FPS per camera.</li>
+        </ul>
+        </div>
+
+      </section>
+      <!-- =========================================
+           ENGINEERING TRADE-OFFS AND LIMITATIONS
+      --------------------------------------------- -->
+      <section class="case_section" id="engineering-trade-offs-and-limitations" aria-labelledby="engineering-trade-offs-and-limitations-title">
+
+        <!-- -------------------------------
+             Section heading
+        -------------------------------- -->
+        <header class="case_section_header">
+          <span class="section_number">12</span>
+          <h2 id="engineering-trade-offs-and-limitations-title">Engineering Trade-offs and Limitations</h2>
+        </header>
+
+        <!-- -------------------------------
+             Original project content
+        -------------------------------- -->
+        <div class="case_section_body">
+        <p>The final design was shaped by several practical trade-offs rather than by a single optimization target:</p>
+
+        <ul class="content_list">
+          <li>Sharing one backbone reduced resource cost, but some task-specific models did not reach the accuracy of their original standalone implementations.</li>
+          <li>Adding parallel stages could improve throughput, but higher throughput could also increase end-to-end latency.</li>
+          <li>Larger batch sizes could increase processing throughput, but required more VRAM.</li>
+          <li>Adding more processes increased camera capacity only while CPU, GPU, RAM, and VRAM headroom remained available.</li>
+          <li>The main output-synchronization strategy relied on the object-detection path being the longest-running task; a mutex-based alternative was tested but not used in the final pipeline.</li>
+        </ul>
+        </div>
+
+      </section>
+
+          <!-- =========================================
+               BOTTOM NAVIGATION
+          --------------------------------------------- -->
+          <nav class="case_bottom" aria-label="Project navigation">
+            <a href="project.html#computer_vision">← Back to Projects</a>
+            <a href="projects/aqua_smart_city.html#top">Back to top ↑</a>
+          </nav>
+
+        </article>
+
+      </div>
+    </div>
+  </main>
+
+
+  <!--================================================
+                FOOTER
+  ====================================================-->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span>© <span id="current-year"></span> Duc An Nguyen</span>
+
+      <div class="footer-links">
+        <a href="mailto:ducannguyen.da@gmail.com">Email</a>
+        <a
+          href="https://github.com/duc-an-nguyen"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          GitHub
+        </a>
+        <a
+          href="https://www.linkedin.com/in/ducannguyen"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          LinkedIn
+        </a>
+        <a href="projects/aqua_smart_city.html#top">Back to top ↑</a>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- 
+                  JAVASCRIPT
+  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- -->
+  <script>
+
+    /* =========================================================
+       CURRENT YEAR
+    ========================================================== */
+    document.getElementById("current-year").textContent =
+      new Date().getFullYear();
+
+
+    /* =========================================================
+       ACTIVE TABLE OF CONTENTS LINK
+    ========================================================== */
+    const caseSections = document.querySelectorAll(".case_section");
+    const tocLinks = document.querySelectorAll(".case_toc a");
+
+    const tocObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+
+          tocLinks.forEach((link) => {
+            const isActive =
+              link.getAttribute("href") === `#${entry.target.id}`;
+
+            link.classList.toggle("is-active", isActive);
+          });
+        });
+      },
+      {
+        rootMargin: "-22% 0px -68% 0px",
+        threshold: 0
+      }
+    );
+
+    caseSections.forEach((section) => {
+      tocObserver.observe(section);
+    });
+
+  </script>
+</body>
+</html>

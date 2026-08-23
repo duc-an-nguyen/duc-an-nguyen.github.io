@@ -83,12 +83,76 @@
                     }
 
 
-    .hero-image {
-                        flex-shrink     : 0;
+    /*----------- Hero actions -----------*/
+
+    .hero-actions {
                         display         : flex;
                         align-items     : center;
-                        justify-content : center;
+                        flex-wrap       : wrap;
+                        gap             : 12px;
+                        margin-top      : 24px;
     }
+
+    .hero-button {
+                    display         : inline-flex;
+                    align-items     : center;
+                    justify-content : center;
+
+                    padding         : 12px 22px;
+                    border          : 1px solid transparent;
+                    border-radius   : 999px;
+
+                    font-size       : 0.95rem;
+                    font-weight     : 700;
+                    text-decoration : none;
+
+                    transition      :
+                                      transform var(--transition),
+                                      background-color var(--transition),
+                                      border-color var(--transition),
+                                      color var(--transition),
+                                      box-shadow var(--transition);
+}
+
+    .hero-button:hover,
+    .hero-button:focus-visible {
+                        transform       : translateY(-2px);
+    }
+
+
+    /* Primary */
+
+    .hero-button-primary {
+                        background      : #415a72;
+                        color           : #ffffff;
+
+                        box-shadow      : 0 8px 18px rgba(45, 67, 88, 0.16);
+    }
+
+    .hero-button-primary:hover,
+    .hero-button-primary:focus-visible {
+                        background      : #334b61;
+    }
+
+
+    /* Secondary */
+
+    .hero-button-secondary {
+                        border-color    : #b9c5d1;
+                        background      : rgba(255, 255, 255, 0.55);
+                        color           : #41556a;
+    }
+
+    .hero-button-secondary:hover,
+    .hero-button-secondary:focus-visible {
+                        border-color    : #91a5b7;
+                        background      : rgba(255, 255, 255, 0.85);
+                        color           : #334b61;
+    }
+
+    /*----------- Profile picture  -----------*/
+
+
 
     .profile_picture {
                         width           : clamp(230px, 28vw, 360px);
@@ -135,7 +199,16 @@
 
                     .profile_picture {
                         width           : min(270px, 75vw);
-                    }}
+                    }
+                
+                    .hero-actions,
+                    .hero-social-links {
+                    justify-content : center;
+                    }
+                
+                }
+
+
     
     /*=========================================
         HIGHLIGHT PROJECTS SECTION
@@ -360,14 +433,28 @@
                         border-radius           : 24px;
                         box-shadow              : 0 12px 35px rgba(11, 31, 51, 0.10);
     }
-
+/* 
     .contact_greeting{
                         font-size               : clamp(1rem, 1.2rem, 1.3rem);
                         color                   : #475569;;
                         margin-bottom           : 10px;
+    } */
+                 
+    
+    .contact_greeting a {
+                        color           : var(--primary);
+                        font-weight     : 600;
+                        text-decoration : none;
+
+                        transition      : color var(--transition);
     }
-                        
-                        
+
+    .contact_greeting a:hover,
+    .contact_greeting a:focus-visible {
+                        color           : var(--primary-dark);
+                        text-decoration : underline;
+    }
+                            
     form {
                         display                 : grid;
                         gap                     : 18px;
@@ -403,7 +490,7 @@
                         border                  : none;
                         border-radius           : 999px;
 
-                        background              : #0f172a;
+                        background              : #415a72;
                         color                   : #ffffff;
                         font-size               : 1rem;
                         font-weight             : bold;
@@ -463,7 +550,7 @@ CONTENT OF THE SITE
             <a href="project.html">Projects</a>
             <a href="blog.html">Blog</a>
             <a href="life_and_events.html">Life & Events</a>
-            <a href="mailto:ducannguyen.da@gmail.com">Contact</a>
+            <a href="index.html#contact_box_section">Contact</a>
         </nav>
     </header>
 
@@ -474,9 +561,33 @@ CONTENT OF THE SITE
      -------------------------------------------->
     <header class="hero">
         <div class="hero-content">
+
             <h1>Duc An Nguyen, PhD</h1>
-            <p class="hero-subtitle">Edge Computer Vision | Explainable AI | Industrial AI</p>
-            <p>Working across edge computer vision, explainable AI, and industrial AI, with 7+ years of experience and a PhD focused on Applied and Explainable AI. Open to applied research and industry collaborations.</p>
+
+            <p class="hero-subtitle">
+                Edge Computer Vision | Explainable AI | Industrial AI
+            </p>
+
+            <p>
+                Working across edge computer vision, explainable AI, and industrial AI,
+                with 7+ years of experience and a PhD focused on Applied and Explainable AI.
+                Open to applied research and industry collaborations.
+            </p>
+
+
+            <!-- Main actions -->
+            <div class="hero-actions">
+
+                <a href="about.html" class="hero-button hero-button-primary">
+                    More About Me
+                </a>
+
+                <a href="#contact_box_section" class="hero-button hero-button-secondary">
+                    Contact Me
+                </a>
+
+            </div>
+
         </div>
 
         <a class="hero-image" href="about.html">
@@ -535,7 +646,7 @@ CONTENT OF THE SITE
 
         <!----------- Project 2-------->
         <article class="project_card">
-            <a href="#" class="project_link">
+            <a href="projects/aqua_smart_city.html" class="project_link">
             <video 
                 class="project_video"
                 autoplay
@@ -551,8 +662,8 @@ CONTENT OF THE SITE
                 <div class="project_tags">
                     <span>Python</span>
                     <span>PyTorch</span>
-                    <span>OpenCV</span>
-                    <span>GStreamer</span>
+                    <span>ONNX</span>
+                    <span>TensorRT</span>
                 </div>
             </div>
             </a>
@@ -635,7 +746,10 @@ CONTENT OF THE SITE
     <!------------ Contact form ----------->
     <div class="contact_box">
       <p class = "contact_greeting">
-        Interested in collaborating or have questions about my work? Kindly reach out!
+        Interested in collaborating or have questions about my work? Send me a message below or email me directly at: 
+        <a href="mailto:ducannguyen.da@gmail.com">
+        ducannguyen.da@gmail.com
+    </a>
       </p>
 
       <form action="https://formspree.io/f/mgogqbyz" method="POST">
@@ -651,7 +765,7 @@ CONTENT OF THE SITE
         <label for="message">Message</label>
         <textarea id="message" name="message" placeholder="Your message" required></textarea>
 
-        <button class="contact_button" type="submit" class="btn">Send Message</button>
+        <button class="contact_button" type="submit">Send Message</button>
       </form>
     </div>
     </section>
