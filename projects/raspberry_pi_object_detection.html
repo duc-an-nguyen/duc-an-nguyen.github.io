@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+                    META DATA
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- -->
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Real-Time Object Detection on Raspberry Pi | Duc An Nguyen</title>
+  <meta
+    name="description"
+    content="Embedded computer vision case study covering MobileNet-SSD object detection, Raspberry Pi 3 deployment, multithreaded video processing, remote monitoring, and performance trade-offs."
+  />
+
+
+<!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+                    LINKS AND GLOBAL STYLES
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- -->
+
+  <!--
+    Intended location:
+    projects/computer_vision/raspberry_pi_object_detection.html
+  -->
+  <base href="../../">
+  <link rel="icon" type="image/x-icon" href="media/profile/favicon.ico">
+  <link rel="stylesheet" href="css/global.css">
+
+
+<!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+                   CASE STUDY STYLES
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- -->
+
+  <style>
+
+    /* =========================================================
+       4. SHARED CASE STUDY STYLES
+    ========================================================== */
+    .case_page {
+                    padding                 : clamp(64px, 8vw, 108px) 0 88px;
+    }
+
+    .back_link {
+                    display                 : inline-flex;
+                    align-items             : center;
+                    gap                     : 8px;
+                    margin-bottom           : 32px;
+                    color                   : var(--primary-dark);
+                    font-size               : 0.88rem;
+                    font-weight             : 800;
+                    text-decoration         : none;
+    }
+
+    .back_link:hover,
+    .back_link:focus-visible {
+                    color                   : var(--primary);
+    }
+
+
+    /* =========================================================
+       5. PROJECT INTRO
+    ========================================================== */
+    .project_intro {
+                    animation               : fadeUp 0.8s ease forwards;
+    }
+
+    .project_intro h1 {
+                    max-width               : 920px;
+                    margin                  : 0;
+                    color                   : var(--heading);
+                    font-size               : clamp(2.2rem, 4vw, 4.1rem);
+                    letter-spacing          : -0.045em;
+                    line-height             : 1.05;
+    }
+
+    .project_meta_grid {
+                    display                 : grid;
+                    grid-template-columns   : repeat(2, minmax(0, 1fr));
+                    column-gap              : 42px;
+                    row-gap                 : 26px;
+                    margin-top              : 34px;
+    }
+
+    .project_meta_item {
+                    min-height              : 0;
+                    padding                 : 15px 0 0;
+                    border-top              : 1px solid rgba(145, 186, 214, 0.70);
+    }
+
+    .project_meta_item span {
+                    display                 : block;
+                    margin-bottom           : 8px;
+                    color                   : var(--primary-dark);
+                    font-size               : 0.72rem;
+                    font-weight             : 850;
+                    letter-spacing          : 0.07em;
+                    text-transform          : uppercase;
+    }
+
+    .project_meta_item strong {
+                    display                 : block;
+                    max-width               : 580px;
+                    color                   : var(--heading);
+                    font-size               : 0.96rem;
+                    font-weight             : 750;
+                    line-height             : 1.6;
+                    letter-spacing          : 0;
+    }
+
+
+    /* =========================================================
+       6. CASE STUDY LAYOUT
+    ========================================================== */
+    .case_shell {
+                    display                 : grid;
+                    grid-template-columns   : 250px minmax(0, 1fr);
+                    gap                     : clamp(36px, 5vw, 64px);
+                    align-items             : start;
+                    margin-top              : clamp(58px, 8vw, 92px);
+    }
+
+    .case_content {
+                    min-width               : 0;
+    }
+
+
+    /* =========================================================
+       7. TABLE OF CONTENTS
+    ========================================================== */
+    .case_toc {
+                    position                : sticky;
+                    top                     : 100px;
+                    align-self              : start;
+                    padding                 : 22px;
+                    border                  : 1px solid var(--border);
+                    border-radius           : var(--radius-md);
+                    background              : rgba(255, 255, 255, 0.88);
+                    box-shadow              : 0 12px 30px rgba(19, 55, 82, 0.05);
+    }
+
+    .case_toc > p {
+                    margin                  : 0 0 14px;
+                    color                   : var(--heading);
+                    font-size               : 0.78rem;
+                    font-weight             : 850;
+                    letter-spacing          : 0.09em;
+                    text-transform          : uppercase;
+    }
+
+    .case_toc ol,
+    .case_toc ul {
+                    margin                  : 0;
+                    padding                 : 0;
+                    list-style              : none;
+    }
+
+    .case_toc .toc_main_list {
+                    display                 : grid;
+                    gap                     : 4px;
+    }
+
+    .case_toc a {
+                    display                 : grid;
+                    grid-template-columns   : 28px minmax(0, 1fr);
+                    gap                     : 7px;
+                    padding                 : 7px 8px;
+                    border-radius           : 9px;
+                    color                   : var(--text-muted);
+                    font-size               : 0.78rem;
+                    font-weight             : 700;
+                    line-height             : 1.4;
+                    text-decoration         : none;
+                    transition              :
+                                              background-color var(--transition),
+                                              color var(--transition);
+    }
+
+    .case_toc a span {
+                    color                   : var(--primary);
+                    font-size               : 0.7rem;
+                    font-weight             : 850;
+                    letter-spacing          : 0.04em;
+    }
+
+    .case_toc a:hover,
+    .case_toc a:focus-visible,
+    .case_toc a.is-active {
+                    background              : var(--surface-soft);
+                    color                   : var(--primary-dark);
+    }
+
+    .case_toc .toc_sublist {
+                    display                 : grid;
+                    gap                     : 1px;
+                    margin                  : 1px 0 7px;
+    }
+
+    .case_toc .toc_sublist a {
+                    position                : relative;
+                    display                 : block;
+                    padding                 : 5px 8px 5px 31px;
+                    color                   : var(--text-muted);
+                    font-size               : 0.72rem;
+                    font-weight             : 650;
+                    line-height             : 1.35;
+    }
+
+    .case_toc .toc_sublist a::before {
+                    content                 : "";
+                    position                : absolute;
+                    top                     : 50%;
+                    left                    : 18px;
+                    width                   : 5px;
+                    height                  : 5px;
+                    border-radius           : 50%;
+                    background              : var(--line);
+                    transform               : translateY(-50%);
+    }
+
+    .case_toc .toc_sublist a:hover::before,
+    .case_toc .toc_sublist a:focus-visible::before,
+    .case_toc .toc_sublist a.is-active::before {
+                    background              : var(--primary);
+    }
+
+
+    /* =========================================================
+       8. MAJOR CASE STUDY SECTIONS
+    ========================================================== */
+    .case_section {
+                    scroll-margin-top       : 96px;
+                    padding                 : clamp(30px, 4vw, 44px);
+                    border                  : 1px solid var(--border);
+                    border-radius           : var(--radius-lg);
+                    background              : rgba(255, 255, 255, 0.88);
+                    box-shadow              : 0 14px 34px rgba(19, 55, 82, 0.06);
+                    animation               : fadeUp 0.8s ease forwards;
+    }
+
+    .case_section + .case_section {
+                    margin-top              : 24px;
+    }
+
+    .case_section_header {
+                    display                 : grid;
+                    grid-template-columns   : 54px minmax(0, 1fr);
+                    gap                     : 18px;
+                    align-items             : start;
+                    padding-bottom          : 24px;
+                    border-bottom           : 1px solid var(--border);
+    }
+
+    .section_number {
+                    display                 : grid;
+                    width                   : 50px;
+                    height                  : 50px;
+                    place-items             : center;
+                    border-radius           : 14px;
+                    background              : var(--surface-soft);
+                    color                   : var(--primary);
+                    font-size               : 0.82rem;
+                    font-weight             : 900;
+                    letter-spacing          : 0.05em;
+    }
+
+    .case_section_header h2 {
+                    margin                  : 2px 0 0;
+                    color                   : var(--heading);
+                    font-size               : clamp(1.65rem, 3vw, 2.45rem);
+                    letter-spacing          : -0.035em;
+                    line-height             : 1.15;
+    }
+
+    .case_section_body {
+                    padding-top             : 26px;
+    }
+
+    .case_section_body > p {
+                    max-width               : 900px;
+                    margin                  : 0 0 18px;
+                    color                   : var(--text-muted);
+                    line-height             : 1.78;
+    }
+
+    .case_section_body > p:last-child {
+                    margin-bottom           : 0;
+    }
+
+    .case_section_body strong {
+                    color                   : var(--heading);
+    }
+
+    .subsection_title {
+                    scroll-margin-top       : 110px;
+                    margin                  : 38px 0 16px;
+                    padding                 : 15px 17px;
+                    border-left             : 4px solid var(--primary);
+                    border-radius           : 0 12px 12px 0;
+                    background              : var(--surface-soft);
+                    color                   : var(--heading);
+                    font-size               : 1.24rem;
+                    letter-spacing          : -0.02em;
+                    line-height             : 1.3;
+    }
+
+    .case_section_body > .subsection_title:first-child {
+                    margin-top              : 0;
+    }
+
+    .detail_title {
+                    margin                  : 28px 0 12px;
+                    color                   : var(--heading);
+                    font-size               : 1.03rem;
+                    font-weight             : 820;
+                    letter-spacing          : -0.015em;
+                    line-height             : 1.4;
+    }
+
+    .content_divider {
+                    height                  : 1px;
+                    margin                  : 30px 0;
+                    border                  : 0;
+                    background              : var(--border);
+    }
+
+
+    /* =========================================================
+       9. LISTS
+    ========================================================== */
+    .content_list {
+                    display                 : grid;
+                    gap                     : 9px;
+                    max-width               : 900px;
+                    margin                  : 8px 0 22px;
+                    padding-left            : 22px;
+                    color                   : var(--text-muted);
+    }
+
+    .content_list li {
+                    padding-left            : 5px;
+                    line-height             : 1.7;
+    }
+
+    ol.content_list li::marker {
+                    color                   : var(--primary);
+                    font-weight             : 850;
+    }
+
+    ul.content_list li::marker {
+                    color                   : var(--primary);
+    }
+
+
+    /* =========================================================
+       10. TABLES
+    ========================================================== */
+    .table_wrap {
+                    margin                  : 24px 0 26px;
+                    overflow-x              : auto;
+                    border                  : 1px solid var(--border);
+                    border-radius           : var(--radius-md);
+                    background              : rgba(255, 255, 255, 0.92);
+    }
+
+    .reference_table {
+                    width                   : 100%;
+                    min-width               : 650px;
+                    border-collapse         : collapse;
+    }
+
+    .reference_table th,
+    .reference_table td {
+                    padding                 : 15px 17px;
+                    border-bottom           : 1px solid var(--border);
+                    text-align              : left;
+                    vertical-align          : top;
+                    line-height             : 1.6;
+    }
+
+    .reference_table th {
+                    background              : var(--surface-soft);
+                    color                   : var(--heading);
+                    font-size               : 0.78rem;
+                    font-weight             : 850;
+                    letter-spacing          : 0.04em;
+                    text-transform          : uppercase;
+    }
+
+    .reference_table td {
+                    color                   : var(--text-muted);
+                    font-size               : 0.9rem;
+    }
+
+    .reference_table tr:last-child td {
+                    border-bottom           : 0;
+    }
+
+
+    /* =========================================================
+       11. PROJECT FIGURES
+    ========================================================== */
+    .project_figure {
+                    margin                  : 26px 0 30px;
+    }
+
+    .project_figure img {
+                    display                 : block;
+                    width                   : 100%;
+                    height                  : auto;
+                    border                  : none;
+                    border-radius           : 0;
+                    background              : transparent;
+                    box-shadow              : none;
+    }
+
+    .project_figure figcaption,
+    .figure_grid figcaption {
+                    margin-top              : 9px;
+                    color                   : var(--text-muted);
+                    font-size               : 0.79rem;
+                    line-height             : 1.55;
+                    text-align              : center;
+    }
+
+    .figure_grid {
+                    display                 : grid;
+                    grid-template-columns   : repeat(2, minmax(0, 1fr));
+                    gap                     : 20px;
+                    margin                  : 26px 0 30px;
+    }
+
+    .figure_grid figure {
+                    margin                  : 0;
+                    min-width               : 0;
+    }
+
+    .figure_grid img {
+                    display                 : block;
+                    width                   : 100%;
+                    height                  : 290px;
+                    object-fit              : contain;
+                    border                  : 1px solid var(--border);
+                    border-radius           : var(--radius-md);
+                    background              : #ffffff;
+    }
+
+
+    /* =========================================================
+       12. HIGHLIGHT COMPONENTS
+    ========================================================== */
+    .decision_note {
+                    margin                  : 22px 0 24px !important;
+                    padding                 : 18px 20px;
+                    border-left             : 4px solid var(--primary);
+                    border-radius           : 0 12px 12px 0;
+                    background              : var(--surface-soft);
+                    color                   : var(--heading) !important;
+                    font-weight             : 760;
+                    line-height             : 1.68 !important;
+    }
+
+    .metric_grid {
+                    display                 : grid;
+                    grid-template-columns   : repeat(4, minmax(0, 1fr));
+                    gap                     : 12px;
+                    margin                  : 22px 0 28px;
+    }
+
+    .metric_card {
+                    padding                 : 18px;
+                    border                  : 1px solid var(--border);
+                    border-radius           : 14px;
+                    background              : var(--surface-soft);
+    }
+
+    .metric_card span {
+                    display                 : block;
+                    color                   : var(--text-muted);
+                    font-size               : 0.72rem;
+                    font-weight             : 800;
+                    letter-spacing          : 0.05em;
+                    text-transform          : uppercase;
+    }
+
+    .metric_card strong {
+                    display                 : block;
+                    margin-top              : 8px;
+                    color                   : var(--heading);
+                    font-size               : 1.3rem;
+                    line-height             : 1.2;
+    }
+
+    #limitations-and-next-steps .content_list li {
+                    padding                 : 13px 15px;
+                    border                  : 1px solid var(--border);
+                    border-radius           : 12px;
+                    background              : rgba(255, 255, 255, 0.72);
+                    list-style-position     : inside;
+    }
+
+
+    /* =========================================================
+       13. ENGINEERING DIAGRAMS
+    ========================================================== */
+    .engineering_diagram {
+                    margin                  : 26px 0 30px;
+                    overflow                : hidden;
+                    border                  : 1px solid var(--border);
+                    border-radius           : var(--radius-md);
+                    background              : rgba(255, 255, 255, 0.94);
+                    box-shadow              : 0 10px 26px rgba(19, 55, 82, 0.04);
+    }
+
+    .engineering_diagram_header {
+                    padding                 : 14px 18px 13px;
+                    border-bottom           : 1px solid var(--border);
+                    background              : var(--surface-soft);
+    }
+
+    .engineering_diagram_header strong {
+                    display                 : block;
+                    color                   : var(--heading);
+                    font-size               : 0.88rem;
+                    font-weight             : 850;
+                    letter-spacing          : -0.01em;
+    }
+
+    .engineering_diagram_header span {
+                    display                 : block;
+                    margin-top              : 3px;
+                    color                   : var(--text-muted);
+                    font-size               : 0.75rem;
+                    line-height             : 1.5;
+    }
+
+    .engineering_diagram_canvas {
+                    overflow-x              : auto;
+                    padding                 : 18px 16px 14px;
+    }
+
+    .engineering_diagram svg {
+                    display                 : block;
+                    width                   : 100%;
+                    min-width               : 720px;
+                    height                  : auto;
+    }
+
+    .engineering_diagram .diagram_node {
+                    fill                    : #ffffff;
+                    stroke                  : #9bc5df;
+                    stroke-width            : 1.6;
+    }
+
+    .engineering_diagram .diagram_node_accent {
+                    fill                    : #eaf5fc;
+                    stroke                  : #6aa8cf;
+                    stroke-width            : 1.7;
+    }
+
+    .engineering_diagram .diagram_node_soft {
+                    fill                    : #f7fbfe;
+                    stroke                  : #bfd8e8;
+                    stroke-width            : 1.4;
+    }
+
+    .engineering_diagram .diagram_panel {
+                    fill                    : #fbfdff;
+                    stroke                  : #d5e5ef;
+                    stroke-width            : 1.4;
+    }
+
+    .engineering_diagram .diagram_text {
+                    fill                    : #17364b;
+                    font-family             : ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+                    font-size               : 14px;
+                    font-weight             : 750;
+    }
+
+    .engineering_diagram .diagram_text_small {
+                    fill                    : #60798a;
+                    font-family             : ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+                    font-size               : 11.5px;
+                    font-weight             : 650;
+    }
+
+    .engineering_diagram .diagram_arrow,
+    .engineering_diagram .diagram_line {
+                    fill                    : none;
+                    stroke                  : #4f8db7;
+                    stroke-width            : 2;
+                    stroke-linecap          : round;
+                    stroke-linejoin         : round;
+    }
+
+    .engineering_diagram .diagram_line_muted {
+                    fill                    : none;
+                    stroke                  : #a9c5d6;
+                    stroke-width            : 1.4;
+                    stroke-linecap          : round;
+                    stroke-linejoin         : round;
+    }
+
+    .engineering_diagram .diagram_emphasis {
+                    fill                    : #2f79aa;
+    }
+
+    .engineering_diagram .diagram_warning {
+                    fill                    : #fff8ed;
+                    stroke                  : #ddb66d;
+                    stroke-width            : 1.5;
+    }
+
+    .engineering_diagram figcaption {
+                    margin                  : 0;
+                    padding                 : 0 18px 15px;
+                    color                   : var(--text-muted);
+                    font-size               : 0.76rem;
+                    line-height             : 1.55;
+                    text-align              : center;
+    }
+
+
+    /* =========================================================
+       14. BOTTOM NAVIGATION
+    ========================================================== */
+    .case_bottom {
+                    display                 : flex;
+                    justify-content         : space-between;
+                    gap                     : 20px;
+                    margin-top              : 40px;
+                    padding-top             : 28px;
+                    border-top              : 1px solid var(--border);
+    }
+
+    .case_bottom a {
+                    color                   : var(--primary-dark);
+                    font-weight             : 800;
+                    text-decoration         : none;
+    }
+
+    .case_bottom a:hover,
+    .case_bottom a:focus-visible {
+                    color                   : var(--primary);
+    }
+
+
+    /* =========================================================
+       15. RESPONSIVE
+    ========================================================== */
+    @media (max-width: 980px) {
+      .case_shell {
+                    grid-template-columns   : 1fr;
+                    gap                     : 30px;
+      }
+
+      .case_toc {
+                    position                : static;
+      }
+
+      .case_toc .toc_main_list {
+                    grid-template-columns   : repeat(2, minmax(0, 1fr));
+                    gap                     : 5px 12px;
+      }
+
+      .metric_grid {
+                    grid-template-columns   : repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 720px) {
+      .case_page {
+                    padding-top             : 52px;
+      }
+
+      .project_intro h1 {
+                    font-size               : clamp(2rem, 9vw, 3.1rem);
+      }
+
+      .project_meta_grid,
+      .figure_grid,
+      .metric_grid {
+                    grid-template-columns   : 1fr;
+      }
+
+      .figure_grid img {
+                    height                  : auto;
+      }
+
+      .case_toc .toc_main_list {
+                    grid-template-columns   : 1fr;
+      }
+
+      .case_section {
+                    padding                 : 26px 22px;
+                    border-radius           : 22px;
+      }
+
+      .case_section_header {
+                    grid-template-columns   : 46px minmax(0, 1fr);
+                    gap                     : 14px;
+      }
+
+      .section_number {
+                    width                   : 44px;
+                    height                  : 44px;
+                    border-radius           : 12px;
+      }
+
+      .engineering_diagram svg {
+                    min-width               : 660px;
+      }
+
+      .case_bottom {
+                    flex-direction          : column;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .project_meta_item {
+                    min-height              : auto;
+                    padding                 : 14px 0 0;
+      }
+
+      .case_section {
+                    padding                 : 23px 18px;
+      }
+
+      .reference_table {
+                    min-width               : 580px;
+      }
+    }
+
+  </style>
+</head>
+
+
+<!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+                    HTML BODY
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- -->
+
+<body>
+
+  <!--================================================
+                MAIN MENU
+  ====================================================-->
+  <header class="header_menu">
+      <a href="/" aria-label="Go to homepage">
+          <img    class="logo_image"
+                  src="media/profile/logo.svg"
+                  alt="Logo"
+          >
+      </a>
+
+      <nav class="menu_links">
+          <a href="about.html">About</a>
+          <a href="project.html" aria-current="page">Projects</a>
+          <a href="blog.html">Blog</a>
+          <a href="life_and_events.html">Life &amp; Events</a>
+          <a href="index.html#contact_box_section">Contact</a>
+      </nav>
+  </header>
+
+
+  <!--================================================
+                PROJECT CASE STUDY
+  ====================================================-->
+  <main class="case_page" id="top">
+    <div class="container">
+
+      <!-- =========================================
+           PROJECT INTRO
+      --------------------------------------------- -->
+      <header class="project_intro">
+
+        <a class="back_link" href="project.html#computer_vision">
+          ← Back to Projects
+        </a>
+
+        <h1>Real-Time Object Detection on Raspberry Pi</h1>
+
+        <div class="project_meta_grid">
+          <div class="project_meta_item">
+            <span>Project type</span>
+            <strong>Advanced Embedded Systems course project</strong>
+          </div>
+
+          <div class="project_meta_item">
+            <span>Main contribution</span>
+            <strong>Designed and implemented an embedded object-detection pipeline with camera capture, MobileNet-SSD inference, multithreaded processing, and remote display</strong>
+          </div>
+
+          <div class="project_meta_item">
+            <span>Core technologies</span>
+            <strong>Python, OpenCV, MobileNet-SSD, Raspberry Pi 3, Raspbian, Logitech C615</strong>
+          </div>
+
+          <div class="project_meta_item">
+            <span>System focus</span>
+            <strong>Low-cost edge inference · USB video · multithreading · LAN remote monitoring</strong>
+          </div>
+        </div>
+
+      </header>
+
+
+      <!-- =========================================
+           CASE STUDY CONTENT
+      --------------------------------------------- -->
+      <div class="case_shell">
+
+        <!-- -------------------------------
+             Table of contents
+        -------------------------------- -->
+        <aside class="case_toc" aria-label="Project table of contents">
+          <p>On this page</p>
+
+          <ol class="toc_main_list">
+            <li>
+              <a href="projects/computer_vision/raspberry_pi_object_detection.html#project-context">
+                <span>01</span>Project context
+              </a>
+            </li>
+
+            <li>
+              <a href="projects/computer_vision/raspberry_pi_object_detection.html#requirements-and-constraints">
+                <span>02</span>Requirements and constraints
+              </a>
+            </li>
+
+            <li>
+              <a href="projects/computer_vision/raspberry_pi_object_detection.html#hardware-and-software-stack">
+                <span>03</span>Hardware and software stack
+              </a>
+            </li>
+
+            <li>
+              <a href="projects/computer_vision/raspberry_pi_object_detection.html#system-architecture">
+                <span>04</span>System architecture
+              </a>
+              <ul class="toc_sublist">
+                <li><a href="projects/computer_vision/raspberry_pi_object_detection.html#camera-to-display-path">Camera-to-display path</a></li>
+                <li><a href="projects/computer_vision/raspberry_pi_object_detection.html#concurrent-processing">Concurrent processing</a></li>
+              </ul>
+            </li>
+
+            <li>
+              <a href="projects/computer_vision/raspberry_pi_object_detection.html#software-pipeline">
+                <span>05</span>Software pipeline
+              </a>
+            </li>
+
+            <li>
+              <a href="projects/computer_vision/raspberry_pi_object_detection.html#results">
+                <span>06</span>Results
+              </a>
+            </li>
+
+            <li>
+              <a href="projects/computer_vision/raspberry_pi_object_detection.html#limitations-and-next-steps">
+                <span>07</span>Limitations and next steps
+              </a>
+            </li>
+          </ol>
+        </aside>
+
+
+        <article class="case_content">
+
+          <!-- =========================================
+               PROJECT CONTEXT
+          --------------------------------------------- -->
+          <section class="case_section" id="project-context" aria-labelledby="project-context-title">
+            <header class="case_section_header">
+              <span class="section_number">01</span>
+              <h2 id="project-context-title">Project context</h2>
+            </header>
+
+            <div class="case_section_body">
+              <p>This project explored whether a low-cost <strong>Raspberry Pi 3</strong> could run deep-learning-based object detection while also supporting a continuously displayed camera stream. The target use case was small indoor monitoring, where objects move relatively slowly and the system can operate with a fixed camera.</p>
+
+              <p>The prototype used a <strong>Logitech C615 USB camera</strong> for image acquisition, a MobileNet-based detector through OpenCV for recognition, and a laptop connected over LAN for remote monitoring.</p>
+
+              <p class="decision_note"><strong>Important performance distinction:</strong> the camera/display path operated at about 29 FPS, but neural object detection itself was reported at only about 0.9–1 FPS on the Raspberry Pi 3. The project therefore demonstrated live video monitoring with periodic embedded inference rather than 20+ FPS neural detection.</p>
+
+              <p>The detector was configured for 20 predefined object categories and returned a bounding box, class label, and confidence for recognized objects.</p>
+            </div>
+          </section>
+
+
+          <!-- =========================================
+               REQUIREMENTS AND CONSTRAINTS
+          --------------------------------------------- -->
+          <section class="case_section" id="requirements-and-constraints" aria-labelledby="requirements-and-constraints-title">
+            <header class="case_section_header">
+              <span class="section_number">02</span>
+              <h2 id="requirements-and-constraints-title">Requirements and Constraints</h2>
+            </header>
+
+            <div class="case_section_body">
+              <p>The original design specification combined cost, recognition quality, continuous operation, remote monitoring, and real-time behavior. Some values were aspirational requirements rather than achieved prototype results, so I separate them from the measured results later in this case study.</p>
+
+              <div class="table_wrap">
+                <table class="reference_table">
+                  <thead>
+                    <tr>
+                      <th>Area</th>
+                      <th>Original requirement / design target</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Cost</td>
+                      <td>Keep the device below approximately 4 million VND.</td>
+                    </tr>
+                    <tr>
+                      <td>Recognition</td>
+                      <td>Target approximately 90% or higher recognition accuracy.</td>
+                    </tr>
+                    <tr>
+                      <td>Video</td>
+                      <td>Maintain a high camera/display frame rate, with the specification targeting more than 20 FPS.</td>
+                    </tr>
+                    <tr>
+                      <td>Operation</td>
+                      <td>Continuous monitoring, remote access, and a fixed camera installation.</td>
+                    </tr>
+                    <tr>
+                      <td>Environment</td>
+                      <td>Indoor use, sufficient lighting, and relatively slow-moving objects.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <p>The presentation also listed automatic reset and backup power as desired functional requirements. These were part of the system requirements, but the final slides do not provide evidence that they were implemented in the prototype.</p>
+            </div>
+          </section>
+
+
+          <!-- =========================================
+               HARDWARE AND SOFTWARE STACK
+          --------------------------------------------- -->
+          <section class="case_section" id="hardware-and-software-stack" aria-labelledby="hardware-and-software-stack-title">
+            <header class="case_section_header">
+              <span class="section_number">03</span>
+              <h2 id="hardware-and-software-stack-title">Hardware and Software Stack</h2>
+            </header>
+
+            <div class="case_section_body">
+              <div class="table_wrap">
+                <table class="reference_table">
+                  <thead>
+                    <tr>
+                      <th>Component</th>
+                      <th>Purpose</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Raspberry Pi 3 Model B</td>
+                      <td>Runs Raspbian, captures frames, performs object detection, and manages the concurrent display/inference paths.</td>
+                    </tr>
+                    <tr>
+                      <td>Logitech C615</td>
+                      <td>USB camera used to capture approximately 640 × 480 video at around 29–30 FPS.</td>
+                    </tr>
+                    <tr>
+                      <td>MobileNet-SSD + OpenCV</td>
+                      <td>Lightweight deep-learning detector selected for operation on resource-constrained hardware.</td>
+                    </tr>
+                    <tr>
+                      <td>Laptop + Remote Desktop</td>
+                      <td>Receives the Raspberry Pi desktop over LAN and displays the live stream and detection results.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <p>The reported hardware cost was approximately <strong>3.25 million VND</strong>: about 2 million VND for the camera, 1.2 million VND for the Raspberry Pi 3, and roughly 50,000 VND for the 5 V / 2.5 A power supply. This kept the prototype below the initial 4-million-VND budget target.</p>
+
+              <div class="figure_grid">
+                <figure>
+                  <img src="media/projects/raspberry_pi_object_detection/hardware_setup.jpg" alt="Raspberry Pi 3 connected to the Logitech C615 camera">
+                  <figcaption>Prototype hardware: Raspberry Pi 3 connected to the Logitech C615 camera.</figcaption>
+                </figure>
+
+                <figure>
+                  <img src="media/projects/raspberry_pi_object_detection/remote_desktop.png" alt="Remote Desktop Connection used to access the Raspberry Pi">
+                  <figcaption>Remote Desktop Connection used to access the Raspberry Pi over LAN.</figcaption>
+                </figure>
+              </div>
+            </div>
+          </section>
+
+
+          <!-- =========================================
+               SYSTEM ARCHITECTURE
+          --------------------------------------------- -->
+          <section class="case_section" id="system-architecture" aria-labelledby="system-architecture-title">
+            <header class="case_section_header">
+              <span class="section_number">04</span>
+              <h2 id="system-architecture-title">System Architecture</h2>
+            </header>
+
+            <div class="case_section_body">
+              <h3 class="subsection_title" id="camera-to-display-path">Camera-to-display path</h3>
+              <p>The system was organized around three hardware blocks: image acquisition, embedded processing, and remote display. The camera sent frames to the Raspberry Pi through USB. The Pi handled both the live-video path and the recognition path, while the laptop displayed the result through a LAN Remote Desktop connection.</p>
+
+              <figure class="engineering_diagram">
+                <div class="engineering_diagram_header">
+                  <strong>Embedded monitoring architecture</strong>
+                  <span>USB camera input → Raspberry Pi processing → LAN remote display</span>
+                </div>
+                <div class="engineering_diagram_canvas">
+                  <svg aria-labelledby="system-title system-desc" role="img" viewBox="0 0 1080 410">
+                    <title id="system-title">Raspberry Pi object detection system architecture</title>
+                    <desc id="system-desc">A USB camera sends frames to Raspberry Pi 3. The Pi processes detection and live display data, then the result is viewed from a laptop over LAN using Remote Desktop.</desc>
+                    <defs>
+                      <marker id="arrow-system" markerHeight="7" markerWidth="7" orient="auto-start-reverse" refX="9" refY="5" viewBox="0 0 10 10">
+                        <path class="diagram_emphasis" d="M 0 0 L 10 5 L 0 10 z"></path>
+                      </marker>
+                    </defs>
+
+                    <rect class="diagram_panel" height="282" rx="18" width="250" x="35" y="56"></rect>
+                    <text class="diagram_text" text-anchor="middle" x="160" y="94">Image acquisition</text>
+                    <rect class="diagram_node" height="82" rx="13" width="178" x="71" y="126"></rect>
+                    <text class="diagram_text" text-anchor="middle" x="160" y="158">Logitech C615</text>
+                    <text class="diagram_text_small" text-anchor="middle" x="160" y="182">640 × 480 · ~29–30 FPS</text>
+                    <rect class="diagram_node_soft" height="54" rx="12" width="178" x="71" y="235"></rect>
+                    <text class="diagram_text_small" text-anchor="middle" x="160" y="267">USB video stream</text>
+
+                    <path class="diagram_arrow" d="M285 197 H368" marker-end="url(#arrow-system)"></path>
+                    <text class="diagram_text_small" text-anchor="middle" x="327" y="183">USB</text>
+
+                    <rect class="diagram_panel" height="320" rx="18" width="400" x="385" y="36"></rect>
+                    <text class="diagram_text" text-anchor="middle" x="585" y="74">Raspberry Pi 3</text>
+                    <rect class="diagram_node_accent" height="74" rx="13" width="302" x="434" y="103"></rect>
+                    <text class="diagram_text" text-anchor="middle" x="585" y="134">Frame capture + queue</text>
+                    <text class="diagram_text_small" text-anchor="middle" x="585" y="156">OpenCV video input</text>
+                    <path class="diagram_arrow" d="M585 177 V205 H488 V225" marker-end="url(#arrow-system)"></path>
+                    <path class="diagram_arrow" d="M585 177 V205 H682 V225" marker-end="url(#arrow-system)"></path>
+                    <rect class="diagram_node_soft" height="84" rx="13" width="170" x="403" y="231"></rect>
+                    <text class="diagram_text" text-anchor="middle" x="488" y="263">Live display path</text>
+                    <text class="diagram_text_small" text-anchor="middle" x="488" y="286">recent camera frames</text>
+                    <rect class="diagram_node_accent" height="84" rx="13" width="170" x="597" y="231"></rect>
+                    <text class="diagram_text" text-anchor="middle" x="682" y="263">Detection path</text>
+                    <text class="diagram_text_small" text-anchor="middle" x="682" y="286">MobileNet-SSD</text>
+
+                    <path class="diagram_arrow" d="M785 197 H861" marker-end="url(#arrow-system)"></path>
+                    <text class="diagram_text_small" text-anchor="middle" x="823" y="183">LAN</text>
+
+                    <rect class="diagram_panel" height="282" rx="18" width="184" x="878" y="56"></rect>
+                    <text class="diagram_text" text-anchor="middle" x="970" y="94">Laptop</text>
+                    <rect class="diagram_node" height="100" rx="13" width="134" x="903" y="126"></rect>
+                    <text class="diagram_text" text-anchor="middle" x="970" y="158">Remote Desktop</text>
+                    <text class="diagram_text_small" text-anchor="middle" x="970" y="181">video + detection</text>
+                    <text class="diagram_text_small" text-anchor="middle" x="970" y="201">result display</text>
+                  </svg>
+                </div>
+                <figcaption>System architecture reconstructed from the original project block diagrams.</figcaption>
+              </figure>
+
+              <h3 class="subsection_title" id="concurrent-processing">Concurrent processing on the Raspberry Pi</h3>
+              <p>A key design decision was to avoid making the slow object-detection stage block the live video display. The Raspberry Pi used multithreading so that frame acquisition/display and object recognition could proceed as concurrent paths.</p>
+
+              <p>This separation was necessary because the camera produced roughly 29–30 frames each second while the detector processed only about one frame each second. Keeping the two paths separate allowed the displayed stream to remain responsive even when inference was much slower.</p>
+            </div>
+          </section>
+
+
+          <!-- =========================================
+               SOFTWARE PIPELINE
+          --------------------------------------------- -->
+          <section class="case_section" id="software-pipeline" aria-labelledby="software-pipeline-title">
+            <header class="case_section_header">
+              <span class="section_number">05</span>
+              <h2 id="software-pipeline-title">Software Pipeline</h2>
+            </header>
+
+            <div class="case_section_body">
+              <p>The software flow in the presentation begins by loading the model and system configuration, resizing frames, initializing the application classes and queue, and starting the video source. The main loop then captures frames and feeds the two concurrent paths.</p>
+
+              <figure class="engineering_diagram">
+                <div class="engineering_diagram_header">
+                  <strong>Runtime flow</strong>
+                  <span>One frame source, a queue, and separate display and MobileNet-SSD inference paths</span>
+                </div>
+                <div class="engineering_diagram_canvas">
+                  <svg aria-labelledby="runtime-title runtime-desc" role="img" viewBox="0 0 1080 760">
+                    <title id="runtime-title">Raspberry Pi runtime flow</title>
+                    <desc id="runtime-desc">The application loads the model, initializes the queue and video, captures frames, then runs a live display path and a MobileNet-SSD detection path before showing bounding boxes and confidence.</desc>
+                    <defs>
+                      <marker id="arrow-runtime" markerHeight="7" markerWidth="7" orient="auto-start-reverse" refX="9" refY="5" viewBox="0 0 10 10">
+                        <path class="diagram_emphasis" d="M 0 0 L 10 5 L 0 10 z"></path>
+                      </marker>
+                    </defs>
+
+                    <rect class="diagram_node_accent" height="58" rx="14" width="270" x="405" y="22"></rect>
+                    <text class="diagram_text" text-anchor="middle" x="540" y="57">Start application</text>
+                    <path class="diagram_arrow" d="M540 80 V106" marker-end="url(#arrow-runtime)"></path>
+
+                    <rect class="diagram_node" height="76" rx="13" width="380" x="350" y="112"></rect>
+                    <text class="diagram_text" text-anchor="middle" x="540" y="142">Load MobileNet-SSD + configuration</text>
+                    <text class="diagram_text_small" text-anchor="middle" x="540" y="165">initialize classes · resize settings</text>
+                    <path class="diagram_arrow" d="M540 188 V214" marker-end="url(#arrow-runtime)"></path>
+
+                    <rect class="diagram_node" height="68" rx="13" width="340" x="370" y="220"></rect>
+                    <text class="diagram_text" text-anchor="middle" x="540" y="250">Initialize queue + video capture</text>
+                    <text class="diagram_text_small" text-anchor="middle" x="540" y="272">USB camera input</text>
+                    <path class="diagram_arrow" d="M540 288 V314" marker-end="url(#arrow-runtime)"></path>
+
+                    <rect class="diagram_node_accent" height="68" rx="13" width="340" x="370" y="320"></rect>
+                    <text class="diagram_text" text-anchor="middle" x="540" y="350">Capture current frame</text>
+                    <text class="diagram_text_small" text-anchor="middle" x="540" y="372">push frame / reference into processing flow</text>
+
+                    <path class="diagram_arrow" d="M540 388 V425 H282 V448" marker-end="url(#arrow-runtime)"></path>
+                    <path class="diagram_arrow" d="M540 388 V425 H798 V448" marker-end="url(#arrow-runtime)"></path>
+
+                    <rect class="diagram_node_soft" height="104" rx="15" width="320" x="122" y="454"></rect>
+                    <text class="diagram_text" text-anchor="middle" x="282" y="486">Live-video path</text>
+                    <text class="diagram_text_small" text-anchor="middle" x="282" y="512">display camera frames</text>
+                    <text class="diagram_text_small" text-anchor="middle" x="282" y="535">independent of slow inference</text>
+
+                    <rect class="diagram_node_soft" height="104" rx="15" width="320" x="638" y="454"></rect>
+                    <text class="diagram_text" text-anchor="middle" x="798" y="486">Detection path</text>
+                    <text class="diagram_text_small" text-anchor="middle" x="798" y="512">MobileNet-SSD inference</text>
+                    <text class="diagram_text_small" text-anchor="middle" x="798" y="535">class · confidence · bounding box</text>
+
+                    <path class="diagram_arrow" d="M798 558 V590" marker-end="url(#arrow-runtime)"></path>
+                    <rect class="diagram_warning" height="72" rx="13" width="330" x="633" y="596"></rect>
+                    <text class="diagram_text" text-anchor="middle" x="798" y="625">Render detection result</text>
+                    <text class="diagram_text_small" text-anchor="middle" x="798" y="647">box + label + confidence</text>
+
+                    <path class="diagram_arrow" d="M282 558 V701 H468" marker-end="url(#arrow-runtime)"></path>
+                    <path class="diagram_arrow" d="M798 668 V701 H612" marker-end="url(#arrow-runtime)"></path>
+                    <rect class="diagram_node_accent" height="50" rx="12" width="144" x="468" y="676"></rect>
+                    <text class="diagram_text" text-anchor="middle" x="540" y="707">Remote display</text>
+                  </svg>
+                </div>
+                <figcaption>Cleaned-up representation of the software flow shown in the original presentation.</figcaption>
+              </figure>
+            </div>
+          </section>
+
+
+          <!-- =========================================
+               RESULTS
+          --------------------------------------------- -->
+          <section class="case_section" id="results" aria-labelledby="results-title">
+            <header class="case_section_header">
+              <span class="section_number">06</span>
+              <h2 id="results-title">Results</h2>
+            </header>
+
+            <div class="case_section_body">
+              <p>The final prototype successfully connected the USB camera to the Raspberry Pi, exposed the Pi through Remote Desktop, and ran the MobileNet-SSD detector on live camera input.</p>
+
+              <div class="metric_grid" aria-label="Reported prototype performance">
+                <div class="metric_card">
+                  <span>Camera / display</span>
+                  <strong>~29 FPS</strong>
+                </div>
+                <div class="metric_card">
+                  <span>Detection</span>
+                  <strong>~0.9–1 FPS</strong>
+                </div>
+                <div class="metric_card">
+                  <span>Reported accuracy</span>
+                  <strong>~90%</strong>
+                </div>
+                <div class="metric_card">
+                  <span>Remote delay</span>
+                  <strong>~0.2 s</strong>
+                </div>
+              </div>
+
+              <p>The important engineering result was not that every frame could be processed by the neural network. Instead, the architecture kept the live video path responsive while periodically updating the object-detection result in parallel.</p>
+
+              <figure class="project_figure">
+                <img src="media/projects/raspberry_pi_object_detection/detection_demo.png" alt="Object detection result running on Raspberry Pi through Remote Desktop">
+                <figcaption>Final demonstration: MobileNet-SSD detection running on the Raspberry Pi and viewed through Remote Desktop.</figcaption>
+              </figure>
+            </div>
+          </section>
+
+
+          <!-- =========================================
+               LIMITATIONS AND NEXT STEPS
+          --------------------------------------------- -->
+          <section class="case_section" id="limitations-and-next-steps" aria-labelledby="limitations-and-next-steps-title">
+            <header class="case_section_header">
+              <span class="section_number">07</span>
+              <h2 id="limitations-and-next-steps-title">Limitations and Next Steps</h2>
+            </header>
+
+            <div class="case_section_body">
+              <ul class="content_list">
+                <li><strong>Inference speed was the main bottleneck.</strong> The Raspberry Pi 3 processed only about one detection frame per second, so the prototype was better suited to slow indoor scenes than fast-moving surveillance targets.</li>
+                <li><strong>The original performance requirements were more ambitious than the measured prototype.</strong> The presentation listed targets above 20 FPS and very low communication latency, but the reported implementation achieved approximately 0.9–1 FPS detection and about 0.2 s remote-display delay.</li>
+                <li><strong>Remote Desktop was practical for demonstration, not an optimized video-delivery architecture.</strong> A dedicated streaming/output path would provide better control over latency and bandwidth.</li>
+                <li><strong>Reliability features remained requirements rather than demonstrated results.</strong> The slides proposed automatic reset and backup power, but do not show their implementation.</li>
+                <li><strong>A modern revision would focus on model/runtime acceleration.</strong> Quantization, a lighter inference runtime, hardware acceleration, and bounded frame queues would be natural next steps while preserving the same decoupled display/inference architecture.</li>
+              </ul>
+            </div>
+          </section>
+
+
+          <!-- =========================================
+               BOTTOM NAVIGATION
+          --------------------------------------------- -->
+          <nav class="case_bottom" aria-label="Project navigation">
+            <a href="project.html#computer_vision">← Back to Projects</a>
+            <a href="projects/computer_vision/raspberry_pi_object_detection.html#top">Back to top ↑</a>
+          </nav>
+
+        </article>
+      </div>
+    </div>
+  </main>
+
+
+  <!--================================================
+                FOOTER
+  ====================================================-->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span>© <span id="current-year"></span> Duc An Nguyen</span>
+
+      <div class="footer-links">
+        <a href="mailto:ducannguyen.da@gmail.com">Email</a>
+        <a
+          href="https://github.com/duc-an-nguyen"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          GitHub
+        </a>
+        <a
+          href="https://www.linkedin.com/in/ducannguyen"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          LinkedIn
+        </a>
+        <a href="projects/computer_vision/raspberry_pi_object_detection.html#top">Back to top ↑</a>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+                  JAVASCRIPT
+  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- -->
+  <script>
+
+    /* =========================================================
+       CURRENT YEAR
+    ========================================================== */
+    document.getElementById("current-year").textContent =
+      new Date().getFullYear();
+
+
+    /* =========================================================
+       ACTIVE TABLE OF CONTENTS LINK
+    ========================================================== */
+    const tocTargets = document.querySelectorAll(
+      ".case_section, .subsection_title[id]"
+    );
+
+    const tocLinks = document.querySelectorAll(".case_toc a");
+
+    const tocObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+
+          tocLinks.forEach((link) => {
+            const linkHash = new URL(link.href).hash;
+            const isActive = linkHash === `#${entry.target.id}`;
+
+            link.classList.toggle("is-active", isActive);
+          });
+        });
+      },
+      {
+        rootMargin: "-22% 0px -68% 0px",
+        threshold: 0
+      }
+    );
+
+    tocTargets.forEach((target) => {
+      tocObserver.observe(target);
+    });
+
+  </script>
+</body>
+</html>
