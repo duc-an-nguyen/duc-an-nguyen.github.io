@@ -9,10 +9,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Real-Time Object Detection on Raspberry Pi | Duc An Nguyen</title>
+  <title>Edge Object Detection on Raspberry Pi | Duc An Nguyen</title>
   <meta
     name="description"
-    content="Embedded computer vision case study covering MobileNet-SSD object detection, Raspberry Pi 3 deployment, multithreaded video processing, remote monitoring, and performance trade-offs."
+    content="Personal embedded AI project demonstrating MobileNet-SSD object detection running directly on a Raspberry Pi 3, with multithreaded video processing and remote monitoring."
   />
 
 
@@ -22,7 +22,7 @@
 
   <!--
     Intended location:
-    projects/computer_vision/raspberry_pi_object_detection.html
+    projects/raspberry_pi_object_detection.html
   -->
   <base href="../../">
   <link rel="icon" type="image/x-icon" href="media/profile/favicon.ico">
@@ -447,6 +447,31 @@
     }
 
 
+    .project_video {
+                    margin                  : 30px 0 0;
+                    text-align              : center;
+    }
+
+    .project_video video {
+                    display                 : block;
+                    width                   : min(100%, 430px);
+                    height                  : auto;
+                    margin                  : 0 auto;
+                    border                  : 1px solid var(--border);
+                    border-radius           : var(--radius-md);
+                    background              : #000000;
+                    box-shadow              : 0 10px 26px rgba(19, 55, 82, 0.06);
+    }
+
+    .project_video figcaption {
+                    margin-top              : 9px;
+                    color                   : var(--text-muted);
+                    font-size               : 0.79rem;
+                    line-height             : 1.55;
+                    text-align              : center;
+    }
+
+
     /* =========================================================
        12. HIGHLIGHT COMPONENTS
     ========================================================== */
@@ -778,27 +803,27 @@
           ← Back to Projects
         </a>
 
-        <h1>Real-Time Object Detection on Raspberry Pi</h1>
+        <h1>Edge Object Detection on Raspberry Pi</h1>
 
         <div class="project_meta_grid">
           <div class="project_meta_item">
             <span>Project type</span>
-            <strong>Advanced Embedded Systems course project</strong>
+            <strong>Personal embedded AI project</strong>
           </div>
 
           <div class="project_meta_item">
             <span>Main contribution</span>
-            <strong>Designed and implemented an embedded object-detection pipeline with camera capture, MobileNet-SSD inference, multithreaded processing, and remote display</strong>
+            <strong>Deployed MobileNet-SSD in Caffe format through OpenCV DNN directly on a Raspberry Pi 3 and built a concurrent camera, inference, and remote-display pipeline</strong>
           </div>
 
           <div class="project_meta_item">
             <span>Core technologies</span>
-            <strong>Python, OpenCV, MobileNet-SSD, Raspberry Pi 3, Raspbian, Logitech C615</strong>
+            <strong>Python, OpenCV DNN, MobileNet-SSD, Caffe, Raspberry Pi 3, Raspbian, Logitech C615</strong>
           </div>
 
           <div class="project_meta_item">
             <span>System focus</span>
-            <strong>Low-cost edge inference · USB video · multithreading · LAN remote monitoring</strong>
+            <strong>On-device inference · edge AI deployment · USB video · multithreading · remote monitoring</strong>
           </div>
         </div>
 
@@ -818,47 +843,47 @@
 
           <ol class="toc_main_list">
             <li>
-              <a href="projects/computer_vision/raspberry_pi_object_detection.html#project-context">
+              <a href="projects/raspberry_pi_object_detection.html#project-context">
                 <span>01</span>Project context
               </a>
             </li>
 
             <li>
-              <a href="projects/computer_vision/raspberry_pi_object_detection.html#requirements-and-constraints">
-                <span>02</span>Requirements and constraints
+              <a href="projects/raspberry_pi_object_detection.html#edge-deployment-goals">
+                <span>02</span>Edge deployment goals
               </a>
             </li>
 
             <li>
-              <a href="projects/computer_vision/raspberry_pi_object_detection.html#hardware-and-software-stack">
+              <a href="projects/raspberry_pi_object_detection.html#hardware-and-software-stack">
                 <span>03</span>Hardware and software stack
               </a>
             </li>
 
             <li>
-              <a href="projects/computer_vision/raspberry_pi_object_detection.html#system-architecture">
+              <a href="projects/raspberry_pi_object_detection.html#system-architecture">
                 <span>04</span>System architecture
               </a>
               <ul class="toc_sublist">
-                <li><a href="projects/computer_vision/raspberry_pi_object_detection.html#camera-to-display-path">Camera-to-display path</a></li>
-                <li><a href="projects/computer_vision/raspberry_pi_object_detection.html#concurrent-processing">Concurrent processing</a></li>
+                <li><a href="projects/raspberry_pi_object_detection.html#camera-to-display-path">Camera-to-display path</a></li>
+                <li><a href="projects/raspberry_pi_object_detection.html#concurrent-processing">Concurrent processing</a></li>
               </ul>
             </li>
 
             <li>
-              <a href="projects/computer_vision/raspberry_pi_object_detection.html#software-pipeline">
+              <a href="projects/raspberry_pi_object_detection.html#software-pipeline">
                 <span>05</span>Software pipeline
               </a>
             </li>
 
             <li>
-              <a href="projects/computer_vision/raspberry_pi_object_detection.html#results">
+              <a href="projects/raspberry_pi_object_detection.html#results">
                 <span>06</span>Results
               </a>
             </li>
 
             <li>
-              <a href="projects/computer_vision/raspberry_pi_object_detection.html#limitations-and-next-steps">
+              <a href="projects/raspberry_pi_object_detection.html#limitations-and-next-steps">
                 <span>07</span>Limitations and next steps
               </a>
             </li>
@@ -878,11 +903,19 @@
             </header>
 
             <div class="case_section_body">
-              <p>This project explored whether a low-cost <strong>Raspberry Pi 3</strong> could run deep-learning-based object detection while also supporting a continuously displayed camera stream. The target use case was small indoor monitoring, where objects move relatively slowly and the system can operate with a fixed camera.</p>
+              <p>This personal project focused on a practical edge-AI question: can neural object detection run directly on a Raspberry Pi 3 without sending frames to a cloud service or GPU server? The target use case was a fixed indoor camera monitoring relatively slow-moving objects.</p>
 
-              <p>The prototype used a <strong>Logitech C615 USB camera</strong> for image acquisition, a MobileNet-based detector through OpenCV for recognition, and a laptop connected over LAN for remote monitoring.</p>
-
-              <p class="decision_note"><strong>Important performance distinction:</strong> the camera/display path operated at about 29 FPS, but neural object detection itself was reported at only about 0.9–1 FPS on the Raspberry Pi 3. The project therefore demonstrated live video monitoring with periodic embedded inference rather than 20+ FPS neural detection.</p>
+              <p>The prototype used a Logitech C615 USB camera for image acquisition and a MobileNet-SSD detector through OpenCV. Camera capture, preprocessing, inference, and detection-result generation were executed on the Raspberry Pi itself. The laptop was used only to view the Raspberry Pi remotely over LAN.</p>
+              
+              <!-- ---------------------------------------------
+               Overview figure
+              --------------------------------------------- -->
+              <figure class="project_figure ">
+                <img    
+                  src="media/projects/pi_with_objectdetection/overview.svg" 
+                  alt="Raspberry Pi edge object detection overview" 
+                  >
+              </figure>
 
               <p>The detector was configured for 20 predefined object categories and returned a bounding box, class label, and confidence for recognized objects.</p>
             </div>
@@ -890,51 +923,51 @@
 
 
           <!-- =========================================
-               REQUIREMENTS AND CONSTRAINTS
+               EDGE DEPLOYMENT GOALS
           --------------------------------------------- -->
-          <section class="case_section" id="requirements-and-constraints" aria-labelledby="requirements-and-constraints-title">
+          <section class="case_section" id="edge-deployment-goals" aria-labelledby="edge-deployment-goals-title">
             <header class="case_section_header">
               <span class="section_number">02</span>
-              <h2 id="requirements-and-constraints-title">Requirements and Constraints</h2>
+              <h2 id="edge-deployment-goals-title">Edge Deployment Goals</h2>
             </header>
 
             <div class="case_section_body">
-              <p>The original design specification combined cost, recognition quality, continuous operation, remote monitoring, and real-time behavior. Some values were aspirational requirements rather than achieved prototype results, so I separate them from the measured results later in this case study.</p>
+              <p>I designed the prototype around the practical constraints of resource-constrained edge hardware: limited compute, continuous camera input, local inference, and the need to keep monitoring responsive even when neural inference was significantly slower than the camera frame rate.</p>
 
               <div class="table_wrap">
                 <table class="reference_table">
                   <thead>
                     <tr>
                       <th>Area</th>
-                      <th>Original requirement / design target</th>
+                      <th>Engineering goal</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td>Cost</td>
-                      <td>Keep the device below approximately 4 million VND.</td>
+                      <td>On-device inference</td>
+                      <td>Run the object detector directly on the Raspberry Pi 3 rather than using a separate server for AI computation.</td>
+                    </tr>
+                    <tr>
+                      <td>Continuous operation</td>
+                      <td>Continuously capture frames from the USB camera and process them locally on the edge device.</td>
+                    </tr>
+                    <tr>
+                      <td>Responsive monitoring</td>
+                      <td>Keep the camera/display path responsive even though neural inference is much slower than frame acquisition.</td>
                     </tr>
                     <tr>
                       <td>Recognition</td>
-                      <td>Target approximately 90% or higher recognition accuracy.</td>
+                      <td>Detect 20 predefined object classes and return a bounding box, class label, and confidence.</td>
                     </tr>
                     <tr>
-                      <td>Video</td>
-                      <td>Maintain a high camera/display frame rate, with the specification targeting more than 20 FPS.</td>
-                    </tr>
-                    <tr>
-                      <td>Operation</td>
-                      <td>Continuous monitoring, remote access, and a fixed camera installation.</td>
-                    </tr>
-                    <tr>
-                      <td>Environment</td>
-                      <td>Indoor use, sufficient lighting, and relatively slow-moving objects.</td>
+                      <td>Monitoring environment</td>
+                      <td>Target a fixed indoor camera with sufficient lighting and relatively slow-moving objects.</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
 
-              <p>The presentation also listed automatic reset and backup power as desired functional requirements. These were part of the system requirements, but the final slides do not provide evidence that they were implemented in the prototype.</p>
+              <p>The central engineering challenge was therefore not simply running a neural network once. It was integrating camera capture, local inference, display, and remote monitoring into a usable pipeline on a small edge computer.</p>
             </div>
           </section>
 
@@ -964,30 +997,30 @@
                     </tr>
                     <tr>
                       <td>Logitech C615</td>
-                      <td>USB camera used to capture approximately 640 × 480 video at around 29–30 FPS.</td>
+                      <td>USB camera used to capture approximately 640 x 480 video at around 29-30 FPS.</td>
                     </tr>
                     <tr>
-                      <td>MobileNet-SSD + OpenCV</td>
-                      <td>Lightweight deep-learning detector selected for operation on resource-constrained hardware.</td>
+                      <td>MobileNet-SSD (Caffe) + OpenCV DNN</td>
+                      <td>Lightweight object detector loaded from Caffe model files and executed locally on the Raspberry Pi CPU.</td>
                     </tr>
                     <tr>
                       <td>Laptop + Remote Desktop</td>
-                      <td>Receives the Raspberry Pi desktop over LAN and displays the live stream and detection results.</td>
+                      <td>Remote display only. It receives the Raspberry Pi desktop over LAN; the object-detection workload remains on the Raspberry Pi.</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
 
-              <p>The reported hardware cost was approximately <strong>3.25 million VND</strong>: about 2 million VND for the camera, 1.2 million VND for the Raspberry Pi 3, and roughly 50,000 VND for the 5 V / 2.5 A power supply. This kept the prototype below the initial 4-million-VND budget target.</p>
+              <p>The Raspberry Pi 3 was the actual inference target, not merely a camera gateway. The device handled frame acquisition, preprocessing, MobileNet-SSD inference, and detection-result generation locally, while the laptop provided a convenient way to inspect the running system.</p>
 
               <div class="figure_grid">
                 <figure>
-                  <img src="media/projects/raspberry_pi_object_detection/hardware_setup.jpg" alt="Raspberry Pi 3 connected to the Logitech C615 camera">
+                  <img src="media/projects/pi_with_objectdetection/camera_with_pi.png" alt="Raspberry Pi 3 connected to the Logitech C615 camera">
                   <figcaption>Prototype hardware: Raspberry Pi 3 connected to the Logitech C615 camera.</figcaption>
                 </figure>
 
                 <figure>
-                  <img src="media/projects/raspberry_pi_object_detection/remote_desktop.png" alt="Remote Desktop Connection used to access the Raspberry Pi">
+                  <img src="media/projects/pi_with_objectdetection/software.png" alt="Remote Desktop Connection used to access the Raspberry Pi">
                   <figcaption>Remote Desktop Connection used to access the Raspberry Pi over LAN.</figcaption>
                 </figure>
               </div>
@@ -1027,7 +1060,7 @@
                     <text class="diagram_text" text-anchor="middle" x="160" y="94">Image acquisition</text>
                     <rect class="diagram_node" height="82" rx="13" width="178" x="71" y="126"></rect>
                     <text class="diagram_text" text-anchor="middle" x="160" y="158">Logitech C615</text>
-                    <text class="diagram_text_small" text-anchor="middle" x="160" y="182">640 × 480 · ~29–30 FPS</text>
+                    <text class="diagram_text_small" text-anchor="middle" x="160" y="182">640 x 480 · ~29-30 FPS</text>
                     <rect class="diagram_node_soft" height="54" rx="12" width="178" x="71" y="235"></rect>
                     <text class="diagram_text_small" text-anchor="middle" x="160" y="267">USB video stream</text>
 
@@ -1059,13 +1092,13 @@
                     <text class="diagram_text_small" text-anchor="middle" x="970" y="201">result display</text>
                   </svg>
                 </div>
-                <figcaption>System architecture reconstructed from the original project block diagrams.</figcaption>
+                <figcaption>Edge architecture: camera input and MobileNet-SSD inference run on the Raspberry Pi, with the laptop used only for remote visualization.</figcaption>
               </figure>
 
               <h3 class="subsection_title" id="concurrent-processing">Concurrent processing on the Raspberry Pi</h3>
               <p>A key design decision was to avoid making the slow object-detection stage block the live video display. The Raspberry Pi used multithreading so that frame acquisition/display and object recognition could proceed as concurrent paths.</p>
 
-              <p>This separation was necessary because the camera produced roughly 29–30 frames each second while the detector processed only about one frame each second. Keeping the two paths separate allowed the displayed stream to remain responsive even when inference was much slower.</p>
+              <p>This separation was necessary because the camera produced roughly 29-30 frames each second while the detector processed only about one frame each second. Keeping the two paths separate allowed the displayed stream to remain responsive even when inference was much slower.</p>
             </div>
           </section>
 
@@ -1080,7 +1113,12 @@
             </header>
 
             <div class="case_section_body">
-              <p>The software flow in the presentation begins by loading the model and system configuration, resizing frames, initializing the application classes and queue, and starting the video source. The main loop then captures frames and feeds the two concurrent paths.</p>
+              <p>At startup, the application loads the MobileNet-SSD model through OpenCV DNN, initializes the object classes and frame queue, and opens the video source. The main loop then captures frames and feeds separate live-video and inference paths.</p>
+
+              <h3 class="subsection_title">Deploying MobileNet-SSD on Raspberry Pi</h3>
+              <p>For deployment, I used MobileNet-SSD in Caffe format, with a <code>.prototxt</code> network definition and <code>.caffemodel</code> trained weights. OpenCV DNN loaded these files and executed inference directly on the Raspberry Pi 3 CPU.</p>
+
+              <p>This deployment setup kept the complete AI workload on the edge device. Camera frames did not need to be sent to the laptop for recognition, and the laptop remained only a remote visualization interface.</p>
 
               <figure class="engineering_diagram">
                 <div class="engineering_diagram_header">
@@ -1102,8 +1140,8 @@
                     <path class="diagram_arrow" d="M540 80 V106" marker-end="url(#arrow-runtime)"></path>
 
                     <rect class="diagram_node" height="76" rx="13" width="380" x="350" y="112"></rect>
-                    <text class="diagram_text" text-anchor="middle" x="540" y="142">Load MobileNet-SSD + configuration</text>
-                    <text class="diagram_text_small" text-anchor="middle" x="540" y="165">initialize classes · resize settings</text>
+                    <text class="diagram_text" text-anchor="middle" x="540" y="142">Load Caffe model with OpenCV DNN</text>
+                    <text class="diagram_text_small" text-anchor="middle" x="540" y="165">.prototxt + .caffemodel · initialize classes</text>
                     <path class="diagram_arrow" d="M540 188 V214" marker-end="url(#arrow-runtime)"></path>
 
                     <rect class="diagram_node" height="68" rx="13" width="340" x="370" y="220"></rect>
@@ -1139,7 +1177,7 @@
                     <text class="diagram_text" text-anchor="middle" x="540" y="707">Remote display</text>
                   </svg>
                 </div>
-                <figcaption>Cleaned-up representation of the software flow shown in the original presentation.</figcaption>
+                <figcaption>Runtime organization used to decouple responsive video display from the slower on-device inference path.</figcaption>
               </figure>
             </div>
           </section>
@@ -1155,19 +1193,19 @@
             </header>
 
             <div class="case_section_body">
-              <p>The final prototype successfully connected the USB camera to the Raspberry Pi, exposed the Pi through Remote Desktop, and ran the MobileNet-SSD detector on live camera input.</p>
-
-              <div class="metric_grid" aria-label="Reported prototype performance">
+              <p>The final prototype successfully ran <strong>MobileNet-SSD object detection directly on the Raspberry Pi 3</strong> from live USB-camera input. The laptop was used only to monitor the Pi remotely, while inference remained on the edge device.</p>
+              <p class="decision_note">Edge deployment result: MobileNet-SSD inference ran directly on the Raspberry Pi 3. The camera/display path operated at about 29 FPS, while neural inference ran at about 0.9-1 FPS. The system therefore provided real-time video monitoring with periodic on-device detections.</p>
+              <div class="metric_grid" aria-label="Prototype performance">
                 <div class="metric_card">
                   <span>Camera / display</span>
                   <strong>~29 FPS</strong>
                 </div>
                 <div class="metric_card">
                   <span>Detection</span>
-                  <strong>~0.9–1 FPS</strong>
+                  <strong>~0.9-1 FPS</strong>
                 </div>
                 <div class="metric_card">
-                  <span>Reported accuracy</span>
+                  <span>Recognition accuracy</span>
                   <strong>~90%</strong>
                 </div>
                 <div class="metric_card">
@@ -1176,11 +1214,22 @@
                 </div>
               </div>
 
-              <p>The important engineering result was not that every frame could be processed by the neural network. Instead, the architecture kept the live video path responsive while periodically updating the object-detection result in parallel.</p>
+              <p>The key engineering result was successful <strong>local neural inference on a resource-constrained edge device</strong>. Because inference was slower than camera capture, I separated the two workloads so the live video remained responsive while detection results were updated independently.</p>
 
-              <figure class="project_figure">
-                <img src="media/projects/raspberry_pi_object_detection/detection_demo.png" alt="Object detection result running on Raspberry Pi through Remote Desktop">
-                <figcaption>Final demonstration: MobileNet-SSD detection running on the Raspberry Pi and viewed through Remote Desktop.</figcaption>
+
+              <h3 class="subsection_title">Demo Video</h3>
+
+              <p>The video below shows the final prototype running object detection on the Raspberry Pi 3, with the output viewed remotely from the laptop.</p>
+
+              <figure class="project_video">
+                <video controls preload="metadata" playsinline>
+                  <source
+                    src="media/projects/pi_with_objectdetection/demo.mp4"
+                    type="video/mp4"
+                  >
+                  Your browser does not support the video tag.
+                </video>
+                <figcaption>Final edge object-detection demonstration running on the Raspberry Pi 3.</figcaption>
               </figure>
             </div>
           </section>
@@ -1197,11 +1246,10 @@
 
             <div class="case_section_body">
               <ul class="content_list">
-                <li><strong>Inference speed was the main bottleneck.</strong> The Raspberry Pi 3 processed only about one detection frame per second, so the prototype was better suited to slow indoor scenes than fast-moving surveillance targets.</li>
-                <li><strong>The original performance requirements were more ambitious than the measured prototype.</strong> The presentation listed targets above 20 FPS and very low communication latency, but the reported implementation achieved approximately 0.9–1 FPS detection and about 0.2 s remote-display delay.</li>
+                <li><strong>Inference speed was the main bottleneck.</strong> The Raspberry Pi 3 processed only about one detection frame per second, so I decoupled live display from neural inference instead of forcing every camera frame through the detector.</li>
                 <li><strong>Remote Desktop was practical for demonstration, not an optimized video-delivery architecture.</strong> A dedicated streaming/output path would provide better control over latency and bandwidth.</li>
-                <li><strong>Reliability features remained requirements rather than demonstrated results.</strong> The slides proposed automatic reset and backup power, but do not show their implementation.</li>
-                <li><strong>A modern revision would focus on model/runtime acceleration.</strong> Quantization, a lighter inference runtime, hardware acceleration, and bounded frame queues would be natural next steps while preserving the same decoupled display/inference architecture.</li>
+                <li><strong>The Raspberry Pi 3 provided limited compute capacity.</strong> A newer edge platform or dedicated accelerator would provide more headroom while keeping inference local.</li>
+                <li><strong>A modern revision would focus on model/runtime acceleration.</strong> Quantization, a lighter inference runtime, hardware acceleration, and bounded frame queues are natural next steps while preserving the same decoupled display/inference architecture.</li>
               </ul>
             </div>
           </section>
@@ -1212,7 +1260,7 @@
           --------------------------------------------- -->
           <nav class="case_bottom" aria-label="Project navigation">
             <a href="project.html#computer_vision">← Back to Projects</a>
-            <a href="projects/computer_vision/raspberry_pi_object_detection.html#top">Back to top ↑</a>
+            <a href="projects/raspberry_pi_object_detection.html#top">Back to top ↑</a>
           </nav>
 
         </article>
@@ -1244,7 +1292,7 @@
         >
           LinkedIn
         </a>
-        <a href="projects/computer_vision/raspberry_pi_object_detection.html#top">Back to top ↑</a>
+        <a href="projects/raspberry_pi_object_detection.html#top">Back to top ↑</a>
       </div>
     </div>
   </footer>
