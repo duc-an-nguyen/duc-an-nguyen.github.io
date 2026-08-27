@@ -1,0 +1,1611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+                    META DATA
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- -->
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Fingerprint Recognition Pipeline in MATLAB and C | Duc An Nguyen</title>
+  <meta
+    name="description"
+    content="A classical fingerprint-recognition project covering image enhancement, segmentation, thinning, minutiae extraction, matching, and a performance-oriented C implementation."
+  />
+
+
+<!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+                    LINKS AND GLOBAL STYLES
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- -->
+
+  <!--
+    Intended location:
+    projects/computer_vision/fingerprint_recognition.html
+  -->
+  <base href="../../">
+  <link rel="icon" type="image/x-icon" href="media/profile/favicon.ico">
+  <link rel="stylesheet" href="css/global.css">
+
+
+<!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+                   CASE STUDY STYLES
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- -->
+
+  <style>
+
+    /* =========================================================
+       4. SHARED CASE STUDY STYLES
+    ========================================================== */
+    .case_page {
+                    padding                 : clamp(64px, 8vw, 108px) 0 88px;
+    }
+
+    .back_link {
+                    display                 : inline-flex;
+                    align-items             : center;
+                    gap                     : 8px;
+                    margin-bottom           : 32px;
+                    color                   : var(--primary-dark);
+                    font-size               : 0.88rem;
+                    font-weight             : 800;
+                    text-decoration         : none;
+    }
+
+    .back_link:hover,
+    .back_link:focus-visible {
+                    color                   : var(--primary);
+    }
+
+
+    /* =========================================================
+       5. PROJECT INTRO
+    ========================================================== */
+    .project_intro {
+                    animation               : fadeUp 0.8s ease forwards;
+    }
+
+    .project_intro h1 {
+                    max-width               : 920px;
+                    margin                  : 0;
+                    color                   : var(--heading);
+                    font-size               : clamp(2.2rem, 4vw, 4.1rem);
+                    letter-spacing          : -0.045em;
+                    line-height             : 1.05;
+    }
+
+    .project_meta_grid {
+                    display                 : grid;
+                    grid-template-columns   : repeat(2, minmax(0, 1fr));
+                    column-gap              : 42px;
+                    row-gap                 : 26px;
+                    margin-top              : 34px;
+    }
+
+    .project_meta_item {
+                    min-height              : 0;
+                    padding                 : 15px 0 0;
+                    border-top              : 1px solid rgba(145, 186, 214, 0.70);
+    }
+
+    .project_meta_item span {
+                    display                 : block;
+                    margin-bottom           : 8px;
+                    color                   : var(--primary-dark);
+                    font-size               : 0.72rem;
+                    font-weight             : 850;
+                    letter-spacing          : 0.07em;
+                    text-transform          : uppercase;
+    }
+
+    .project_meta_item strong {
+                    display                 : block;
+                    max-width               : 580px;
+                    color                   : var(--heading);
+                    font-size               : 0.96rem;
+                    font-weight             : 750;
+                    line-height             : 1.6;
+                    letter-spacing          : 0;
+    }
+
+
+    /* =========================================================
+       6. CASE STUDY LAYOUT
+    ========================================================== */
+    .case_shell {
+                    display                 : grid;
+                    grid-template-columns   : 250px minmax(0, 1fr);
+                    gap                     : clamp(36px, 5vw, 64px);
+                    align-items             : start;
+                    margin-top              : clamp(58px, 8vw, 92px);
+    }
+
+    .case_content {
+                    min-width               : 0;
+    }
+
+
+    /* =========================================================
+       7. TABLE OF CONTENTS
+    ========================================================== */
+    .case_toc {
+                    position                : sticky;
+                    top                     : 100px;
+                    align-self              : start;
+                    padding                 : 22px;
+                    border                  : 1px solid var(--border);
+                    border-radius           : var(--radius-md);
+                    background              : rgba(255, 255, 255, 0.88);
+                    box-shadow              : 0 12px 30px rgba(19, 55, 82, 0.05);
+    }
+
+    .case_toc > p {
+                    margin                  : 0 0 14px;
+                    color                   : var(--heading);
+                    font-size               : 0.78rem;
+                    font-weight             : 850;
+                    letter-spacing          : 0.09em;
+                    text-transform          : uppercase;
+    }
+
+    .case_toc ol,
+    .case_toc ul {
+                    margin                  : 0;
+                    padding                 : 0;
+                    list-style              : none;
+    }
+
+    .case_toc .toc_main_list {
+                    display                 : grid;
+                    gap                     : 4px;
+    }
+
+    .case_toc a {
+                    display                 : grid;
+                    grid-template-columns   : 28px minmax(0, 1fr);
+                    gap                     : 7px;
+                    padding                 : 7px 8px;
+                    border-radius           : 9px;
+                    color                   : var(--text-muted);
+                    font-size               : 0.78rem;
+                    font-weight             : 700;
+                    line-height             : 1.4;
+                    text-decoration         : none;
+                    transition              :
+                                              background-color var(--transition),
+                                              color var(--transition);
+    }
+
+    .case_toc a span {
+                    color                   : var(--primary);
+                    font-size               : 0.7rem;
+                    font-weight             : 850;
+                    letter-spacing          : 0.04em;
+    }
+
+    .case_toc a:hover,
+    .case_toc a:focus-visible,
+    .case_toc a.is-active {
+                    background              : var(--surface-soft);
+                    color                   : var(--primary-dark);
+    }
+
+    .case_toc .toc_sublist {
+                    display                 : grid;
+                    gap                     : 1px;
+                    margin                  : 1px 0 7px;
+    }
+
+    .case_toc .toc_sublist a {
+                    position                : relative;
+                    display                 : block;
+                    padding                 : 5px 8px 5px 31px;
+                    color                   : var(--text-muted);
+                    font-size               : 0.72rem;
+                    font-weight             : 650;
+                    line-height             : 1.35;
+    }
+
+    .case_toc .toc_sublist a::before {
+                    content                 : "";
+                    position                : absolute;
+                    top                     : 50%;
+                    left                    : 18px;
+                    width                   : 5px;
+                    height                  : 5px;
+                    border-radius           : 50%;
+                    background              : var(--line);
+                    transform               : translateY(-50%);
+    }
+
+    .case_toc .toc_sublist a:hover::before,
+    .case_toc .toc_sublist a:focus-visible::before,
+    .case_toc .toc_sublist a.is-active::before {
+                    background              : var(--primary);
+    }
+
+
+    /* =========================================================
+       8. MAJOR CASE STUDY SECTIONS
+    ========================================================== */
+    .case_section {
+                    scroll-margin-top       : 96px;
+                    padding                 : clamp(30px, 4vw, 44px);
+                    border                  : 1px solid var(--border);
+                    border-radius           : var(--radius-lg);
+                    background              : rgba(255, 255, 255, 0.88);
+                    box-shadow              : 0 14px 34px rgba(19, 55, 82, 0.06);
+                    animation               : fadeUp 0.8s ease forwards;
+    }
+
+    .case_section + .case_section {
+                    margin-top              : 24px;
+    }
+
+    .case_section_header {
+                    display                 : grid;
+                    grid-template-columns   : 54px minmax(0, 1fr);
+                    gap                     : 18px;
+                    align-items             : start;
+                    padding-bottom          : 24px;
+                    border-bottom           : 1px solid var(--border);
+    }
+
+    .section_number {
+                    display                 : grid;
+                    width                   : 50px;
+                    height                  : 50px;
+                    place-items             : center;
+                    border-radius           : 14px;
+                    background              : var(--surface-soft);
+                    color                   : var(--primary);
+                    font-size               : 0.82rem;
+                    font-weight             : 900;
+                    letter-spacing          : 0.05em;
+    }
+
+    .case_section_header h2 {
+                    margin                  : 2px 0 0;
+                    color                   : var(--heading);
+                    font-size               : clamp(1.65rem, 3vw, 2.45rem);
+                    letter-spacing          : -0.035em;
+                    line-height             : 1.15;
+    }
+
+    .case_section_body {
+                    padding-top             : 26px;
+    }
+
+    .case_section_body > p {
+                    max-width               : 900px;
+                    margin                  : 0 0 18px;
+                    color                   : var(--text-muted);
+                    line-height             : 1.78;
+    }
+
+    .case_section_body > p:last-child {
+                    margin-bottom           : 0;
+    }
+
+    .case_section_body strong {
+                    color                   : var(--heading);
+    }
+
+    .subsection_title {
+                    scroll-margin-top       : 110px;
+                    margin                  : 38px 0 16px;
+                    padding                 : 15px 17px;
+                    border-left             : 4px solid var(--primary);
+                    border-radius           : 0 12px 12px 0;
+                    background              : var(--surface-soft);
+                    color                   : var(--heading);
+                    font-size               : 1.24rem;
+                    letter-spacing          : -0.02em;
+                    line-height             : 1.3;
+    }
+
+    .case_section_body > .subsection_title:first-child {
+                    margin-top              : 0;
+    }
+
+    .detail_title {
+                    margin                  : 28px 0 12px;
+                    color                   : var(--heading);
+                    font-size               : 1.03rem;
+                    font-weight             : 820;
+                    letter-spacing          : -0.015em;
+                    line-height             : 1.4;
+    }
+
+    .content_divider {
+                    height                  : 1px;
+                    margin                  : 30px 0;
+                    border                  : 0;
+                    background              : var(--border);
+    }
+
+
+    /* =========================================================
+       9. LISTS
+    ========================================================== */
+    .content_list {
+                    display                 : grid;
+                    gap                     : 9px;
+                    max-width               : 900px;
+                    margin                  : 8px 0 22px;
+                    padding-left            : 22px;
+                    color                   : var(--text-muted);
+    }
+
+    .content_list li {
+                    padding-left            : 5px;
+                    line-height             : 1.7;
+    }
+
+    ol.content_list li::marker {
+                    color                   : var(--primary);
+                    font-weight             : 850;
+    }
+
+    ul.content_list li::marker {
+                    color                   : var(--primary);
+    }
+
+
+    /* =========================================================
+       10. TABLES
+    ========================================================== */
+    .table_wrap {
+                    margin                  : 24px 0 26px;
+                    overflow-x              : auto;
+                    border                  : 1px solid var(--border);
+                    border-radius           : var(--radius-md);
+                    background              : rgba(255, 255, 255, 0.92);
+    }
+
+    .reference_table {
+                    width                   : 100%;
+                    min-width               : 650px;
+                    border-collapse         : collapse;
+    }
+
+    .reference_table th,
+    .reference_table td {
+                    padding                 : 15px 17px;
+                    border-bottom           : 1px solid var(--border);
+                    text-align              : left;
+                    vertical-align          : top;
+                    line-height             : 1.6;
+    }
+
+    .reference_table th {
+                    background              : var(--surface-soft);
+                    color                   : var(--heading);
+                    font-size               : 0.78rem;
+                    font-weight             : 850;
+                    letter-spacing          : 0.04em;
+                    text-transform          : uppercase;
+    }
+
+    .reference_table td {
+                    color                   : var(--text-muted);
+                    font-size               : 0.9rem;
+    }
+
+    .reference_table tr:last-child td {
+                    border-bottom           : 0;
+    }
+
+
+    /* =========================================================
+       11. PROJECT FIGURES
+    ========================================================== */
+    .project_figure {
+                    margin                  : 26px 0 30px;
+    }
+
+    .project_figure img {
+                    display                 : block;
+                    width                   : 100%;
+                    height                  : auto;
+                    border                  : none;
+                    border-radius           : 0;
+                    background              : transparent;
+                    box-shadow              : none;
+    }
+
+    .project_figure figcaption,
+    .figure_grid figcaption {
+                    margin-top              : 9px;
+                    color                   : var(--text-muted);
+                    font-size               : 0.79rem;
+                    line-height             : 1.55;
+                    text-align              : center;
+    }
+
+    .figure_grid {
+                    display                 : grid;
+                    grid-template-columns   : repeat(2, minmax(0, 1fr));
+                    gap                     : 20px;
+                    margin                  : 26px 0 30px;
+    }
+
+    .figure_grid figure {
+                    margin                  : 0;
+                    min-width               : 0;
+    }
+
+    .figure_grid img {
+                    display                 : block;
+                    width                   : 100%;
+                    height                  : 290px;
+                    object-fit              : contain;
+                    border                  : 1px solid var(--border);
+                    border-radius           : var(--radius-md);
+                    background              : #ffffff;
+    }
+
+
+    .project_video {
+                    margin                  : 30px 0 0;
+                    text-align              : center;
+    }
+
+    .project_video video {
+                    display                 : block;
+                    width                   : min(100%, 430px);
+                    height                  : auto;
+                    margin                  : 0 auto;
+                    border                  : 1px solid var(--border);
+                    border-radius           : var(--radius-md);
+                    background              : #000000;
+                    box-shadow              : 0 10px 26px rgba(19, 55, 82, 0.06);
+    }
+
+    .project_video figcaption {
+                    margin-top              : 9px;
+                    color                   : var(--text-muted);
+                    font-size               : 0.79rem;
+                    line-height             : 1.55;
+                    text-align              : center;
+    }
+
+
+    /* =========================================================
+       12. HIGHLIGHT COMPONENTS
+    ========================================================== */
+    .decision_note {
+                    margin                  : 22px 0 24px !important;
+                    padding                 : 18px 20px;
+                    border-left             : 4px solid var(--primary);
+                    border-radius           : 0 12px 12px 0;
+                    background              : var(--surface-soft);
+                    color                   : var(--heading) !important;
+                    font-weight             : 760;
+                    line-height             : 1.68 !important;
+    }
+
+    .metric_grid {
+                    display                 : grid;
+                    grid-template-columns   : repeat(4, minmax(0, 1fr));
+                    gap                     : 12px;
+                    margin                  : 22px 0 28px;
+    }
+
+    .metric_card {
+                    padding                 : 18px;
+                    border                  : 1px solid var(--border);
+                    border-radius           : 14px;
+                    background              : var(--surface-soft);
+    }
+
+    .metric_card span {
+                    display                 : block;
+                    color                   : var(--text-muted);
+                    font-size               : 0.72rem;
+                    font-weight             : 800;
+                    letter-spacing          : 0.05em;
+                    text-transform          : uppercase;
+    }
+
+    .metric_card strong {
+                    display                 : block;
+                    margin-top              : 8px;
+                    color                   : var(--heading);
+                    font-size               : 1.3rem;
+                    line-height             : 1.2;
+    }
+
+    #limitations-and-next-steps .content_list li {
+                    padding                 : 13px 15px;
+                    border                  : 1px solid var(--border);
+                    border-radius           : 12px;
+                    background              : rgba(255, 255, 255, 0.72);
+                    list-style-position     : inside;
+    }
+
+
+    /* =========================================================
+       13. ENGINEERING DIAGRAMS
+    ========================================================== */
+    .engineering_diagram {
+                    margin                  : 26px 0 30px;
+                    overflow                : hidden;
+                    border                  : 1px solid var(--border);
+                    border-radius           : var(--radius-md);
+                    background              : rgba(255, 255, 255, 0.94);
+                    box-shadow              : 0 10px 26px rgba(19, 55, 82, 0.04);
+    }
+
+    .engineering_diagram_header {
+                    padding                 : 14px 18px 13px;
+                    border-bottom           : 1px solid var(--border);
+                    background              : var(--surface-soft);
+    }
+
+    .engineering_diagram_header strong {
+                    display                 : block;
+                    color                   : var(--heading);
+                    font-size               : 0.88rem;
+                    font-weight             : 850;
+                    letter-spacing          : -0.01em;
+    }
+
+    .engineering_diagram_header span {
+                    display                 : block;
+                    margin-top              : 3px;
+                    color                   : var(--text-muted);
+                    font-size               : 0.75rem;
+                    line-height             : 1.5;
+    }
+
+    .engineering_diagram_canvas {
+                    overflow-x              : auto;
+                    padding                 : 18px 16px 14px;
+    }
+
+    .engineering_diagram svg {
+                    display                 : block;
+                    width                   : 100%;
+                    min-width               : 720px;
+                    height                  : auto;
+    }
+
+    .engineering_diagram .diagram_node {
+                    fill                    : #ffffff;
+                    stroke                  : #9bc5df;
+                    stroke-width            : 1.6;
+    }
+
+    .engineering_diagram .diagram_node_accent {
+                    fill                    : #eaf5fc;
+                    stroke                  : #6aa8cf;
+                    stroke-width            : 1.7;
+    }
+
+    .engineering_diagram .diagram_node_soft {
+                    fill                    : #f7fbfe;
+                    stroke                  : #bfd8e8;
+                    stroke-width            : 1.4;
+    }
+
+    .engineering_diagram .diagram_panel {
+                    fill                    : #fbfdff;
+                    stroke                  : #d5e5ef;
+                    stroke-width            : 1.4;
+    }
+
+    .engineering_diagram .diagram_text {
+                    fill                    : #17364b;
+                    font-family             : ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+                    font-size               : 14px;
+                    font-weight             : 750;
+    }
+
+    .engineering_diagram .diagram_text_small {
+                    fill                    : #60798a;
+                    font-family             : ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+                    font-size               : 11.5px;
+                    font-weight             : 650;
+    }
+
+    .engineering_diagram .diagram_arrow,
+    .engineering_diagram .diagram_line {
+                    fill                    : none;
+                    stroke                  : #4f8db7;
+                    stroke-width            : 2;
+                    stroke-linecap          : round;
+                    stroke-linejoin         : round;
+    }
+
+    .engineering_diagram .diagram_line_muted {
+                    fill                    : none;
+                    stroke                  : #a9c5d6;
+                    stroke-width            : 1.4;
+                    stroke-linecap          : round;
+                    stroke-linejoin         : round;
+    }
+
+    .engineering_diagram .diagram_emphasis {
+                    fill                    : #2f79aa;
+    }
+
+    .engineering_diagram .diagram_warning {
+                    fill                    : #fff8ed;
+                    stroke                  : #ddb66d;
+                    stroke-width            : 1.5;
+    }
+
+    .engineering_diagram figcaption {
+                    margin                  : 0;
+                    padding                 : 0 18px 15px;
+                    color                   : var(--text-muted);
+                    font-size               : 0.76rem;
+                    line-height             : 1.55;
+                    text-align              : center;
+    }
+
+
+    /* =========================================================
+       14. BOTTOM NAVIGATION
+    ========================================================== */
+    .case_bottom {
+                    display                 : flex;
+                    justify-content         : space-between;
+                    gap                     : 20px;
+                    margin-top              : 40px;
+                    padding-top             : 28px;
+                    border-top              : 1px solid var(--border);
+    }
+
+    .case_bottom a {
+                    color                   : var(--primary-dark);
+                    font-weight             : 800;
+                    text-decoration         : none;
+    }
+
+    .case_bottom a:hover,
+    .case_bottom a:focus-visible {
+                    color                   : var(--primary);
+    }
+
+
+    /* =========================================================
+       15. RESPONSIVE
+    ========================================================== */
+    @media (max-width: 980px) {
+      .case_shell {
+                    grid-template-columns   : 1fr;
+                    gap                     : 30px;
+      }
+
+      .case_toc {
+                    position                : static;
+      }
+
+      .case_toc .toc_main_list {
+                    grid-template-columns   : repeat(2, minmax(0, 1fr));
+                    gap                     : 5px 12px;
+      }
+
+      .metric_grid {
+                    grid-template-columns   : repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 720px) {
+      .case_page {
+                    padding-top             : 52px;
+      }
+
+      .project_intro h1 {
+                    font-size               : clamp(2rem, 9vw, 3.1rem);
+      }
+
+      .project_meta_grid,
+      .figure_grid,
+      .metric_grid {
+                    grid-template-columns   : 1fr;
+      }
+
+      .figure_grid img {
+                    height                  : auto;
+      }
+
+      .case_toc .toc_main_list {
+                    grid-template-columns   : 1fr;
+      }
+
+      .case_section {
+                    padding                 : 26px 22px;
+                    border-radius           : 22px;
+      }
+
+      .case_section_header {
+                    grid-template-columns   : 46px minmax(0, 1fr);
+                    gap                     : 14px;
+      }
+
+      .section_number {
+                    width                   : 44px;
+                    height                  : 44px;
+                    border-radius           : 12px;
+      }
+
+      .engineering_diagram svg {
+                    min-width               : 660px;
+      }
+
+      .case_bottom {
+                    flex-direction          : column;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .project_meta_item {
+                    min-height              : auto;
+                    padding                 : 14px 0 0;
+      }
+
+      .case_section {
+                    padding                 : 23px 18px;
+      }
+
+      .reference_table {
+                    min-width               : 580px;
+      }
+    }
+
+  
+
+    /* =========================================================
+       FINGERPRINT PROJECT ADDITIONS
+    ========================================================== */
+    .pipeline_step {
+                    fill                    : #ffffff;
+                    stroke                  : #aac7d8;
+                    stroke-width            : 1.4;
+    }
+
+    .pipeline_step_accent {
+                    fill                    : #eaf5fc;
+                    stroke                  : #4f8db7;
+                    stroke-width            : 1.7;
+    }
+
+    .result_note {
+                    margin                  : 22px 0 0;
+                    padding                 : 15px 17px;
+                    border-left             : 4px solid var(--primary);
+                    border-radius           : 10px;
+                    background              : var(--surface-soft);
+                    color                   : var(--text);
+                    line-height             : 1.7;
+    }
+
+    .figure_pair {
+                    display                 : grid;
+                    grid-template-columns   : repeat(2, minmax(0, 1fr));
+                    gap                     : 18px;
+                    margin                  : 24px 0 0;
+    }
+
+    .figure_pair .project_figure {
+                    margin                  : 0;
+    }
+
+    @media (max-width: 720px) {
+      .figure_pair {
+                    grid-template-columns   : 1fr;
+      }
+    }
+
+  </style>
+</head>
+
+
+<!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+                    HTML BODY
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- -->
+
+<body>
+
+  <!--================================================
+                MAIN MENU
+  ====================================================-->
+  <header class="header_menu">
+      <a href="/" aria-label="Go to homepage">
+          <img
+                  class="logo_image"
+                  src="media/profile/logo.svg"
+                  alt="Logo"
+          >
+      </a>
+
+      <nav class="menu_links">
+          <a href="about.html">About</a>
+          <a href="project.html" aria-current="page">Projects</a>
+          <a href="blog.html">Blog</a>
+          <a href="life_and_events.html">Life &amp; Events</a>
+          <a href="index.html#contact_box_section">Contact</a>
+      </nav>
+  </header>
+
+
+  <!--================================================
+                PROJECT CASE STUDY
+  ====================================================-->
+  <main class="case_page" id="top">
+    <div class="container">
+
+      <!-- =========================================
+           PROJECT INTRO
+      --------------------------------------------- -->
+      <header class="project_intro">
+
+        <a class="back_link" href="project.html#computer_vision">
+          ← Back to Projects
+        </a>
+
+        <h1>Fingerprint Recognition Pipeline in MATLAB and C</h1>
+
+        <div class="project_meta_grid">
+          <div class="project_meta_item">
+            <span>Project type</span>
+            <strong>Classical computer vision and biometric recognition</strong>
+          </div>
+
+          <div class="project_meta_item">
+            <span>Main contribution</span>
+            <strong>Built an end-to-end minutiae-based fingerprint-recognition pipeline and rewrote the practical processing path in C/C++, operating directly on raw pixel data without OpenCV while preserving the MATLAB reference behavior</strong>
+          </div>
+
+          <div class="project_meta_item">
+            <span>Core technologies</span>
+            <strong>C/C++, MATLAB, MFC, Visual Studio 2013, standard C file I/O, STFT, Otsu thresholding, minutiae matching, UART, FPC-AM3</strong>
+          </div>
+
+          <div class="project_meta_item">
+            <span>System focus</span>
+            <strong>Direct pixel-buffer processing · enhancement · segmentation · thinning · minutiae extraction · alignment · 1:N matching · runtime optimization</strong>
+          </div>
+        </div>
+
+      </header>
+
+
+      <!-- =========================================
+           CASE STUDY CONTENT
+      --------------------------------------------- -->
+      <div class="case_shell">
+
+        <!-- -------------------------------
+             Table of contents
+        -------------------------------- -->
+        <aside class="case_toc" aria-label="Project table of contents">
+          <p>On this page</p>
+
+          <ol class="toc_main_list">
+            <li>
+              <a href="projects/computer_vision/fingerprint_recognition.html#project-context">
+                <span>01</span>Project context
+              </a>
+            </li>
+
+            <li>
+              <a href="projects/computer_vision/fingerprint_recognition.html#recognition-strategy">
+                <span>02</span>Recognition strategy
+              </a>
+            </li>
+
+            <li>
+              <a href="projects/computer_vision/fingerprint_recognition.html#end-to-end-pipeline">
+                <span>03</span>End-to-end pipeline
+              </a>
+            </li>
+
+            <li>
+              <a href="projects/computer_vision/fingerprint_recognition.html#image-processing">
+                <span>04</span>Image processing and features
+              </a>
+              <ul class="toc_sublist">
+                <li><a href="projects/computer_vision/fingerprint_recognition.html#stft-enhancement">STFT enhancement</a></li>
+                <li><a href="projects/computer_vision/fingerprint_recognition.html#segmentation-thinning">Segmentation and thinning</a></li>
+                <li><a href="projects/computer_vision/fingerprint_recognition.html#minutiae-extraction">Minutiae extraction</a></li>
+              </ul>
+            </li>
+
+            <li>
+              <a href="projects/computer_vision/fingerprint_recognition.html#matching">
+                <span>05</span>Fingerprint matching
+              </a>
+            </li>
+
+            <li>
+              <a href="projects/computer_vision/fingerprint_recognition.html#matlab-to-c">
+                <span>06</span>Low-level C/C++ implementation
+              </a>
+            </li>
+
+            <li>
+              <a href="projects/computer_vision/fingerprint_recognition.html#results">
+                <span>07</span>Results and bottlenecks
+              </a>
+            </li>
+
+            <li>
+              <a href="projects/computer_vision/fingerprint_recognition.html#limitations-and-next-steps">
+                <span>08</span>Limitations and next steps
+              </a>
+            </li>
+          </ol>
+        </aside>
+
+
+        <article class="case_content">
+
+          <!-- =========================================
+               PROJECT CONTEXT
+          --------------------------------------------- -->
+          <section class="case_section" id="project-context" aria-labelledby="project-context-title">
+            <header class="case_section_header">
+              <span class="section_number">01</span>
+              <h2 id="project-context-title">Project context</h2>
+            </header>
+
+            <div class="case_section_body">
+              <p>This project focused on building the complete fingerprint-recognition path rather than treating the fingerprint sensor as a black-box identification module. The goal was to understand and implement the major processing stages ourselves, from raw grayscale fingerprint data to a final identity match.</p>
+
+              <p>I first developed the algorithm in MATLAB so that each processing stage could be inspected and compared visually. I then implemented the same recognition logic in C/C++ and simplified computationally expensive parts to move the design closer to the constraints of embedded hardware.</p>
+
+              <p>The input data came from an <strong>FPC-AM3 fingerprint acquisition kit</strong>. Raw 8-bit grayscale images were transferred to the computer through <strong>UART</strong>, with an original size of <strong>200 × 152 pixels</strong>. The recognition pipeline normalized the working image to <strong>192 × 144 pixels</strong> before further processing.</p>
+
+              <p class="decision_note"><strong>Low-level implementation highlight:</strong> the C processing path did not use OpenCV or another computer-vision framework. I worked directly with the raw 8-bit image buffer and implemented the required processing stages as C functions. Standard C file operations were used to read the headerless sensor data, while MFC was used only for the desktop interface and visualization. The MATLAB reference did use a published open-source STFT enhancement implementation as a starting point, so it would be inaccurate to describe every MATLAB component as written entirely from scratch.</p>
+
+              <p class="decision_note"><strong>Deployment scope:</strong> the completed implementation was evaluated in MATLAB and in a C/C++ desktop prototype. The work was designed as a step toward embedded deployment, but the available project results do not demonstrate a completed microcontroller implementation.</p>
+            </div>
+          </section>
+
+
+          <!-- =========================================
+               RECOGNITION STRATEGY
+          --------------------------------------------- -->
+          <section class="case_section" id="recognition-strategy" aria-labelledby="recognition-strategy-title">
+            <header class="case_section_header">
+              <span class="section_number">02</span>
+              <h2 id="recognition-strategy-title">Recognition Strategy</h2>
+            </header>
+
+            <div class="case_section_body">
+              <p>The recognition method was based on <strong>minutiae</strong>: local ridge structures that remain useful even when only part of a fingerprint is visible. The two main feature types used by the pipeline were ridge endings and ridge bifurcations.</p>
+
+              <p>Raw fingerprint images can contain weak contrast, broken ridges, background regions, partial contact, and noisy ridge structures. For this reason, matching could not be applied directly to the sensor image. The pipeline first enhanced the ridge pattern, isolated the valid fingerprint region, converted it to a clean one-pixel-wide ridge representation, and then extracted stable minutiae for comparison.</p>
+
+              <div class="table_wrap">
+                <table class="reference_table">
+                  <thead>
+                    <tr>
+                      <th>Stage</th>
+                      <th>Purpose</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Normalization and histogram equalization</td>
+                      <td>Standardize the working image size and improve ridge/valley contrast.</td>
+                    </tr>
+                    <tr>
+                      <td>STFT enhancement</td>
+                      <td>Estimate local ridge structure and strengthen fingerprint patterns in the frequency domain.</td>
+                    </tr>
+                    <tr>
+                      <td>Segmentation</td>
+                      <td>Separate useful fingerprint regions from background areas.</td>
+                    </tr>
+                    <tr>
+                      <td>Otsu binarization</td>
+                      <td>Convert local grayscale ridge patterns into a binary representation.</td>
+                    </tr>
+                    <tr>
+                      <td>Thinning</td>
+                      <td>Reduce each ridge to approximately one-pixel width for structural analysis.</td>
+                    </tr>
+                    <tr>
+                      <td>Minutiae extraction and cleanup</td>
+                      <td>Detect ridge endings/bifurcations and remove likely false features.</td>
+                    </tr>
+                    <tr>
+                      <td>Alignment and matching</td>
+                      <td>Compensate for translation/rotation and calculate the similarity between fingerprint templates.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+
+          <!-- =========================================
+               END-TO-END PIPELINE
+          --------------------------------------------- -->
+          <section class="case_section" id="end-to-end-pipeline" aria-labelledby="end-to-end-pipeline-title">
+            <header class="case_section_header">
+              <span class="section_number">03</span>
+              <h2 id="end-to-end-pipeline-title">End-to-End Pipeline</h2>
+            </header>
+
+            <div class="case_section_body">
+              <p>The final workflow connected image enhancement, ridge processing, feature extraction, and identification into one sequential recognition pipeline.</p>
+
+              <figure class="engineering_diagram">
+                <div class="engineering_diagram_header">
+                  <strong>Fingerprint recognition workflow</strong>
+                  <span>From raw sensor image to minutiae-based identity matching</span>
+                </div>
+
+                <div class="engineering_diagram_canvas">
+                  <svg aria-labelledby="fp-pipeline-title fp-pipeline-desc" role="img" viewBox="0 0 1080 650">
+                    <title id="fp-pipeline-title">Fingerprint recognition pipeline</title>
+                    <desc id="fp-pipeline-desc">Raw fingerprint input is normalized, enhanced, segmented, binarized, thinned, converted into minutiae, aligned, and matched against saved templates.</desc>
+
+                    <defs>
+                      <marker id="arrow-fp" markerHeight="7" markerWidth="7" orient="auto-start-reverse" refX="9" refY="5" viewBox="0 0 10 10">
+                        <path class="diagram_emphasis" d="M 0 0 L 10 5 L 0 10 z"></path>
+                      </marker>
+                    </defs>
+
+                    <rect class="diagram_panel" x="30" y="26" width="1020" height="594" rx="18"></rect>
+
+                    <rect class="pipeline_step_accent" x="70" y="76" width="200" height="72" rx="14"></rect>
+                    <text class="diagram_text" text-anchor="middle" x="170" y="106">Raw fingerprint</text>
+                    <text class="diagram_text_small" text-anchor="middle" x="170" y="130">200 × 152 · 8-bit grayscale</text>
+
+                    <path class="diagram_arrow" d="M270 112 H320" marker-end="url(#arrow-fp)"></path>
+
+                    <rect class="pipeline_step" x="330" y="76" width="190" height="72" rx="14"></rect>
+                    <text class="diagram_text" text-anchor="middle" x="425" y="106">Normalize + histogram</text>
+                    <text class="diagram_text_small" text-anchor="middle" x="425" y="130">192 × 144 working image</text>
+
+                    <path class="diagram_arrow" d="M520 112 H570" marker-end="url(#arrow-fp)"></path>
+
+                    <rect class="pipeline_step" x="580" y="76" width="190" height="72" rx="14"></rect>
+                    <text class="diagram_text" text-anchor="middle" x="675" y="106">STFT enhancement</text>
+                    <text class="diagram_text_small" text-anchor="middle" x="675" y="130">orientation · frequency · energy</text>
+
+                    <path class="diagram_arrow" d="M770 112 H820" marker-end="url(#arrow-fp)"></path>
+
+                    <rect class="pipeline_step" x="830" y="76" width="180" height="72" rx="14"></rect>
+                    <text class="diagram_text" text-anchor="middle" x="920" y="106">Segmentation</text>
+                    <text class="diagram_text_small" text-anchor="middle" x="920" y="130">foreground mask</text>
+
+                    <path class="diagram_arrow" d="M920 148 V214" marker-end="url(#arrow-fp)"></path>
+
+                    <rect class="pipeline_step" x="830" y="224" width="180" height="72" rx="14"></rect>
+                    <text class="diagram_text" text-anchor="middle" x="920" y="254">Otsu binarization</text>
+                    <text class="diagram_text_small" text-anchor="middle" x="920" y="278">local binary ridges</text>
+
+                    <path class="diagram_arrow" d="M830 260 H780" marker-end="url(#arrow-fp)"></path>
+
+                    <rect class="pipeline_step" x="580" y="224" width="190" height="72" rx="14"></rect>
+                    <text class="diagram_text" text-anchor="middle" x="675" y="254">Thinning</text>
+                    <text class="diagram_text_small" text-anchor="middle" x="675" y="278">one-pixel ridge skeleton</text>
+
+                    <path class="diagram_arrow" d="M580 260 H530" marker-end="url(#arrow-fp)"></path>
+
+                    <rect class="pipeline_step" x="330" y="224" width="190" height="72" rx="14"></rect>
+                    <text class="diagram_text" text-anchor="middle" x="425" y="254">Minutiae extraction</text>
+                    <text class="diagram_text_small" text-anchor="middle" x="425" y="278">ending · bifurcation · cleanup</text>
+
+                    <path class="diagram_arrow" d="M330 260 H280" marker-end="url(#arrow-fp)"></path>
+
+                    <rect class="pipeline_step" x="70" y="224" width="200" height="72" rx="14"></rect>
+                    <text class="diagram_text" text-anchor="middle" x="170" y="254">Template representation</text>
+                    <text class="diagram_text_small" text-anchor="middle" x="170" y="278">minutiae + ridge information</text>
+
+                    <path class="diagram_arrow" d="M170 296 V384" marker-end="url(#arrow-fp)"></path>
+
+                    <rect class="pipeline_step" x="70" y="394" width="260" height="84" rx="14"></rect>
+                    <text class="diagram_text" text-anchor="middle" x="200" y="426">Alignment</text>
+                    <text class="diagram_text_small" text-anchor="middle" x="200" y="451">candidate anchors · rotation</text>
+
+                    <path class="diagram_arrow" d="M330 436 H420" marker-end="url(#arrow-fp)"></path>
+
+                    <rect class="pipeline_step" x="430" y="394" width="260" height="84" rx="14"></rect>
+                    <text class="diagram_text" text-anchor="middle" x="560" y="426">Minutiae matching</text>
+                    <text class="diagram_text_small" text-anchor="middle" x="560" y="451">position + direction thresholds</text>
+
+                    <path class="diagram_arrow" d="M690 436 H780" marker-end="url(#arrow-fp)"></path>
+
+                    <rect class="pipeline_step_accent" x="790" y="394" width="220" height="84" rx="14"></rect>
+                    <text class="diagram_text" text-anchor="middle" x="900" y="426">Similarity score</text>
+                    <text class="diagram_text_small" text-anchor="middle" x="900" y="451">select highest 1:N match</text>
+
+                    <path class="diagram_arrow" d="M900 478 V532" marker-end="url(#arrow-fp)"></path>
+
+                    <rect class="diagram_node_accent" x="420" y="538" width="480" height="54" rx="13"></rect>
+                    <text class="diagram_text" text-anchor="middle" x="660" y="572">Identity result if best score passes the matching threshold</text>
+                  </svg>
+                </div>
+                <figcaption>High-level processing sequence used by both the MATLAB reference workflow and the later C/C++ implementation.</figcaption>
+              </figure>
+            </div>
+          </section>
+
+
+          <!-- =========================================
+               IMAGE PROCESSING AND FEATURE EXTRACTION
+          --------------------------------------------- -->
+          <section class="case_section" id="image-processing" aria-labelledby="image-processing-title">
+            <header class="case_section_header">
+              <span class="section_number">04</span>
+              <h2 id="image-processing-title">Image Processing and Feature Extraction</h2>
+            </header>
+
+            <div class="case_section_body">
+
+              <h3 class="subsection_title" id="stft-enhancement">STFT Enhancement</h3>
+
+              <p>The most computationally intensive preprocessing stage used <strong>Short-Time Fourier Transform (STFT)</strong> analysis to strengthen the local ridge structure. The image was processed in overlapping windows so that ridge orientation, local frequency, and energy could be estimated region by region rather than assuming the entire fingerprint had one direction or spacing.</p>
+
+              <p>This local frequency-domain description was then used to reconstruct a clearer fingerprint pattern. The improvement was especially useful where the raw image contained weak contrast or interrupted ridge detail.</p>
+
+              <figure class="project_figure">
+                <img
+                  src="media/projects/fingerprint_recognition/stft_enhancement.jpeg"
+                  alt="Fingerprint examples before and after STFT-based enhancement"
+                >
+                <figcaption>Examples of original fingerprints and their enhanced ridge patterns after the STFT processing stage.</figcaption>
+              </figure>
+
+
+              <h3 class="subsection_title" id="segmentation-thinning">Segmentation, Binarization, and Thinning</h3>
+
+              <p>After enhancement, the pipeline isolated the valid fingerprint region and applied automatic <strong>Otsu thresholding</strong> to convert the grayscale ridges into a binary image. The binarization step was performed locally in blocks so that the threshold could follow spatial changes across the fingerprint.</p>
+
+              <p>The binary ridges were then thinned iteratively until the structure was approximately one pixel wide. This skeleton representation made it much easier to reason about ridge topology and detect endings or bifurcations.</p>
+
+              <figure class="project_figure">
+                <img
+                  src="media/projects/fingerprint_recognition/thinning.jpeg"
+                  alt="Fingerprint binary images before and after ridge thinning"
+                >
+                <figcaption>Binary ridge patterns before and after thinning to a one-pixel-wide skeleton.</figcaption>
+              </figure>
+
+
+              <h3 class="subsection_title" id="minutiae-extraction">Minutiae Extraction and Cleanup</h3>
+
+              <p>Ridge endings and ridge bifurcations were detected from the thinned image. A raw detector can create false minutiae around small artifacts, broken ridges, and nearby structures, so I added a cleanup stage that examined the relationships between neighboring features and the corresponding ridge information before saving the template.</p>
+
+              <div class="figure_pair">
+                <figure class="project_figure">
+                  <img
+                    src="media/projects/fingerprint_recognition/minutiae_detection.jpeg"
+                    alt="Fingerprint ridges with detected minutiae marked"
+                  >
+                  <figcaption>Initial minutiae detection on the thinned fingerprint.</figcaption>
+                </figure>
+
+                <figure class="project_figure">
+                  <img
+                    src="media/projects/fingerprint_recognition/minutiae_cleanup.jpeg"
+                    alt="Detected fingerprint minutiae before and after false-feature cleanup"
+                  >
+                  <figcaption>Minutiae before and after the false-feature removal stage.</figcaption>
+                </figure>
+              </div>
+            </div>
+          </section>
+
+
+          <!-- =========================================
+               MATCHING
+          --------------------------------------------- -->
+          <section class="case_section" id="matching" aria-labelledby="matching-title">
+            <header class="case_section_header">
+              <span class="section_number">05</span>
+              <h2 id="matching-title">Fingerprint Matching</h2>
+            </header>
+
+            <div class="case_section_body">
+              <p>The matching stage had to handle the fact that two captures of the same finger are rarely placed at exactly the same position or angle. The implementation therefore separated matching into two main steps: <strong>alignment</strong> followed by <strong>minutiae comparison</strong>.</p>
+
+              <p>Candidate minutiae from the input and template were tested as possible corresponding anchor points. Their associated ridge information was used to reject unlikely anchor pairs and estimate the required rotation. After selecting an anchor pair, both minutiae sets were represented relative to that origin, allowing the input fingerprint to be rotated and compared in a common coordinate system.</p>
+
+              <p>Aligned minutiae were considered corresponding when their positions and directions were sufficiently close. The number of valid correspondences was converted into a similarity score, and the database entry with the highest score was selected as the recognition candidate.</p>
+
+              <figure class="engineering_diagram">
+                <div class="engineering_diagram_header">
+                  <strong>Alignment and matching logic</strong>
+                  <span>Compensating for translation and rotation before comparing minutiae</span>
+                </div>
+
+                <div class="engineering_diagram_canvas">
+                  <svg aria-labelledby="matching-flow-title matching-flow-desc" role="img" viewBox="0 0 1080 430">
+                    <title id="matching-flow-title">Fingerprint matching flow</title>
+                    <desc id="matching-flow-desc">Template and input minutiae are evaluated for candidate anchor pairs, aligned in a common coordinate system, and compared to produce a matching score.</desc>
+                    <defs>
+                      <marker id="arrow-match" markerHeight="7" markerWidth="7" orient="auto-start-reverse" refX="9" refY="5" viewBox="0 0 10 10">
+                        <path class="diagram_emphasis" d="M 0 0 L 10 5 L 0 10 z"></path>
+                      </marker>
+                    </defs>
+
+                    <rect class="diagram_panel" x="28" y="28" width="1024" height="370" rx="18"></rect>
+
+                    <rect class="pipeline_step" x="70" y="74" width="210" height="76" rx="14"></rect>
+                    <text class="diagram_text" text-anchor="middle" x="175" y="106">Template minutiae</text>
+                    <text class="diagram_text_small" text-anchor="middle" x="175" y="130">saved feature set</text>
+
+                    <rect class="pipeline_step" x="70" y="228" width="210" height="76" rx="14"></rect>
+                    <text class="diagram_text" text-anchor="middle" x="175" y="260">Input minutiae</text>
+                    <text class="diagram_text_small" text-anchor="middle" x="175" y="284">new fingerprint</text>
+
+                    <path class="diagram_arrow" d="M280 112 H355 V170" marker-end="url(#arrow-match)"></path>
+                    <path class="diagram_arrow" d="M280 266 H355 V208" marker-end="url(#arrow-match)"></path>
+
+                    <rect class="pipeline_step_accent" x="365" y="145" width="240" height="92" rx="14"></rect>
+                    <text class="diagram_text" text-anchor="middle" x="485" y="177">Candidate anchor pair</text>
+                    <text class="diagram_text_small" text-anchor="middle" x="485" y="201">ridge-distance / angle consistency</text>
+                    <text class="diagram_text_small" text-anchor="middle" x="485" y="220">estimate relative rotation</text>
+
+                    <path class="diagram_arrow" d="M605 191 H665" marker-end="url(#arrow-match)"></path>
+
+                    <rect class="pipeline_step" x="675" y="145" width="180" height="92" rx="14"></rect>
+                    <text class="diagram_text" text-anchor="middle" x="765" y="177">Align minutiae</text>
+                    <text class="diagram_text_small" text-anchor="middle" x="765" y="201">common polar frame</text>
+                    <text class="diagram_text_small" text-anchor="middle" x="765" y="220">rotate input set</text>
+
+                    <path class="diagram_arrow" d="M855 191 H905" marker-end="url(#arrow-match)"></path>
+
+                    <rect class="pipeline_step" x="915" y="145" width="105" height="92" rx="14"></rect>
+                    <text class="diagram_text" text-anchor="middle" x="967" y="177">Compare</text>
+                    <text class="diagram_text_small" text-anchor="middle" x="967" y="201">position</text>
+                    <text class="diagram_text_small" text-anchor="middle" x="967" y="220">direction</text>
+
+                    <path class="diagram_arrow" d="M967 237 V316 H690" marker-end="url(#arrow-match)"></path>
+
+                    <rect class="diagram_node_accent" x="430" y="306" width="260" height="58" rx="13"></rect>
+                    <text class="diagram_text" text-anchor="middle" x="560" y="341">Similarity score → best database match</text>
+                  </svg>
+                </div>
+              </figure>
+
+              <p>For evaluation, each fingerprint was compared against the remaining entries in the database. With 255 samples, this meant up to <strong>254 template comparisons for one query</strong>, which later became one of the main runtime bottlenecks.</p>
+            </div>
+          </section>
+
+
+          <!-- =========================================
+               MATLAB TO C
+          --------------------------------------------- -->
+          <section class="case_section" id="matlab-to-c" aria-labelledby="matlab-to-c-title">
+            <header class="case_section_header">
+              <span class="section_number">06</span>
+              <h2 id="matlab-to-c-title">Low-Level C/C++ Implementation and Optimization</h2>
+            </header>
+
+            <div class="case_section_body">
+              <p>MATLAB was useful for validating the processing sequence and inspecting intermediate images, but the harder engineering task was reproducing that behavior in a lower-level implementation with much less help from high-level image-processing tools.</p>
+
+              <h3 class="subsection_title" id="direct-c-processing">Direct image processing in C — no OpenCV</h3>
+
+              <p>The C implementation did <strong>not</strong> rely on OpenCV for image loading or processing. The fingerprint sensor produced a headerless <code>.raw</code> image containing a <strong>200 × 152</strong> matrix of 8-bit grayscale values. I read that data directly with standard C file operations such as <code>fopen()</code> and <code>fread()</code>, stored the pixels in image arrays, cropped the working region to <strong>192 × 144</strong>, and passed those arrays through the processing functions.</p>
+
+              <p>This meant that the practical C pipeline had to explicitly handle operations that a modern vision library normally hides: raw image I/O, pixel indexing, histogram processing, segmentation, thresholding, thinning, minutiae detection, false-minutiae removal, template serialization, and matching. MFC was used for the GUI, but even displaying the raw fingerprint required manually converting the pixel data for <code>StretchDIBits()</code> because MFC did not natively understand the sensor's raw image format.</p>
+
+              <p class="decision_note"><strong>Important distinction:</strong> the MATLAB reference was not completely library-free. The project used a published open-source MATLAB implementation for the STFT fingerprint-enhancement stage as a reference component. The engineering contribution was to understand the complete processing chain, adapt it, implement the remaining recognition stages, and reproduce the practical pipeline in C/C++ rather than calling OpenCV-style image-processing functions.</p>
+
+              <h3 class="subsection_title" id="build-environment">Build and execution environment</h3>
+
+              <p>The documented C/C++ application was built with <strong>Visual Studio 2013</strong>. The GUI was written with <strong>MFC in C++</strong>, and the image-processing and recognition routines written in C were integrated into that application. The project report does <strong>not</strong> document a Makefile or GCC-based build, so I have not added a Makefile workflow to this case study without source evidence.</p>
+
+              <h3 class="subsection_title" id="c-optimization">Making the MATLAB pipeline practical in C</h3>
+
+              <p>A direct translation was still too expensive, especially in the STFT stage. I therefore simplified the implementation while preserving the recognition behavior:</p>
+
+              <ul class="content_list">
+                <li><strong>Removed non-essential filtering operations</strong> that added computation without enough benefit for the selected input conditions.</li>
+                <li><strong>Replaced repeated <code>sin()</code> and <code>cos()</code> evaluations with lookup tables.</strong> The report measured more than a 7× improvement for these calculations, reducing the relevant STFT computation from roughly 7 seconds to under 1 second.</li>
+                <li><strong>Computed only the information actually required downstream.</strong> Where a full local frequency map was not necessary, the C implementation reduced the amount of frequency information that had to be retained and processed.</li>
+                <li><strong>Restricted severely damaged inputs</strong> rather than spending large amounts of processing time trying to reconstruct fingerprints that still produced unreliable minutiae.</li>
+                <li><strong>Validated the rewrite against MATLAB.</strong> In the reported 30-sample comparison, both implementations returned the same best-matching fingerprint and the same similarity percentage for every tested sample.</li>
+              </ul>
+
+              <h3 class="subsection_title" id="template-storage">Template storage and 1:N recognition</h3>
+
+              <p>The MATLAB prototype stored fingerprint templates as separate data files. In the C version, template handling was redesigned so that minutiae and their associated ridge information could be read efficiently during recognition. The recognition stage then performed a <strong>1:N search</strong>, comparing one input fingerprint with the stored templates and selecting the highest similarity score.</p>
+
+              <p>This exposed a second major performance problem: with 255 samples, one query could require up to <strong>254 individual comparisons</strong>. The implementation worked at this scale, but exhaustive matching became an obvious scaling limit for a database containing thousands of fingerprints.</p>
+
+              <h3 class="subsection_title" id="engineering-challenges">Engineering Challenges That Mattered</h3>
+
+              <div class="table_wrap">
+                <table class="reference_table">
+                  <thead>
+                    <tr>
+                      <th>Challenge</th>
+                      <th>Why it mattered</th>
+                      <th>Engineering response</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Working without an image-processing framework in C</td>
+                      <td>Raw sensor bytes could not simply be passed to an OpenCV-style image API.</td>
+                      <td>Handled raw 8-bit buffers directly, implemented the processing stages as C functions, and built a custom display path in MFC.</td>
+                    </tr>
+                    <tr>
+                      <td>Expensive STFT enhancement</td>
+                      <td>Frequency-domain enhancement dominated runtime and blocked an embedded-oriented implementation.</td>
+                      <td>Removed unnecessary operations and replaced repeated trigonometric functions with lookup-table approximations.</td>
+                    </tr>
+                    <tr>
+                      <td>False minutiae after thinning</td>
+                      <td>Noise, broken ridges, and skeleton artifacts can look like valid ridge endings or bifurcations and corrupt matching.</td>
+                      <td>Added explicit false-minutiae cleanup and used associated ridge information rather than accepting every detected point.</td>
+                    </tr>
+                    <tr>
+                      <td>Translation, rotation, and partial fingerprints</td>
+                      <td>The same finger can appear at a different location and angle, with part of the ridge pattern outside the sensor area.</td>
+                      <td>Tested candidate minutiae anchors, estimated rotation, transformed features into a common polar frame, and matched using position and direction tolerances.</td>
+                    </tr>
+                    <tr>
+                      <td>Preserving MATLAB behavior after a C rewrite</td>
+                      <td>Optimization is not useful if it silently changes the recognition result.</td>
+                      <td>Compared both implementations directly; all 30 sampled cases produced the same best match and similarity score.</td>
+                    </tr>
+                    <tr>
+                      <td>Scaling exhaustive matching</td>
+                      <td>Recognition time grows with the number of stored templates.</td>
+                      <td>Profiled 1:N matching as a separate bottleneck and identified classification/indexing as the next step for larger databases.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="figure_pair">
+                <figure class="project_figure">
+                  <img
+                    src="media/projects/fingerprint_recognition/c_gui.png"
+                    alt="C and MFC fingerprint recognition interface with a raw fingerprint loaded"
+                  >
+                  <figcaption>C/C++ interface used to inspect the raw fingerprint and processing stages.</figcaption>
+                </figure>
+
+                <figure class="project_figure">
+                  <img
+                    src="media/projects/fingerprint_recognition/c_result.png"
+                    alt="C and MFC fingerprint recognition interface showing processed images and a matching result"
+                  >
+                  <figcaption>Recognition workflow running through the C/C++ interface with intermediate processing output and a final match result.</figcaption>
+                </figure>
+              </div>
+            </div>
+          </section>
+
+
+          <!-- =========================================
+               RESULTS
+          --------------------------------------------- -->
+          <section class="case_section" id="results" aria-labelledby="results-title">
+            <header class="case_section_header">
+              <span class="section_number">07</span>
+              <h2 id="results-title">Results and Bottlenecks</h2>
+            </header>
+
+            <div class="case_section_body">
+              <p>The evaluation used <strong>255 fingerprint samples from 27 different fingers</strong>. Each finger was captured multiple times, and the set deliberately included both good and poor-quality acquisitions so that the behavior under difficult inputs could be observed rather than hidden.</p>
+
+              <div class="metric_grid" aria-label="Fingerprint recognition evaluation">
+                <div class="metric_card">
+                  <span>Dataset</span>
+                  <strong>255 samples</strong>
+                </div>
+                <div class="metric_card">
+                  <span>Finger identities</span>
+                  <strong>27 fingers</strong>
+                </div>
+                <div class="metric_card">
+                  <span>Good-quality recognition</span>
+                  <strong>67.96%</strong>
+                </div>
+                <div class="metric_card">
+                  <span>Average C runtime</span>
+                  <strong>4.373 s</strong>
+                </div>
+              </div>
+
+              <h3 class="subsection_title">MATLAB and C consistency</h3>
+              <p>Thirty randomly selected samples were evaluated with both implementations. For every sample in that comparison, MATLAB and C returned the <strong>same highest-matching fingerprint ID and the same similarity percentage</strong>. This gave a useful implementation check: the lower-level rewrite preserved the recognition behavior of the reference pipeline.</p>
+
+              <h3 class="subsection_title">Effect of fingerprint quality</h3>
+
+              <div class="table_wrap">
+                <table class="reference_table">
+                  <thead>
+                    <tr>
+                      <th>Input group</th>
+                      <th>Samples</th>
+                      <th>Successful recognitions</th>
+                      <th>Recognition rate</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Good-quality captures</td>
+                      <td>181</td>
+                      <td>123</td>
+                      <td><strong>67.96%</strong></td>
+                    </tr>
+                    <tr>
+                      <td>Poor-quality captures</td>
+                      <td>74</td>
+                      <td>8</td>
+                      <td><strong>10.81%</strong></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <p>This difference was significant. Roughly 29% of the evaluation set consisted of poor-quality samples, including partial captures and heavily damaged ridge patterns. The results therefore showed both the capability of the pipeline and its sensitivity to acquisition quality.</p>
+
+              <figure class="project_figure">
+                <img
+                  src="media/projects/fingerprint_recognition/partial_samples.jpeg"
+                  alt="Examples of multiple partial fingerprint captures used in evaluation"
+                >
+                <figcaption>Examples of repeated and partial fingerprint captures used to evaluate recognition under realistic placement variation.</figcaption>
+              </figure>
+
+              <h3 class="subsection_title">Where the runtime was spent</h3>
+
+              <div class="table_wrap">
+                <table class="reference_table">
+                  <thead>
+                    <tr>
+                      <th>Processing group</th>
+                      <th>Average time</th>
+                      <th>Share of total runtime</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>STFT enhancement</td>
+                      <td><strong>2.739 s</strong></td>
+                      <td>62.62%</td>
+                    </tr>
+                    <tr>
+                      <td>1:N matching</td>
+                      <td><strong>1.497 s</strong></td>
+                      <td>34.22%</td>
+                    </tr>
+                    <tr>
+                      <td>Other processing stages</td>
+                      <td><strong>0.137 s</strong></td>
+                      <td>3.13%</td>
+                    </tr>
+                    <tr>
+                      <td>Total recognition pipeline</td>
+                      <td><strong>4.373 s</strong></td>
+                      <td>≈100%</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <p class="result_note">The profiling result was useful because it made the next optimization priorities clear: most of the runtime was concentrated in STFT enhancement and exhaustive template matching, not in binarization, thinning, or the remaining lightweight image-processing stages.</p>
+            </div>
+          </section>
+
+
+          <!-- =========================================
+               LIMITATIONS AND NEXT STEPS
+          --------------------------------------------- -->
+          <section class="case_section" id="limitations-and-next-steps" aria-labelledby="limitations-and-next-steps-title">
+            <header class="case_section_header">
+              <span class="section_number">08</span>
+              <h2 id="limitations-and-next-steps-title">Limitations and Next Steps</h2>
+            </header>
+
+            <div class="case_section_body">
+              <ul class="content_list">
+                <li><strong>STFT enhancement remained the largest computational bottleneck.</strong> The implementation used a direct Fourier-transform approach in this stage; replacing it with a more efficient FFT-based implementation would be a clear optimization path.</li>
+                <li><strong>Exhaustive 1:N matching scaled poorly.</strong> Comparing one query against every stored template was acceptable for 255 samples but would become increasingly expensive for databases containing thousands of fingerprints. A classification or indexing stage could reduce the search space before detailed matching.</li>
+                <li><strong>Recognition was strongly dependent on acquisition quality.</strong> Poor or severely damaged ridge patterns produced much lower recognition rates. The report also notes difficult cases around noisy/corrupted samples and captures containing complex core regions, where reliable minutiae extraction becomes harder. Stronger quality assessment and more robust feature handling would be needed.</li>
+                <li><strong>The C implementation was not yet a completed microcontroller deployment.</strong> Further reduction of memory use and execution time would be required before moving the full pipeline to a constrained embedded target.</li>
+              </ul>
+
+              <p>The strongest outcome of the project was the complete engineering path: I could trace a raw fingerprint through enhancement, segmentation, ridge processing, minutiae extraction, alignment, and matching; verify the C implementation against MATLAB; and profile exactly which stages prevented the algorithm from being immediately moved to smaller hardware.</p>
+            </div>
+          </section>
+
+
+          <!-- =========================================
+               BOTTOM NAVIGATION
+          --------------------------------------------- -->
+          <nav class="case_bottom" aria-label="Project navigation">
+            <a href="project.html#computer_vision">← Back to Projects</a>
+            <a href="projects/computer_vision/fingerprint_recognition.html#top">Back to top ↑</a>
+          </nav>
+
+        </article>
+      </div>
+    </div>
+  </main>
+
+
+  <!--================================================
+                FOOTER
+  ====================================================-->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span>© <span id="current-year"></span> Duc An Nguyen</span>
+
+      <div class="footer-links">
+        <a href="mailto:ducannguyen.da@gmail.com">Email</a>
+        <a
+          href="https://github.com/duc-an-nguyen"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          GitHub
+        </a>
+        <a
+          href="https://www.linkedin.com/in/ducannguyen"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          LinkedIn
+        </a>
+        <a href="projects/computer_vision/fingerprint_recognition.html#top">Back to top ↑</a>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+                  JAVASCRIPT
+  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- -->
+  <script>
+
+    /* =========================================================
+       CURRENT YEAR
+    ========================================================== */
+    document.getElementById("current-year").textContent =
+      new Date().getFullYear();
+
+
+    /* =========================================================
+       ACTIVE TABLE OF CONTENTS LINK
+    ========================================================== */
+    const tocTargets = document.querySelectorAll(
+      ".case_section, .subsection_title[id]"
+    );
+
+    const tocLinks = document.querySelectorAll(".case_toc a");
+
+    const tocObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+
+          tocLinks.forEach((link) => {
+            const linkHash = new URL(link.href).hash;
+            const isActive = linkHash === `#${entry.target.id}`;
+
+            link.classList.toggle("is-active", isActive);
+          });
+        });
+      },
+      {
+        rootMargin: "-22% 0px -65% 0px",
+        threshold: 0
+      }
+    );
+
+    tocTargets.forEach((target) => tocObserver.observe(target));
+
+  </script>
+</body>
+</html>
