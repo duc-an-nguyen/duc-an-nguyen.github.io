@@ -398,9 +398,62 @@
 
 
 
+    /* =========================================================
+          12. APPLICATION DEMONSTRATIONS
+      ========================================================== */
+
+    .demo_grid {
+        display               : grid;
+        grid-template-columns : repeat(2, minmax(0, 1fr));
+        gap                   : 20px;
+        margin                : 20px 0 32px;
+    }
+
+    .demo_item {
+        min-width             : 0;
+        margin                : 0;
+    }
+
+    .demo_frame {
+        display               : flex;
+        align-items           : center;
+        justify-content       : center;
+        aspect-ratio          : 16 / 9;
+        overflow              : hidden;
+        border                : 1px solid var(--border);
+        border-radius         : var(--radius-md);
+        background            : var(--surface-soft);
+    }
+
+    .demo_frame img,
+    .demo_frame video {
+        display               : block;
+        width                 : 100%;
+        height                : 100%;
+        object-fit            : contain;
+    }
+
+    .demo_item figcaption {
+        margin-top            : 9px;
+        color                 : var(--text-muted);
+        font-size             : 0.79rem;
+        line-height           : 1.55;
+        text-align            : center;
+    }
+
+    /* -------------------------------
+          Responsive layout
+      -------------------------------- */
+
+    @media (max-width: 720px) {
+        .demo_grid {
+            grid-template-columns : 1fr;
+        }
+    }
+
 
     /* =========================================================
-       12. SECTION-SPECIFIC EMPHASIS
+       13. SECTION-SPECIFIC EMPHASIS
     ========================================================== */
     #engineering-deep-dives .subsection_title,
     #stabilizing-the-real-time-pipeline .subsection_title {
@@ -437,7 +490,7 @@
 
 
     /* =========================================================
-       13. BOTTOM NAVIGATION
+       14. BOTTOM NAVIGATION
     ========================================================== */
     .case_bottom {
                     display                 : flex;
@@ -461,7 +514,7 @@
 
 
     /* =========================================================
-       14. RESPONSIVE
+       15. RESPONSIVE
     ========================================================== */
     @media (max-width: 980px) {
       .case_shell {
@@ -1114,6 +1167,7 @@
 
 
 
+        <!-- The demo image -->
         <figure class="project_figure ">
           <img    
             src="media/projects/aqua/demo_time.jpg" 
@@ -1125,16 +1179,134 @@
           </figcaption>
         </figure>
 
+        <p>
+          The following examples demonstrate two selected
+          computer vision applications developed for the system.
+        </p> 
+      
+      <!-- -------------------------------
+          Redlight violation detection
+        -------------------------------- -->
+        <h3 class="subsection_title">
+          Red-light violation detection
+        </h3>
+
+        <p>
+          This application detects vehicles that cross the stop line while the traffic light is red.
+        </p>
+
+        <div class="demo_grid">
+
+          <!-- --------Figure 1 ------ -->
+          <figure class="demo_item">
+            <div class="demo_frame">
+              <img
+                src="media/projects/aqua/aqua_application_green_light.jpg"
+                alt="Vehicles stopping before the stop line with no violation detected"
+                loading="lazy"
+              >
+            </div>
+            <figcaption>
+              
+              Vehicles remain behind the stop line; no red-light violation is detected
+            </figcaption>
+          </figure>
+
+
+          <!-- --------Video 1 ------ -->
+
+          <figure class="demo_item">
+            <div class="demo_frame">
+              
+              <video  controls
+                      autoplay
+                      muted
+                      loop
+                      playsinline
+                      preload="metadata"
+                      poster="media/projects/aqua/app2_poster.jpg">
+                
+                <source
+                      src="media/projects/aqua/redlight_violation.mp4"
+                      type="video/mp4">
+                Your browser does not support HTML5 video
+              </video>
+
+            </div>
+            
+            <figcaption>
+              Recorded demonstration of red-light violation detection
+            </figcaption>
+            </figure>
+
+
+        </div>
+
 
         <!-- -------------------------------
-             Original project content
+          Crowd detection
+        -------------------------------- -->
+
+        <h3 class="subsection_title">
+          Crowd detection 
+        </h3>
+
+        <p>
+          This application detects crowds and highlights them with a red rectangle to alert monitoring operators.
+        </p>
+
+        <div class="demo_grid">
+
+          <!-- --------Figure 3 ------ -->
+          <figure class="demo_item">
+            <div class="demo_frame">
+              <img
+                src="media/projects/aqua/crowd_detection1.jpg"
+                alt="A crowd gathered near the top of the frame"
+                loading="lazy"
+              >
+            </div>
+            <figcaption>
+              A crowd detected near the top of the frame
+            </figcaption>
+          </figure>
+
+
+          <!-- --------Figure 4------ -->
+
+          <figure class="demo_item">
+            <div class="demo_frame">
+              <img
+                src="media/projects/aqua/crowd_detection2.jpg"
+                alt="A crowd gathered on the left side of the frame."
+                loading="lazy"
+              >
+            </div>
+            <figcaption>
+              A crowd detected on the left side of the frame
+            </figcaption>
+          </figure>
+
+
+        </div>
+
+
+  
+
+
+
+
+
+
+        <!-- -------------------------------
+             Practical results
         -------------------------------- -->
         <div class="case_section_body">
         <p>The work produced several practical outcomes reported in this draft:</p>
 
         <ul class="content_list">
           <li>The shared-backbone design reduced the reported system resource cost by more than 50%.</li>
-          <li>After GPU-memory optimization, HydraNet ran at approximately 3.2–3.8 GB VRAM on a 4 GB GPU.</li>
+          <li>After GPU-memory optimization, HydraNet ran at approximately 3.2-3.8 GB VRAM on a 4 GB GPU.</li>
           <li>The shared-backbone approach maintained more than 90% accuracy across the applications in the practical evaluation, with face recognition above 95%.</li>
           <li>The final system ran on an NVIDIA A5000 with 24 cameras at the same time and achieved approximately 5–10 FPS per camera.</li>
         </ul>
