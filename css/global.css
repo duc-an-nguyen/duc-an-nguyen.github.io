@@ -113,7 +113,7 @@ EYEBROW, CONTAINER, AND OTHER GLOBAL STYLES
 MAIN MENU STYLES
 ------------------------------------------*/
 .header_menu    {
-                    position        : sticky;
+                    position        : static;
                     top             : 0;
                     left            : 0;
                     width           : 100%;
