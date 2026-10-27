@@ -1,225 +1,429 @@
-    
+/* =========================================================
+   01. DESIGN TOKENS AND RESET
+   Shared site values. The homepage is the visual reference.
+   ========================================================= */
 
-/*=========================================
-FOR BODY
-------------------------------------------*/
-html {
-    scrollbar-gutter: stable;
-}
 :root {
-      --page-bg         : #f5f9fc;
-      --surface         : #ffffff;
-      --surface-soft    : #eef6fb;
-      --text            : #142437;
-      --text-muted      : #5d6b7a;
-      --heading         : #0d2d4d;
-      --primary         : #176b9e;
-      --primary-dark    : #0f537d;
-      --primary-light   : #d9edf8;
-      --line            : #b8d6e7;
-      --border          : #dbe7ef;
-      --success         : #1f7a5a;
-      --shadow          : 0 18px 45px rgba(19, 55, 82, 0.10);
+    --page-bg                : #f5f9fc;
+    --surface                : #ffffff;
+    --surface-soft           : #eef6fb;
+    --text                   : #142437;
+    --text-muted             : #5d6b7a;
+    --heading                : #0d2d4d;
+    --primary                : #176b9e;
+    --primary-dark           : #0f537d;
+    --primary-light          : #d9edf8;
+    --line                   : #b8d6e7;
+    --border                 : #dbe7ef;
+    --success                : #1f7a5a;
+    --shadow                 : 0 18px 45px rgba(19, 55, 82, 0.10);
+    --radius-sm              : 12px;
+    --radius-md              : 20px;
+    --radius-lg              : 28px;
+    --container              : 1200px;
+    --transition             : 180ms ease;
 
-      --radius-sm       : 12px;
-      --radius-md       : 20px;
-      --radius-lg       : 28px;
-
-      --container       : 1200px;
-      --transition      : 180ms ease;
-    }
-
-::selection {
-                    background      : var(--primary);
-                    color           : #ffffff;
-    }
-
+    /* Homepage visual reference for shared secondary-page controls. */
+    --site-action            : #415a72;
+    --site-action-hover      : #334b61;
+    --site-action-text       : #41556a;
+    --site-action-border     : #b9c5d1;
+    --site-tag-bg            : #e7effb;
+    --site-tag-text          : #365f91;
+}
 
 *,
 *::before,
-*::after  {                 
-                    margin          : 0;
-                    padding         : 0;
-                    box-sizing      : border-box;
-                    }
+*::after {
+    margin                   : 0;
+    padding                  : 0;
+    box-sizing               : border-box;
+}
 
-html {              scroll-behavior : smooth;}
+html {
+    scroll-behavior          : smooth;
+    scrollbar-gutter         : stable;
+}
 
+::selection {
+    background               : var(--primary);
+    color                    : #ffffff;
+}
 
+/* =========================================================
+   02. TYPOGRAPHY AND PAGE BACKGROUND
+   ========================================================= */
 
-
-/* -----Background and color  --------*/
 body {
-                    margin                  : 0;
-                    background              :
-                                            radial-gradient(circle at 10% 0%, rgba(23, 107, 158, 0.10), transparent 34rem),
-                                            var(--page-bg);
-                    color                   : var(--text);
-                    line-height             : 1.65;
-                    -webkit-font-smoothing  : antialiased;
-                    }
+    background               : radial-gradient(circle at 10% 0%, rgba(23, 107, 158, 0.10), transparent 34rem), var(--page-bg);
+    color                    : var(--text);
+    line-height              : 1.65;
+    -webkit-font-smoothing   : antialiased;
+}
 
-
-/* -----Font for header  --------*/
 h1,
 h2,
 h3,
 .section_title {
-                    font-family     : Georgia, "Times New Roman", serif;
-                }
-/* -----Font for body  --------*/
+    font-family              : Georgia, "Times New Roman", serif;
+}
+
 body,
 button,
 input,
-textarea        {
-                    font-family     : "Inter", Arial, Helvetica, sans-serif;
-                }
+textarea {
+    font-family              : "Inter", Arial, Helvetica, sans-serif;
+}
 
+/* Secondary pages borrow the homepage's blue-gray palette. */
+body.secondary-page {
+    --heading                : #0f172a;
+    --text-muted             : #475569;
+    --primary                : #365f91;
+    --primary-dark           : #334b61;
+    --primary-light          : #e7effb;
+    --radius-md              : 24px;
+    --radius-lg              : 24px;
+}
 
-
-/*=========================================
-EYEBROW, CONTAINER, AND OTHER GLOBAL STYLES
-------------------------------------------*/
+/* =========================================================
+   03. CONTAINERS AND SECTION LABELS
+   ========================================================= */
 
 .container {
-                    width           : min(calc(100% - 20px), var(--container));
-                    margin-inline   : auto;
-    }
-
-
-
+    width                    : min(calc(100% - 20px), var(--container));
+    margin-inline            : auto;
+}
 
 .eyebrow {
-                    display           : inline-flex;
-                    align-items       : center;
-                    gap               : 10px;
-                    margin            : 0 0 18px;
-                    color             : var(--primary);
-                    font-size         : 0.82rem;
-                    font-weight       : 800;
-                    letter-spacing    : 0.16em;
-                    text-transform    : uppercase;
-                    }
+    display                  : inline-flex;
+    align-items              : center;
+    gap                      : 10px;
+    margin                   : 0 0 18px;
+    color                    : var(--primary);
+    font-size                : 0.82rem;
+    font-weight              : 800;
+    letter-spacing           : 0.16em;
+    text-transform           : uppercase;
+}
 
 .eyebrow::before {
-                    content         : "";
-                    width           : 30px;
-                    height          : 2px;
-                    border-radius   : 100px;
-                    background      : currentColor;
-                    }
-
-/*=========================================
-MAIN MENU STYLES
-------------------------------------------*/
-.header_menu    {
-                    position        : static;
-                    top             : 0;
-                    left            : 0;
-                    width           : 100%;
-                    padding         : 15px 8%;
-                    display         : flex;
-
-                    justify-content : space-between;
-                    align-items     : center;
-
-                    /* Transparent light blue-white navigation */
-                    background      : rgba(248, 250, 252, 0.88);
-
-                    backdrop-filter : blur(10px);
-
-                    /* Soft navy shadow */
-                    box-shadow      : 0 2px 12px rgba(15, 23, 42, 0.08);
-                    z-index         : 100;   
+    content                  : "";
+    width                    : 30px;
+    height                   : 2px;
+    border-radius            : 100px;
+    background               : currentColor;
 }
 
+/* =========================================================
+   04. MAIN NAVIGATION
+   Shared by the homepage, four secondary pages, and articles.
+   ========================================================= */
+
+.header_menu {
+    position                 : static;
+    display                  : flex;
+    width                    : 100%;
+    align-items              : center;
+    justify-content          : space-between;
+    padding                  : 15px 8%;
+    background               : rgba(248, 250, 252, 0.88);
+    backdrop-filter          : blur(10px);
+    box-shadow               : 0 2px 12px rgba(15, 23, 42, 0.08);
+}
 
 .logo_image {
-                    width           : auto;
-                    height          : 50px;
-
+    width                    : auto;
+    height                   : 50px;
 }
 
-
-
-.menu_links a {     
-                    margin-left     : 16px;
-                    text-decoration : none;
-
-                    /* Slate-blue menu links */
-                    color           : #334155;
-                    font-weight     : bold;
-                }
+.menu_links a {
+    margin-left              : 16px;
+    color                    : #334155;
+    font-weight              : bold;
+    text-decoration          : none;
+}
 
 .menu_links a:hover {
-                    /* Strong blue when hovering */
-                    color           : #1b83d8;
-                }
+    color                    : #1b83d8;
+}
 
+/* =========================================================
+   05. SHARED PROJECT CARDS AND MEDIA
+   Uses the existing homepage project-card appearance.
+   ========================================================= */
 
-/*=========================================
-FOOTER
-------------------------------------------*/
+.site-page .project_card {
+    overflow                 : hidden;
+    border                   : 1px solid rgba(11, 31, 51, 0.06);
+    border-radius            : 24px;
+    background               : #ffffff;
+    box-shadow               : 0 18px 45px rgba(11, 31, 51, 0.10);
+    transition               : transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.site-page .project_card:hover {
+    transform                : translateY(-7px);
+    box-shadow               : 0 26px 60px rgba(11, 31, 51, 0.16);
+}
+
+.site-page .project_video {
+    display                  : block;
+    width                    : 100%;
+    aspect-ratio             : 4 / 3;
+    object-fit               : cover;
+    background               : #e7eef8;
+}
+
+.site-page .project_link {
+    color                    : #365f91;
+    font-weight              : 700;
+    text-decoration          : none;
+}
+
+.site-page .project_link:hover {
+    text-decoration          : none;
+}
+
+/* =========================================================
+   06. SHARED TECHNOLOGY TAGS
+   ========================================================= */
+
+.site-page .project_tags,
+.site-page .tag_list,
+.site-page .tag-list {
+    display                  : flex;
+    flex-wrap                : wrap;
+    gap                      : 8px;
+}
+
+.site-page .project_tags {
+    margin-bottom            : 22px;
+}
+
+.site-page .tag_list {
+    margin-bottom            : 26px;
+    list-style               : none;
+}
+
+.site-page .project_tags span,
+.site-page .tag_list li,
+.site-page .tag-list .tag {
+    padding                  : 6px 11px;
+    border                   : 0;
+    border-radius            : 999px;
+    background               : var(--site-tag-bg);
+    color                    : var(--site-tag-text);
+    font-size                : 0.8rem;
+    font-weight              : 600;
+}
+
+/* =========================================================
+   07. SHARED ACTION BUTTONS
+   Secondary pages follow the homepage's primary/secondary buttons.
+   ========================================================= */
+
+.secondary-page .button,
+.secondary-page .button_link,
+.secondary-page .intro-links a {
+    display                  : inline-flex;
+    min-height               : 48px;
+    align-items              : center;
+    justify-content          : center;
+    gap                      : 9px;
+    padding                  : 12px 22px;
+    border                   : 1px solid transparent;
+    border-radius            : 999px;
+    font-size                : 0.95rem;
+    font-weight              : 700;
+    text-decoration          : none;
+    transition               : transform var(--transition), background-color var(--transition), border-color var(--transition), color var(--transition), box-shadow var(--transition);
+}
+
+.secondary-page .button-primary,
+.secondary-page .blog-cta .button,
+.secondary-page .button_link {
+    background               : var(--site-action);
+    color                    : #ffffff;
+    box-shadow               : 0 8px 18px rgba(45, 67, 88, 0.16);
+}
+
+.secondary-page .button-secondary,
+.secondary-page .intro-links a {
+    border-color             : var(--site-action-border);
+    background               : rgba(255, 255, 255, 0.55);
+    color                    : var(--site-action-text);
+}
+
+.secondary-page .button:hover,
+.secondary-page .button:focus-visible,
+.secondary-page .button_link:hover,
+.secondary-page .button_link:focus-visible,
+.secondary-page .intro-links a:hover,
+.secondary-page .intro-links a:focus-visible {
+    transform                : translateY(-2px);
+}
+
+.secondary-page .button-primary:hover,
+.secondary-page .button-primary:focus-visible,
+.secondary-page .blog-cta .button:hover,
+.secondary-page .blog-cta .button:focus-visible,
+.secondary-page .button_link:hover,
+.secondary-page .button_link:focus-visible {
+    background               : var(--site-action-hover);
+    color                    : #ffffff;
+}
+
+.secondary-page .button-secondary:hover,
+.secondary-page .button-secondary:focus-visible,
+.secondary-page .intro-links a:hover,
+.secondary-page .intro-links a:focus-visible {
+    border-color             : #91a5b7;
+    background               : rgba(255, 255, 255, 0.85);
+    color                    : var(--site-action-hover);
+}
+
+/* =========================================================
+   08. SHARED FILTER BUTTONS
+   Projects and Blog share the same visual states.
+   ========================================================= */
+
+.site-page .filter-row {
+    display                  : flex;
+    flex-wrap                : wrap;
+    gap                      : 9px;
+    margin-top               : 15px;
+    margin-bottom            : 26px;
+}
+
+.site-page .filter-button {
+    display                  : inline-flex;
+    align-items              : center;
+    justify-content          : center;
+    min-height               : 44px;
+    padding                  : 10px 18px;
+    border                   : 1px solid var(--site-action-border);
+    border-radius            : 999px;
+    background               : rgba(255, 255, 255, 0.55);
+    color                    : var(--site-action-text);
+    cursor                   : pointer;
+    font-size                : 0.88rem;
+    font-weight              : 700;
+    line-height              : 1.2;
+    text-align               : center;
+    transition               : background-color var(--transition), border-color var(--transition), color var(--transition);
+}
+
+.site-page .filter-button:hover,
+.site-page .filter-button:focus-visible {
+    border-color             : #91a5b7;
+    color                    : var(--site-action-hover);
+}
+
+.site-page .filter-button.is-active {
+    border-color             : var(--site-action);
+    background               : var(--site-action);
+    color                    : #ffffff;
+}
+
+/* =========================================================
+   09. SHARED SECONDARY-PAGE PANELS
+   Common visual surface; layouts remain page-specific.
+   ========================================================= */
+
+.secondary-page .story-grid,
+.secondary-page .journey-panel,
+.secondary-page .highlight-card,
+.secondary-page .hardware_step,
+.secondary-page .subject-card,
+.secondary-page .blog-item,
+.secondary-page .blog-cta,
+.secondary-page .entry-card {
+    border-color             : rgba(11, 31, 51, 0.08);
+    border-radius            : 24px;
+    background               : #ffffff;
+    box-shadow               : 0 12px 35px rgba(11, 31, 51, 0.08);
+}
+
+/* =========================================================
+   10. FOOTER
+   ========================================================= */
 
 .site-footer {
-                    padding         : 32px 0 44px;
-                    color           : var(--text-muted);
-                    font-size       : 0.86rem;
-            }
+    padding                  : 32px 0 44px;
+    color                    : var(--text-muted);
+    font-size                : 0.86rem;
+}
 
 .footer-inner {
-                    display         : flex;
-                    align-items     : center;
-                    justify-content : space-between;
-                    gap             : 20px;
-                    padding-top     : 26px;
-                    border-top      : 1px solid var(--border);
-    }
+    display                  : flex;
+    align-items              : center;
+    justify-content          : space-between;
+    gap                      : 20px;
+    padding-top              : 26px;
+    border-top               : 1px solid var(--border);
+}
 
 .footer-links {
-                    display         : flex;
-                    flex-wrap       : wrap;
-                    gap             : 16px;
+    display                  : flex;
+    flex-wrap                : wrap;
+    gap                      : 16px;
 }
 
 .footer-links a {
-                    color           : var(--text-muted);
-                    font-weight     : 700;
-                    text-decoration : none;
+    color                    : var(--text-muted);
+    font-weight              : 700;
+    text-decoration          : none;
 }
 
 .footer-links a:hover,
 .footer-links a:focus-visible {
-                    color           : var(--primary);
-}   
+    color                    : var(--primary);
+}
 
+/* =========================================================
+   11. RESPONSIVE STYLES
+   ========================================================= */
 
-
-/*=========================================
-MOBILE VERSION
-------------------------------------------*/
 @media (max-width: 720px) {
     .container {
-        width: min(calc(100% - 28px), var(--container));
+        width                : min(calc(100% - 28px), var(--container));
     }
 
     .footer-inner {
-        flex-direction: column;
-        align-items: flex-start;
+        flex-direction       : column;
+        align-items          : flex-start;
     }
 }
 
-/*=========================================
-Animation
-------------------------------------------*/
-@keyframes fadeUp {
-                    from {
-                        opacity         : 0;
-                        transform       : translateY(25px);
-                        }
+/* =========================================================
+   12. ANIMATIONS AND ACCESSIBILITY
+   Keep the shared animation once; each page can reuse it.
+   ========================================================= */
 
-                    to {
-                        opacity         : 1;
-                        transform       : translateY(0);
-                    }
+@keyframes fadeUp {
+    from {
+        opacity              : 0;
+        transform            : translateY(25px);
     }
+
+    to {
+        opacity              : 1;
+        transform            : translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior      : auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior      : auto !important;
+        transition-duration : 0.01ms !important;
+        animation-duration  : 0.01ms !important;
+        animation-iteration-count : 1 !important;
+    }
+}

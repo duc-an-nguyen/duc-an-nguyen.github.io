@@ -1,929 +1,716 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!--
-=============================================
- STYLES FOR THE SITE
-=============================================
--->
-<head>
+  <!-- =========================================================
+                       STYLES FOR THE SITE
+       ========================================================= -->
+  <head>
 
-    <!---------------------------------
-                Meta tags
-    ----------------------------------->
+    <!-- =========================================================
+                         META TAGS
+         ========================================================= -->
     <meta charset="UTF-8">
     <meta name="description" content="Duc An Nguyen's Portfolio Website">
     <meta name="author" content="Duc An Nguyen">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!---------------------------------
-                Title
-    ----------------------------------->
+    <!-- =========================================================
+                         TITLE
+         ========================================================= -->
     <title>Duc An Nguyen</title>
     <link rel="icon" type="image/x-icon" href="media/profile/favicon.ico">
 
-
-    <!---------------------------------
-                Styles and links
-    ----------------------------------->
+    <!-- =========================================================
+                         STYLES AND LINKS
+         ========================================================= -->
     <link rel="stylesheet" href="css/global.css">
+    <style>
+/* =========================================================
+   01. HOMEPAGE HERO
+   ========================================================= */
 
+  .hero {
+    display                   : flex;
+    align-items               : center;
+    justify-content           : space-between;
+    gap                       : 25px;
+    padding                   : 70px 6% 120px;
+    background                : linear-gradient(135deg, #ffffff 0%, #dbeafe 100%);
+  }
 
-  
-    <style> 
-    /*=========================================
-    HERO SECTION STYLES
-     ------------------------------------------*/
-    
+  .hero-content {
+    align-items               : center;
+    animation                 : fadeUp 0.8s ease forwards;
+  }
+
+  .hero-content h1 {
+    font-size                 : clamp(2rem, 2.9vw, 4.5rem);
+    line-height               : 1.05;
+    letter-spacing            : -0.03em;
+    margin-bottom             : 10px;
+    color                     : #0f172a;
+  }
+
+  .hero-subtitle {
+    font-size                 : 1.5rem;
+    font-weight               : 600;
+    color                     : #5a8dcb;
+  }
+
+  .hero-content p {
+    font-size                 : clamp(1rem, 2vw, 1.5rem);
+    color                     : #475569;
+    margin-bottom             : 10px;
+  }
+
+  .hero-actions {
+    display                   : flex;
+    align-items               : center;
+    flex-wrap                 : wrap;
+    gap                       : 12px;
+    margin-top                : 24px;
+  }
+
+  .hero-button {
+    display                   : inline-flex;
+    align-items               : center;
+    justify-content           : center;
+    padding                   : 12px 22px;
+    border                    : 1px solid transparent;
+    border-radius             : 999px;
+    font-size                 : 0.95rem;
+    font-weight               : 700;
+    text-decoration           : none;
+    transition                : transform var(--transition), background-color var(--transition), border-color var(--transition), color var(--transition), box-shadow var(--transition);
+  }
+
+  .hero-button:hover, .hero-button:focus-visible {
+    transform                 : translateY(-2px);
+  }
+
+  .hero-button-primary {
+    background                : #415a72;
+    color                     : #ffffff;
+    box-shadow                : 0 8px 18px rgba(45, 67, 88, 0.16);
+  }
+
+  .hero-button-primary:hover, .hero-button-primary:focus-visible {
+    background                : #334b61;
+  }
+
+  .hero-button-secondary {
+    border-color              : #b9c5d1;
+    background                : rgba(255, 255, 255, 0.55);
+    color                     : #41556a;
+  }
+
+  .hero-button-secondary:hover, .hero-button-secondary:focus-visible {
+    border-color              : #91a5b7;
+    background                : rgba(255, 255, 255, 0.85);
+    color                     : #334b61;
+  }
+
+  .profile_picture {
+    width                     : clamp(230px, 28vw, 360px);
+    aspect-ratio              : 1 / 1;
+    object-fit                : cover;
+    object-position           : center;
+    border-radius             : 24px;
+    border                    : 6px solid rgba(255, 255, 255, 0.92);
+    box-shadow                : 0 20px 50px rgba(15, 23, 42, 0.16);
+    transition                : transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .profile_picture:hover {
+    transform                 : translateY(-6px);
+    box-shadow                : 0 26px 60px rgba(15, 23, 42, 0.23);
+  }
+
+/* =========================================================
+   02. PROJECT HIGHLIGHTS
+   ========================================================= */
+
+  #highlight_project_section {
+    background                : #f5f9fc;
+  }
+
+  .section_heading {
+    margin-top                : 30px;
+    text-align                : center;
+  }
+
+  .section_title {
+    text-align                : center;
+    font-size                 : 1.7rem;
+    margin-bottom             : 4px;
+  }
+
+  .underline {
+    width                     : 90px;
+    height                    : 4px;
+    background                : #365f91;
+    margin                    : 0 auto 20px;
+    border-radius             : 0px;
+  }
+
+  .projects_grid {
+    display                   : grid;
+    grid-template-columns     : repeat(3, minmax(0, 1fr));
+    gap                       : 30px;
+    max-width                 : 1400px;
+    margin                    : 0 auto;
+  }
+
+  .project_content {
+    padding                   : 25px;
+  }
+
+  .project_content h3 {
+    margin-bottom             : 12px;
+    font-size                 : 1.35rem;
+    color                     : #0b1f33;
+  }
+
+  .project_content p {
+    margin-bottom             : 20px;
+    color                     : #52657a;
+    line-height               : 1.7;
+  }
+
+  .view_all_projects {
+    text-align                : center;
+    margin-top                : 15px;
+  }
+
+/* =========================================================
+   03. LATEST BLOG POSTS
+   ========================================================= */
+
+  .latest-grid {
+    display                   : grid;
+    grid-template-columns     : repeat(4, minmax(0, 1fr));
+    gap                       : 16px;
+  }
+
+  .note-card {
+    display                   : flex;
+    min-height                : 340px;
+    flex-direction            : column;
+    padding                   : 28px;
+    border                    : 1px solid var(--border);
+    border-radius             : var(--radius-lg);
+    background                : var(--surface);
+    text-decoration           : none;
+    transition                : transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+  }
+
+  .note-card:hover, .note-card:focus-visible {
+    transform                 : translateY(-4px);
+    border-color              : var(--line);
+    box-shadow                : var(--shadow);
+  }
+
+  .note-type {
+    width                     : fit-content;
+    margin-bottom             : 28px;
+    padding                   : 6px 9px;
+    border-radius             : 999px;
+    background                : var(--primary-light);
+    color                     : var(--primary-dark);
+    font-size                 : 0.7rem;
+    font-weight               : 850;
+    letter-spacing            : 0.05em;
+    text-transform            : uppercase;
+  }
+
+  .note-card h3 {
+    margin                    : 0;
+    color                     : var(--heading);
+    font-size                 : 1.25rem;
+    line-height               : 1.35;
+    letter-spacing            : -0.025em;
+  }
+
+  .note-card p {
+    margin                    : 14px 0 0;
+    color                     : var(--text-muted);
+    font-size                 : 0.9rem;
+    line-height               : 1.65;
+  }
+
+  .note-footer {
+    display                   : flex;
+    align-items               : center;
+    justify-content           : space-between;
+    gap                       : 18px;
+    margin-top                : auto;
+    padding-top               : 28px;
+    color                     : var(--text-muted);
+    font-size                 : 0.75rem;
+    font-weight               : 700;
+  }
+
+  .note-arrow {
+    color                     : var(--primary);
+    font-size                 : 1rem;
+    font-weight               : 900;
+  }
+
+/* =========================================================
+   04. CONTACT FORM
+   ========================================================= */
+
+  #contact_box_section {
+    margin-top                : 60px;
+    background                : #f5f9fc;
+  }
+
+  .contact_box {
+    padding                   : 28px;
+    max-width                 : 900px;
+    margin                    : 0 auto;
+    background                : #ffffff;
+    border                    : 1px solid rgba(11, 31, 51, 0.08);
+    border-radius             : 24px;
+    box-shadow                : 0 12px 35px rgba(11, 31, 51, 0.10);
+  }
+
+  .contact_greeting a {
+    color                     : var(--primary);
+    font-weight               : 600;
+    text-decoration           : none;
+    transition                : color var(--transition);
+  }
+
+  .contact_greeting a:hover, .contact_greeting a:focus-visible {
+    color                     : var(--primary-dark);
+    text-decoration           : underline;
+  }
+
+  form {
+    display                   : grid;
+    gap                       : 18px;
+  }
+
+  label {
+    font-weight               : 600;
+    margin-bottom             : -8px;
+  }
+
+  input, textarea {
+    width                     : 100%;
+    padding                   : 15px;
+    border                    : 1px solid #ccc;
+    border-radius             : 10px;
+    font-size                 : 1rem;
+    font-family               : inherit;
+  }
+
+  textarea {
+    min-height                : 150px;
+    resize                    : vertical;
+  }
+
+  .contact_button {
+    width                     : fit-content;
+    padding                   : 14px 28px;
+    display                   : inline-flex;
+    justify-self              : center;
+    border                    : none;
+    border-radius             : 999px;
+    background                : #415a72;
+    color                     : #ffffff;
+    font-size                 : 1rem;
+    font-weight               : bold;
+    cursor                    : pointer;
+    box-shadow                : 0 8px 20px rgba(15, 23, 42, 0.18);
+    transition                : background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .contact_button:hover {
+    background                : #365f91;
+    transform                 : translateY(-3px);
+    box-shadow                : 0 12px 26px rgba(15, 23, 42, 0.24);
+  }
+
+  .contact_button:active {
+    transform                 : translateY(-1px);
+  }
+
+/* =========================================================
+   05. RESPONSIVE AND MOTION PREFERENCES
+   ========================================================= */
+
+  @media (max-width: 768px) {
     .hero {
-                        display         : flex;
-                        align-items     : center;
-                        justify-content : space-between;
-                        gap             : 25px;
-                        padding         : 70px 6% 120px;
-
-                        /* White to soft-blue background */
-                        background      : linear-gradient(
-                                            135deg,
-                                            #ffffff 0%,
-                                            #dbeafe 100%
-                                          );
+      min-height                : auto;
+      flex-direction            : column-reverse;
+      justify-content           : center;
+      gap                       : 35px;
+      padding                   : 150px 24px 70px;
+      text-align                : center;
     }
 
     .hero-content {
-                        /* max-width       : 650px; */
-                        align-items     : center;
-                        animation       : fadeUp 0.8s ease forwards;
-                    }
-
-    .hero-content h1 {
-                        font-size       : clamp(2rem, 2.9vw, 4.5rem);
-                        line-height     : 1.05;
-                        letter-spacing  : -0.03em;
-                        margin-bottom   : 10px;
-
-                        /* Dark navy heading */
-                        color           : #0f172a;
+      max-width                 : 100%;
     }
-    
-    .hero-subtitle {
-                        font-size       : 1.5rem;
-                        font-weight     : 600;
-                        /* Professional blue subtitle */
-                        color           : #5a8dcb;
-                    }
-
-    .hero-content p {
-                        font-size       : clamp(1rem, 2vw, 1.5rem);
-
-                        /* Readable slate-gray paragraph */
-                        color           : #475569;
-
-                        margin-bottom   : 10px;
-                    }
-
-
-    /*----------- Hero actions -----------*/
-
-    .hero-actions {
-                        display         : flex;
-                        align-items     : center;
-                        flex-wrap       : wrap;
-                        gap             : 12px;
-                        margin-top      : 24px;
-    }
-
-    .hero-button {
-                    display         : inline-flex;
-                    align-items     : center;
-                    justify-content : center;
-
-                    padding         : 12px 22px;
-                    border          : 1px solid transparent;
-                    border-radius   : 999px;
-
-                    font-size       : 0.95rem;
-                    font-weight     : 700;
-                    text-decoration : none;
-
-                    transition      :
-                                      transform var(--transition),
-                                      background-color var(--transition),
-                                      border-color var(--transition),
-                                      color var(--transition),
-                                      box-shadow var(--transition);
-}
-
-    .hero-button:hover,
-    .hero-button:focus-visible {
-                        transform       : translateY(-2px);
-    }
-
-
-    /* Primary */
-
-    .hero-button-primary {
-                        background      : #415a72;
-                        color           : #ffffff;
-
-                        box-shadow      : 0 8px 18px rgba(45, 67, 88, 0.16);
-    }
-
-    .hero-button-primary:hover,
-    .hero-button-primary:focus-visible {
-                        background      : #334b61;
-    }
-
-
-    /* Secondary */
-
-    .hero-button-secondary {
-                        border-color    : #b9c5d1;
-                        background      : rgba(255, 255, 255, 0.55);
-                        color           : #41556a;
-    }
-
-    .hero-button-secondary:hover,
-    .hero-button-secondary:focus-visible {
-                        border-color    : #91a5b7;
-                        background      : rgba(255, 255, 255, 0.85);
-                        color           : #334b61;
-    }
-
-    /*----------- Profile picture  -----------*/
-
-
 
     .profile_picture {
-                        width           : clamp(230px, 28vw, 360px);
-                        aspect-ratio    : 1 / 1;
-
-                        object-fit      : cover;
-                        object-position : center;
-                        border-radius   : 24px;
-
-                        /* Clean white picture frame */
-                        border          : 6px solid rgba(255, 255, 255, 0.92);
-
-                        /* Soft navy picture shadow */
-                        box-shadow      : 0 20px 50px rgba(15, 23, 42, 0.16);
-
-                        transition:
-                            transform 0.3s ease,
-                            box-shadow 0.3s ease;
-                    }
-
-    .profile_picture:hover {
-                        transform       : translateY(-6px);
-
-                        /* Stronger navy shadow on hover */
-                        box-shadow      : 0 26px 60px rgba(15, 23, 42, 0.23);
+      width                     : min(270px, 75vw);
     }
 
-
-
-    /* Mobile and tablet layout */
-    @media (max-width: 768px) {
-                    .hero {
-                        min-height      : auto;
-                        flex-direction  : column-reverse;
-                        justify-content : center;
-                        gap             : 35px;
-                        padding         : 150px 24px 70px;
-                        text-align      : center;
-                    }
-
-                    .hero-content {
-                        max-width       : 100%;
-                    }
-
-                    .profile_picture {
-                        width           : min(270px, 75vw);
-                    }
-                
-                    .hero-actions,
-                    .hero-social-links {
-                    justify-content : center;
-                    }
-                
-                }
-
-
-    
-    /*=========================================
-        HIGHLIGHT PROJECTS SECTION
-     ------------------------------------------*/
-    #highlight_project_section{
-                        background      : #f5f9fc;
-
+    .hero-actions, .hero-social-links {
+      justify-content           : center;
     }
-    .section_heading {  
-                        margin-top      : 30px;
-                        text-align      : center;
-                    }
-    .section_title {   
-                        text-align      : center;
-                        font-size       : 1.7rem;
-                        margin-bottom   : 4px;
-                    }
+  }
 
-    .underline {
-                        width           : 90px;
-                        height          : 4px;
-                        background      : #365f91;
-                        margin          : 0 auto 20px;
-                        border-radius   : 0px;
-                        }
-
-    /*----------- Project grid ---------*/
+  @media (max-width: 950px) {
     .projects_grid {
-                        display                 : grid;
-                        grid-template-columns   : repeat(3, minmax(0, 1fr)); /* Creates responsive project columns */
-                        gap                     : 30px;
-                        max-width               : 1400px;
-                        margin                  : 0 auto;
-                    }
-
-    .project_video {
-                        width                   : 100%;
-                        aspect-ratio            : 4/3;
-                        display                 : block;
-                        object-fit              : cover;
-                        background              : #e7eef8;
-                    }
-
-    .project_content {
-                        padding                 : 25px;
-                    }
-
-    .project_content h3 {
-                        margin-bottom           : 12px;
-                        font-size               : 1.35rem;
-                        color                   : #0b1f33;
-                        }
-
-    .project_content p {
-                        margin-bottom           : 20px;
-                        color                   : #52657a;
-                        line-height             : 1.7;
-                    }
-
-
-    .project_tags {
-                        display                 : flex;
-                        flex-wrap               : wrap;
-                        gap                     : 8px;
-                        margin-bottom           : 22px;
-                    }
-
-    .project_tags span {
-                        padding                 : 6px 11px;
-                        border-radius           : 999px;
-                        background              : #e7effb;
-                        color                   : #365f91;
-                        font-size               : 0.8rem;
-                        font-weight             : 600;
+      grid-template-columns     : repeat(2, minmax(0, 1fr));
     }
+  }
 
-    .project_card {
-                        overflow                : hidden;
-                        background              : #ffffff;
-                        border-radius           : 24px;
-                        border                  : 1px solid rgba(11, 31, 51, 0.06);
+  @media (max-width: 650px) {
+    .projects_grid {
+      grid-template-columns     : 1fr;
+    }
+  }
 
-                        box-shadow              : 0 18px 45px rgba(11, 31, 51, 0.10);
-
-                        transition:
-                                    transform 0.3s ease,
-                                    box-shadow 0.3s ease;
-                    }
-
-    .project_card:hover {
-                        transform               : translateY(-7px);
-                        box-shadow              : 0 26px 60px rgba(11, 31, 51, 0.16);
-                        }
-
-
-
-    .project_link   {
-                        color                   : #365f91;
-                        text-decoration         : none;
-                        font-weight             : 700;
-                    }
-
-    .project_link:hover {
-                        text-decoration         : none;
-                    }
-
-
-    @media (max-width: 950px) {
-                .projects_grid {
-                        grid-template-columns   : repeat(2, minmax(0, 1fr));
-                                }
-                            }
-
-    @media (max-width: 650px)   {
-                .projects_grid  {
-                        grid-template-columns   : 1fr;
-                                }
-                                } 
-
-
-    .view_all_projects {
-                        text-align              : center;
-                        margin-top              : 15px;
-                    }
-
-
-
-
-    /* =========================================================
-       3. LATEST NOTES
-    ========================================================== */
+  @media (max-width: 950px) {
     .latest-grid {
-                        display                 : grid;
-                        grid-template-columns   : repeat(4, minmax(0, 1fr));
-                        gap                     : 16px;
-                        }
+      grid-template-columns     : repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 650px) {
+    .latest-grid {
+      grid-template-columns     : 1fr;
+    }
 
     .note-card {
-                        display                 : flex;
-                        min-height              : 340px;
-                        flex-direction          : column;
-                        padding                 : 28px;
-                        border                  : 1px solid var(--border);
-                        border-radius           : var(--radius-lg);
-                        background              : var(--surface);
-                        text-decoration         : none;
-                        transition:
-                            transform var(--transition),
-                            border-color var(--transition),
-                            box-shadow var(--transition);
-                        }
-
-    .note-card:hover,
-    .note-card:focus-visible {
-                        transform               : translateY(-4px);
-                        border-color            : var(--line);
-                        box-shadow              : var(--shadow);
-                        }
+      min-height                : auto;
+      padding                   : 22px;
+    }
 
     .note-type {
-                        width                   : fit-content;
-                        margin-bottom           : 28px;
-                        padding                 : 6px 9px;
-                        border-radius           : 999px;
-                        background              : var(--primary-light);
-                        color                   : var(--primary-dark);
-                        font-size               : 0.7rem;
-                        font-weight             : 850;
-                        letter-spacing          : 0.05em;
-                        text-transform          : uppercase;
-                        }
-
-    .note-card h3 {
-                        margin                  : 0;
-                        color                   : var(--heading);
-                        font-size               : 1.25rem;
-                        line-height             : 1.35;
-                        letter-spacing          : -0.025em;
-                        }
-
-    .note-card p {
-                        margin                  : 14px 0 0;
-                        color                   : var(--text-muted);
-                        font-size               : 0.9rem;
-                        line-height             : 1.65;
-                        }
+      margin-bottom             : 20px;
+    }
 
     .note-footer {
-                        display                 : flex;
-                        align-items             : center;
-                        justify-content         : space-between;
-                        gap                     : 18px;
-                        margin-top              : auto;
-                        padding-top             : 28px;
-                        color                   : var(--text-muted);
-                        font-size               : 0.75rem;
-                        font-weight             : 700;
-                        }
-
-    .note-arrow {
-                        color                   : var(--primary);
-                        font-size               : 1rem;
-                        font-weight             : 900;
-                        }
-
-
-    @media (max-width: 950px) {
-    .latest-grid {
-                        grid-template-columns : repeat(2, minmax(0, 1fr));
-                }
-                                }
-
-    @media (max-width: 650px) {
-        .latest-grid {
-                        grid-template-columns   : 1fr;
-                    }
-
-        .note-card {
-                        min-height              : auto;
-                        padding                 : 22px;
-                    }
-
-        .note-type {
-                        margin-bottom           : 20px;
-                    }
-
-        .note-footer {
-                        padding-top             : 22px;
-                    }
+      padding-top               : 22px;
     }
-
-
-    
-    /*=========================================
-    CONTACT FORM STYLES
-     ------------------------------------------*/
-    #contact_box_section{ 
-                        margin-top              : 60px;
-                        background              : #f5f9fc;
-                        }
-
-    .contact_box {
-                        padding                 : 28px;
-                        max-width               : 900px;
-                        margin                  : 0 auto;
-                        background              : #ffffff;
-                        border                  : 1px solid rgba(11, 31, 51, 0.08);
-                        border-radius           : 24px;
-                        box-shadow              : 0 12px 35px rgba(11, 31, 51, 0.10);
-    }
-/* 
-    .contact_greeting{
-                        font-size               : clamp(1rem, 1.2rem, 1.3rem);
-                        color                   : #475569;;
-                        margin-bottom           : 10px;
-    } */
-                 
-    
-    .contact_greeting a {
-                        color           : var(--primary);
-                        font-weight     : 600;
-                        text-decoration : none;
-
-                        transition      : color var(--transition);
-    }
-
-    .contact_greeting a:hover,
-    .contact_greeting a:focus-visible {
-                        color           : var(--primary-dark);
-                        text-decoration : underline;
-    }
-                            
-    form {
-                        display                 : grid;
-                        gap                     : 18px;
-    }
-    label {
-                        font-weight             : 600;
-                        margin-bottom           : -8px;
-    }
-
-    input,
-    textarea {
-                        width                   : 100%;
-                        padding                 : 15px;
-                        border                  : 1px solid #ccc;
-                        border-radius           : 10px;
-                        font-size               : 1rem;
-                        font-family             : inherit;
-    }
-
-    textarea {
-                        min-height              : 150px;
-                        resize                  : vertical;
-    }
-
-
-    .contact_button {
-                        width                   : fit-content;
-                        padding                 : 14px 28px;
-
-                        display                 : inline-flex;
-                        justify-self            : center;
-    
-                        border                  : none;
-                        border-radius           : 999px;
-
-                        background              : #415a72;
-                        color                   : #ffffff;
-                        font-size               : 1rem;
-                        font-weight             : bold;
-                        cursor                  : pointer;
-                        box-shadow              : 0 8px 20px rgba(15, 23, 42, 0.18);
-
-                        transition              :
-                                                background-color 0.3s ease,
-                                                transform 0.3s ease,
-                                                box-shadow 0.3s ease;
-                    }
-
-
-    /* Mouse hover effect */
-    .contact_button:hover {
-                        background              : #365f91;
-                        transform               : translateY(-3px);
-                        box-shadow              : 0 12px 26px rgba(15, 23, 42, 0.24);
-    }
-
-    /* Effect while pressing the button */
-    .contact_button:active {
-                        transform               : translateY(-1px);
-    }
-
-    /*=========================================
-    FOOTER STYLES
-     ------------------------------------------*/
-
-
+  }
     </style>
+  </head>
 
-</head>
+  <!-- =========================================================
+                       CONTENT OF THE SITE
+       ========================================================= -->
+  <body class="site-page home-page">
 
+    <!-- =========================================================
+                         MAIN MENU
+         ========================================================= -->
 
-
-<!--
-=============================================
-CONTENT OF THE SITE
-=============================================
--->
-<body>
-
-    <!--=========================================
-                    MAIN MENU
-     -------------------------------------------->
     <header class="header_menu">
-        <a href="/" aria-label="Go to homepage">
-            <img    class="logo_image" 
-                    src="media/profile/logo.svg"
-                    alt="Logo"
-            >
-        </a>
+      <a href="/" aria-label="Go to homepage">
+        <img
+          class="logo_image"
+          src="media/profile/logo.svg"
+          alt="Logo"
+        >
+      </a>
 
-        <nav class="menu_links">
-            <a href="about.html">About</a>
-            <a href="project.html">Projects</a>
-            <a href="blog.html">Blog</a>
-            <a href="life_and_events.html">Life & Events</a>
-            <a href="index.html#contact_box_section">Contact</a>
-        </nav>
+      <nav class="menu_links">
+        <a href="about.html">About</a>
+        <a href="project.html">Projects</a>
+        <a href="blog.html">Blog</a>
+        <a href="life_and_events.html">Life & Events</a>
+        <a href="index.html#contact_box_section">Contact</a>
+
+      </nav>
+
     </header>
 
+    <!-- =========================================================
+                         PROFILE HEADER SECTION
+         ========================================================= -->
 
-
-    <!--=========================================
-        PROFILE HEADER SECTION
-     -------------------------------------------->
     <header class="hero">
-        <div class="hero-content">
-
-            <h1>Duc An Nguyen, PhD</h1>
-
-            <p class="hero-subtitle">
-                Edge Computer Vision | Explainable AI | Industrial AI
-            </p>
-
-            <p>
-                Working across edge computer vision, explainable AI, and industrial AI, 
-                with 7+ years of experience across industry and academia, 
-                plus a PhD focused on Applied and Explainable AI. 
-                Open to applied research and industry collaborations.
-            </p>
-
-
-            <!-- Main actions -->
-            <div class="hero-actions">
-
-                <a href="about.html" class="hero-button hero-button-primary">
-                    More About Me
-                </a>
-
-                <a href="#contact_box_section" class="hero-button hero-button-secondary">
-                    Contact Me
-                </a>
-
-            </div>
-
+      <div class="hero-content">
+        <h1>Duc An Nguyen, PhD</h1>
+        <p class="hero-subtitle">Edge Computer Vision | Explainable AI | Industrial AI</p>
+        <p>
+          Working across edge computer vision, explainable AI, and industrial AI,
+          with 7+ years of experience across industry and academia,
+          plus a PhD focused on Applied and Explainable AI.
+          Open to applied research and industry collaborations.
+        </p>
+        <!-- Main actions -->
+        <div class="hero-actions">
+          <a href="about.html" class="hero-button hero-button-primary">More About Me</a>
+          <a href="#contact_box_section" class="hero-button hero-button-secondary">Contact Me</a>
         </div>
+      </div>
+      <a class="hero-image" href="about.html">
+        <img
+          class="profile_picture"
+          src="media/profile/profile.jpg"
+          alt="Profile picture"
+        >
+      </a>
 
-        <a class="hero-image" href="about.html">
-            <img    class="profile_picture"
-                    src="media/profile/profile.jpg" 
-                    alt="Profile picture" 
-                    >
-            
-        </a>
     </header>
 
-    
-     
+    <!-- =========================================================
+                         HIGHLIGHT PROJECTS SECTION
+         ========================================================= -->
 
-    <!--=========================================
-            HIGHLIGHT PROJECTS SECTION
-     -------------------------------------------->
-    <section id ="highlight_project_section" class="container">
-
-    <!------------- Header ------------->
-
-    <div class="section_heading">
-      <h2 class="section_title">Project Highlights</h2>
-      <div class="underline"></div>
-    </div>
-
-    <!------------- Projects ------------->
-    <div class="projects_grid">
-       
-
-        <!----------- Project 1-------->
-        <!-- <article class="project_card">
-            <a href="#" class="project_link">
-            <video 
-                class="project_video"
-                autoplay
-                muted
-                loop
-                playsinline>
-                <source src="media/profile/infrared_object_detection.mp4" type="video/mp4">
-            </video>
-
-            <div class="project_content">
-                <h3> Infrared vision </h3>
-                <p> An Edge AI system for real-time object detection in night vision</p>
-                <div class="project_tags">
-                    <span>Python</span>
-                    <span>PyTorch</span>
-                    <span>OpenCV</span>
-                    <span>Jetson</span>
-                </div>
-            </div>
-            </a>
-        </article>     -->
-
-
-        <!----------- Aqua city-------->
-        <article class="project_card">
-            <a href="projects/aqua_smart_city.html" class="project_link">
-
-            <video class="project_video" autoplay muted loop playsinline>
-                <source src="media/projects/aqua/aqua_trailer.mp4" type="video/mp4">
-            </video>
-
-            <div class="project_content">
-                <h3> Vision production </h3>
-                <p> Real-Time Multi-Camera Smart City Surveillance System</p>
-                <div class="project_tags">
-                    <span>Python</span>
-                    <span>PyTorch</span>
-                    <span>ONNX</span>
-                    <span>TensorRT</span>
-                </div>
-            </div>
-            </a>
-        </article>
-
-        <!----------- Coffee bean sorting machine -------->
-        <article class="project_card">
-            <a href="projects/coffee_bean_sorting_machine.html" class="project_link">
-            
-            <video class="project_video" autoplay muted loop playsinline>
-                <source src="media/projects/coffee_bean/coffee_bean.mp4" type="video/mp4">
-            </video>
-
-            <div class="project_content">
-                <h3> Edge Computer Vision </h3>
-                <p> Coffee bean sorting system using global shutter camera</p>
-                <div class="project_tags">
-                    <span>C/C++</span>
-                    <span>OpenCV</span>
-                    <span>NVIDIA Jetson Nano</span>
-                    <span>Linux</span>
-                </div>
-            </div>
-            </a>
-        </article>
-
-
-        <!----------- Object detection with PI -------->
-        <article class="project_card">
-            <a href="projects/raspberry_pi_object_detection.html" class="project_link">
-            
-            <video class="project_video" autoplay muted loop playsinline>
-                <source src="media/projects/pi_with_objectdetection/pi_detection.mp4" type="video/mp4">
-            </video>
-
-            <div class="project_content">
-                <h3> Edge Computer Vision </h3>
-                <p> Edge Object Detection on Raspberry Pi</p>
-                <div class="project_tags">
-                    <span>Python</span>
-                    <span>Raspberry Pi 3</span>
-                    <span>OpenCV</span>
-                    <span>Caffe</span>
-                </div>
-            </div>
-            </a>
-        </article>    
-
-
-    </div>
-
-    <!---Create view all projects --->
-    <div class="view_all_projects">
-        <a href="project.html#all_projects" class="project_link">View all projects →</a>
-    </div>
-    </section>
-
-
-    <!--=========================================
-            LATEST NOTES
-     -------------------------------------------->
-    <section id="latest_notes_section" class="container">
-
-        <!-- -------- Header -------- -->
-        <div class="section_heading">
-            <h2 class="section_title">Latest Blog Posts</h2>
-            <div class="underline"></div>
+    <section id="highlight_project_section" class="container">
+      <!-- Header -->
+      <div class="section_heading">
+        <h2 class="section_title">Project Highlights</h2>
+        <div class="underline">
         </div>
-
-
-        <!-- -------- Latest posts -------- -->
-        <div class="latest-grid" id="latest-blog-posts">
-            <!-- Latest four posts are automatically loaded from blog/posts.json -->
-        </div>
-
-
-        <!-- -------- View all posts -------- -->
-        <div class="view_all_projects">
-            <a href="blog.html#all_blog_posts" class="project_link">
-                View all blog posts →
-            </a>
-        </div>
-
-    </section>
-
-
-
-    <!--=========================================
-            CONTACT FORM SECTION
-     -------------------------------------------->
-    <section id = "contact_box_section">
-
-    <!------ Header for contact section --->
-    <div class="section_heading">
-        <h2 class="section_title">Send Me a Message</h2>
-        <div class="underline"></div>
-    </div>
-    
-    <!------------ Contact form ----------->
-    <div class="contact_box">
-      <p class = "contact_greeting">
-        Interested in collaborating or have questions about my work? Send me a message below or email me directly at: 
-        <a href="mailto:contact@ducannguyen.net">
-        contact@ducannguyen.net
-    </a>
-      </p>
-
-      <form action="https://formspree.io/f/mgogqbyz" method="POST">
-        <label for="name">Name</label>
-        <input id="name" type="text" name="name" placeholder="Your name" required />
-
-        <label for="email">Email</label>
-        <input id="email" type="email" name="email" placeholder="Your email" required />
-
-        <label for="subject">Subject</label>
-        <input id="subject" type="text" name="subject" placeholder="Subject" />
-
-        <label for="message">Message</label>
-        <textarea id="message" name="message" placeholder="Your message" required></textarea>
-
-        <button class="contact_button" type="submit">Send Message</button>
-      </form>
-    </div>
-    </section>
-
-
-   <!--=========================================
-            FOOTER
-     -------------------------------------------->
-    <footer class="site-footer">
-    <div class="container footer-inner">
-      <span>© <span id="current-year"></span> Duc An Nguyen</span>
-
-      <div class="footer-links">
-        <a href="mailto:contact@ducannguyen.net">Email</a>
-        <a
-          href="https://github.com/duc-an-nguyen"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          GitHub
-        </a>
-        <a
-          href="https://www.linkedin.com/in/ducannguyen"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          LinkedIn
-        </a>
-        <a href="/">Back to top ↑</a>
       </div>
-    </div>
-    </footer>
+      <!-- Projects -->
+      <div class="projects_grid">
+        <!-- Project 1 -->
+        <!-- <article class="project_card">
+                    <a href="#" class="project_link">
+                    <video 
+                        class="project_video"
+                        autoplay
+                        muted
+                        loop
+                        playsinline>
+                        <source src="media/profile/infrared_object_detection.mp4" type="video/mp4">
+                    </video>
 
-    <script>
-
-    /*=========================================
-    LOAD LATEST BLOG POSTS
-    ------------------------------------------*/
-
-    async function loadLatestBlogPosts() {
-
-        try {
-
-            // Load blog information
-            const response = await fetch("blog/posts.json");
-
-            if (!response.ok) {
-                throw new Error("Could not load blog/posts.json");
-            }
-
-            const posts = await response.json();
-
-
-            // Sort posts from newest update to oldest
-            const latestPosts = posts
-                .sort((a, b) => new Date(b.updated) - new Date(a.updated))
-                .slice(0, 4);
-
-
-            // Find the homepage blog grid
-            const latestGrid =
-                document.getElementById("latest-blog-posts");
-
-
-            // Create the four latest cards
-            latestGrid.innerHTML = latestPosts.map(post => `
-
-                <a class="note-card" href="${post.url}">
-
-                    <span class="note-type">
-                        ${post.type}
-                    </span>
-
-                    <h3>
-                        ${post.title}
-                    </h3>
-
-                    <p>
-                        ${post.description}
-                    </p>
-
-                    <div class="note-footer">
-                        <span>${post.subject}</span>
-                        <span class="note-arrow" aria-hidden="true">→</span>
+                    <div class="project_content">
+                        <h3> Infrared vision </h3>
+                        <p> An Edge AI system for real-time object detection in night vision</p>
+                        <div class="project_tags">
+                            <span>Python</span>
+                            <span>PyTorch</span>
+                            <span>OpenCV</span>
+                            <span>Jetson</span>
+                        </div>
                     </div>
+                    </a>
 
-                </a>
+                </article>     -->
+        <!-- Aqua city -->
 
-            `).join("");
+        <article class="project_card">
+          <a href="projects/aqua_smart_city.html" class="project_link">
+            <video class="project_video" autoplay muted loop playsinline>
+              <source src="media/projects/aqua/aqua_trailer.mp4" type="video/mp4">
+            </video>
+            <div class="project_content">
+              <h3>Vision production</h3>
+              <p>Real-Time Multi-Camera Smart City Surveillance System</p>
+              <div class="project_tags">
+                <span>Python</span>
+                <span>PyTorch</span>
+                <span>ONNX</span>
+                <span>TensorRT</span>
+              </div>
+            </div>
+          </a>
 
-        }
+        </article>
+        <!-- Coffee bean sorting machine -->
 
-        catch (error) {
+        <article class="project_card">
+          <a href="projects/coffee_bean_sorting_machine.html" class="project_link">
+            <video class="project_video" autoplay muted loop playsinline>
+              <source src="media/projects/coffee_bean/coffee_bean.mp4" type="video/mp4">
+            </video>
+            <div class="project_content">
+              <h3>Edge Computer Vision</h3>
+              <p>Coffee bean sorting system using global shutter camera</p>
+              <div class="project_tags">
+                <span>C/C++</span>
+                <span>OpenCV</span>
+                <span>NVIDIA Jetson Nano</span>
+                <span>Linux</span>
+              </div>
+            </div>
+          </a>
 
-            console.error("Error loading latest blog posts:", error);
+        </article>
+        <!-- Object detection with PI -->
 
-        }
+        <article class="project_card">
+          <a href="projects/raspberry_pi_object_detection.html" class="project_link">
+            <video class="project_video" autoplay muted loop playsinline>
+              <source src="media/projects/pi_with_objectdetection/pi_detection.mp4" type="video/mp4">
+            </video>
+            <div class="project_content">
+              <h3>Edge Computer Vision</h3>
+              <p>Edge Object Detection on Raspberry Pi</p>
+              <div class="project_tags">
+                <span>Python</span>
+                <span>Raspberry Pi 3</span>
+                <span>OpenCV</span>
+                <span>Caffe</span>
+              </div>
+            </div>
+          </a>
 
-    }
+        </article>
+      </div>
+      <!-- Create view all projects -->
+      <div class="view_all_projects">
+        <a href="project.html#all_projects" class="project_link">View all projects →</a>
+      </div>
 
+    </section>
 
-    // Load the latest blog posts
-    loadLatestBlogPosts();
+    <!-- =========================================================
+                         LATEST NOTES
+         ========================================================= -->
 
+    <section id="latest_notes_section" class="container">
+      <!-- Header -->
+      <div class="section_heading">
+        <h2 class="section_title">Latest Blog Posts</h2>
+        <div class="underline">
+        </div>
+      </div>
+      <!-- Latest posts -->
+      <div class="latest-grid" id="latest-blog-posts">
+        <!-- Latest four posts are automatically loaded from blog/posts.json -->
+      </div>
+      <!-- View all posts -->
+      <div class="view_all_projects">
+        <a href="blog.html#all_blog_posts" class="project_link">View all blog posts →</a>
+      </div>
 
+    </section>
 
-    /*=========================================
-    CURRENT YEAR
-    ------------------------------------------*/
+    <!-- =========================================================
+                         CONTACT FORM SECTION
+         ========================================================= -->
 
-    document.getElementById("current-year").textContent =
-        new Date().getFullYear();
+    <section id="contact_box_section">
+      <!-- Header for contact section -->
+      <div class="section_heading">
+        <h2 class="section_title">Send Me a Message</h2>
+        <div class="underline">
+        </div>
+      </div>
+      <!-- Contact form -->
+      <div class="contact_box">
+        <p class="contact_greeting">
+          Interested in collaborating or have questions about my work? Send me a message below or email me directly at:
+          <a href="mailto:contact@ducannguyen.net">contact@ducannguyen.net</a>
+        </p>
+        <form action="https://formspree.io/f/mgogqbyz" method="POST">
+          <label for="name">Name</label>
+          <input id="name" type="text" name="name" placeholder="Your name" required />
+          <label for="email">Email</label>
+          <input id="email" type="email" name="email" placeholder="Your email" required />
+          <label for="subject">Subject</label>
+          <input id="subject" type="text" name="subject" placeholder="Subject" />
+          <label for="message">Message</label>
+          <textarea id="message" name="message" placeholder="Your message" required>
+          </textarea>
+          <button class="contact_button" type="submit">Send Message</button>
+        </form>
+      </div>
 
-  </script>
+    </section>
 
-</body>
+    <!-- =========================================================
+                         FOOTER
+         ========================================================= -->
 
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <span>
+          ©
+          <span id="current-year">
+          </span>
+          Duc An Nguyen
+        </span>
+        <div class="footer-links">
+          <a href="mailto:contact@ducannguyen.net">Email</a>
+          <a href="https://github.com/duc-an-nguyen" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="https://www.linkedin.com/in/ducannguyen" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href="/">Back to top ↑</a>
+        </div>
+      </div>
 
+    </footer>
+    <script>
+      /* =========================================================
+         01. LOAD LATEST BLOG POSTS
+         ========================================================= */
+
+      async function loadLatestBlogPosts() {
+
+          try {
+
+              // Load blog information
+              const response = await fetch("blog/posts.json");
+
+              if (!response.ok) {
+                  throw new Error("Could not load blog/posts.json");
+              }
+
+              const posts = await response.json();
+
+              // Sort posts from newest update to oldest
+              const latestPosts = posts
+                  .sort((a, b) => new Date(b.updated) - new Date(a.updated))
+                  .slice(0, 4);
+
+              // Find the homepage blog grid
+              const latestGrid =
+                  document.getElementById("latest-blog-posts");
+
+              // Create the four latest cards
+              latestGrid.innerHTML = latestPosts.map(post => `
+
+                  <a class="note-card" href="${post.url}">
+
+                      <span class="note-type">${post.type}</span>
+
+                      <h3>${post.title}</h3>
+
+                      <p>${post.description}</p>
+
+                      <div class="note-footer">
+                          <span>${post.subject}</span>
+                          <span class="note-arrow" aria-hidden="true">→</span>
+                      </div>
+
+                  </a>
+
+              `).join("");
+
+          }
+
+          catch (error) {
+
+              console.error("Error loading latest blog posts:", error);
+
+          }
+
+      }
+
+      // Load the latest blog posts
+      loadLatestBlogPosts();
+
+      /* =========================================================
+         02. CURRENT YEAR
+         ========================================================= */
+
+      document.getElementById("current-year").textContent =
+          new Date().getFullYear();
+
+    </script>
+  </body>
 </html>

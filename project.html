@@ -1,1172 +1,952 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
 
-  <!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-  META DATA
-  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- -->
-  <meta charset="UTF-8">
-  <meta name="description" content="Projects of Duc An">
-  <meta name="author" content="Duc An Nguyen">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Projects | Duc An Nguyen</title>
+    <!-- =========================================================
+                         META DATA
+         ========================================================= -->
+    <meta charset="UTF-8">
+    <meta name="description" content="Projects of Duc An">
+    <meta name="author" content="Duc An Nguyen">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects | Duc An Nguyen</title>
 
-  <!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-  LINKS AND GLOBAL STYLES
-  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- -->
+    <!-- =========================================================
+                         LINKS AND GLOBAL STYLES
+         ========================================================= -->
+    <link rel="icon" type="image/x-icon" href="media/profile/favicon.ico">
+    <link rel="stylesheet" href="css/global.css">
 
-  <link rel="icon" type="image/x-icon" href="media/profile/favicon.ico">
-  <link rel="stylesheet" href="css/global.css">
+    <!-- =========================================================
+                         CSS STYLES
+         ========================================================= -->
+    <style>
+/* =========================================================
+   01. SHARED PROJECT SECTION LAYOUT
+   ========================================================= */
 
+  .section_block {
+    padding                   : 50px 0;
+  }
 
+  .section_block:nth-of-type(even) {
+    background                : rgba(255, 255, 255, 0.58);
+  }
 
+  .section_header {
+    display                   : flex;
+    justify-content           : space-between;
+    align-items               : end;
+    gap                       : 32px;
+    margin-bottom             : 34px;
+  }
 
+  .section_header_text {
+    max-width                 : 720px;
+  }
 
-  <!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-  CSS STYLES
-  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- -->
+  .section_header h2 {
+    margin-bottom             : 8px;
+    color                     : var(--heading);
+    font-size                 : clamp(1.9rem, 4vw, 2.8rem);
+    line-height               : 1.15;
+  }
 
-  <style>
+  .section_header p {
+    color                     : var(--text-muted);
+  }
 
+  .project_kicker, .hardware_level {
+    color                     : var(--primary);
+    font-weight               : 800;
+    text-transform            : uppercase;
+  }
 
+  .project_kicker {
+    margin-bottom             : 10px;
+    font-size                 : 0.78rem;
+    letter-spacing            : 0.11em;
+  }
 
-    /* =========================================================
-       1. SHARED SECTION STYLES
-       Used by more than one project-page section.
-    ========================================================== */
+  .hardware_level {
+    margin-bottom             : 3px;
+    font-size                 : 0.7rem;
+    letter-spacing            : 0.09em;
+  }
 
-    /* Shared section spacing */
-    .section_block {
-                    padding                 : 50px 0;
-    }
+  .featured_project, .project_card {
+    overflow                  : hidden;
+    background                : var(--surface);
+    border                    : 1px solid var(--border);
+  }
 
-    .section_block:nth-of-type(even) {
-                    background              : rgba(255, 255, 255, 0.58);
-    }
+  .coming_soon {
+    width                     : fit-content;
+    color                     : var(--text-muted);
+    font-size                 : 0.88rem;
+    font-weight               : 800;
+  }
 
+/* =========================================================
+   02. HERO AND HARDWARE EVOLUTION
+   ========================================================= */
 
-    /* Shared section header
-    Used by Featured Projects and All Projects */
-    .section_header {
-                    display                 : flex;
-                    justify-content         : space-between;
-                    align-items             : end;
-                    gap                     : 32px;
-                    margin-bottom           : 34px;
-    }
+  .hardware_header {
+    padding                   : 76px 0 68px;
+    background                : linear-gradient(135deg, #ffffff 0%, #dbeafe 100%);
+  }
 
-    .section_header_text {
-                    max-width               : 720px;
-    }
+  .hardware_header h1 {
+    margin-bottom             : 18px;
+    color                     : var(--heading);
+    font-size                 : clamp(2.4rem, 3.8vw, 3.8rem);
+    line-height               : 1.02;
+    letter-spacing            : -0.04em;
+  }
 
-    .section_header h2 {
-                    margin-bottom           : 8px;
-                    color                   : var(--heading);
-                    font-size               : clamp(1.9rem, 4vw, 2.8rem);
-                    line-height             : 1.15;
-    }
+  .page_intro_header {
+    text-align                : center;
+    animation                 : fadeUp 0.7s ease forwards;
+  }
 
-    .section_header p {
-                    color                   : var(--text-muted);
-    }
+  .page_intro {
+    max-width                 : 740px;
+    margin                    : 0 auto;
+    color                     : var(--text-muted);
+    font-size                 : clamp(1.05rem, 2vw, 1.28rem);
+  }
 
+  .hardware_path_wrap {
+    margin                    : 46px;
+    animation                 : fadeUp 0.7s ease forwards;
+  }
 
-    /* Shared uppercase labels */
-    .eyebrow,
-    .project_kicker,
-    .hardware_level {
-                    color                   : var(--primary);
-                    font-weight             : 800;
-                    text-transform          : uppercase;
-    }
+  .hardware_path_label {
+    margin-bottom             : 16px;
+    color                     : var(--primary-dark);
+    font-size                 : 0.78rem;
+    font-weight               : 800;
+    letter-spacing            : 0.12em;
+    text-align                : center;
+    text-transform            : uppercase;
+  }
 
-    .eyebrow {
-                    margin-bottom           : 12px;
-                    font-size               : 0.82rem;
-                    letter-spacing          : 0.14em;
-    }
+  .hardware_path {
+    display                   : grid;
+    grid-template-columns     : repeat(4, minmax(0, 1fr));
+    gap                       : 44px;
+  }
 
-    .project_kicker {
-                    margin-bottom           : 10px;
-                    font-size               : 0.78rem;
-                    letter-spacing          : 0.11em;
-    }
+  .hardware_step {
+    position                  : relative;
+    min-width                 : 0;
+    min-height                : 218px;
+    padding                   : 22px 20px 20px;
+    background                : var(--surface);
+    border                    : 1px solid rgba(23, 107, 158, 0.18);
+    border-radius             : var(--radius-md);
+    box-shadow                : 0 16px 38px rgba(19, 55, 82, 0.10);
+    text-align                : center;
+    transition                : transform var(--transition), box-shadow var(--transition);
+  }
 
-    .hardware_level {
-                    margin-bottom           : 3px;
-                    font-size               : 0.7rem;
-                    letter-spacing          : 0.09em;
-    }
+  .hardware_step:hover {
+    transform                 : translateY(-5px);
+    box-shadow                : 0 22px 48px rgba(19, 55, 82, 0.15);
+  }
 
+  .hardware_step:not(:last-child)::after {
+    content                   : "→";
+    position                  : absolute;
+    top                       : 50%;
+    right                     : -35px;
+    color                     : var(--primary);
+    font-size                 : 1.65rem;
+    font-weight               : 800;
+    line-height               : 1;
+    transform                 : translateY(-50%);
+  }
 
-    /* Shared card surface */
-    .featured_project,
-    .project_card {
-                    overflow                : hidden;
-                    background              : var(--surface);
-                    border                  : 1px solid var(--border);
-    }
+  .hardware_icon {
+    width                     : 66px;
+    height                    : 66px;
+    margin                    : 0 auto 12px;
+    display                   : flex;
+    align-items               : center;
+    justify-content           : center;
+  }
 
+  .hardware_icon img {
+    display                   : block;
+    width                     : 100%;
+    height                    : 100%;
+    object-fit                : contain;
+  }
 
-    /* Shared technology tags */
-    .tag_list {
-                    display                 : flex;
-                    flex-wrap               : wrap;
-                    gap                     : 8px;
-                    margin-bottom           : 26px;
-                    list-style              : none;
-    }
+  .hardware_step h2 {
+    margin-bottom             : 4px;
+    color                     : var(--heading);
+    font-size                 : 1.28rem;
+    line-height               : 1.2;
+  }
 
-    .tag_list li {
-                    padding                 : 6px 11px;
-                    border-radius           : 999px;
-                    background              : var(--primary-light);
-                    color                   : var(--primary-dark);
-                    font-size               : 0.78rem;
-                    font-weight             : 800;
-    }
+  .hardware_project {
+    margin-bottom             : 6px;
+    color                     : var(--text);
+    font-size                 : 0.9rem;
+    font-weight               : 700;
+    line-height               : 1.35;
+  }
 
+  .hardware_focus {
+    color                     : var(--text-muted);
+    font-size                 : 0.79rem;
+    line-height               : 1.45;
+  }
 
-    /* Shared primary button */
-    .button_link {
-                    width                   : fit-content;
-                    display                 : inline-flex;
-                    align-items             : center;
-                    justify-content         : center;
-                    gap                     : 8px;
-                    padding                 : 12px 20px;
-                    border-radius           : 999px;
-                    background              : var(--heading);
-                    color                   : #ffffff;
-                    font-weight             : 800;
-                    text-decoration         : none;
-                    transition              :
-                                              transform var(--transition),
-                                              background-color var(--transition);
-    }
+/* =========================================================
+   03. FEATURED PROJECT COMPONENTS
+   ========================================================= */
 
-    .button_link:hover,
-    .button_link:focus-visible {
-                    background              : var(--primary);
-                    transform               : translateY(-2px);
-    }
+  .featured_projects_list {
+    display                   : grid;
+    gap                       : 34px;
+  }
 
+  .featured_project {
+    display                   : grid;
+    grid-template-columns     : minmax(0, 1.08fr) minmax(0, 0.92fr);
+    align-items               : stretch;
+    border-radius             : var(--radius-lg);
+    box-shadow                : var(--shadow);
+  }
 
-    /* Shared project status */
-    .coming_soon {
-                    width                   : fit-content;
-                    color                   : var(--text-muted);
-                    font-size               : 0.88rem;
-                    font-weight             : 800;
-    }
+  .featured_project:nth-child(even) .featured_media {
+    order                     : 2;
+  }
 
+  .featured_media {
+    min-height                : 390px;
+    display                   : grid;
+    place-items               : center;
+    padding                   : 34px;
+    background                : linear-gradient(135deg, rgba(13, 45, 77, 0.94), rgba(23, 107, 158, 0.86));
+    color                     : #ffffff;
+  }
 
-    /* =========================================================
-       2. PROJECTS HERO AND HARDWARE PATH
-    ========================================================== */
-    .hardware_header {
-                    padding                 : 76px 0 68px;
-                    background              :
-                                              radial-gradient(
-                                                circle at 85% 20%,
-                                                rgba(23, 107, 158, 0.18),
-                                                transparent 26rem
-                                              ),
-                                              linear-gradient(
-                                                135deg,
-                                                #ffffff 0%,
-                                                #e5f3fb 100%
-                                              );
-    }
+  .featured_media svg {
+    width                     : min(100%, 560px);
+    height                    : auto;
+  }
 
-    .hardware_header h1 {
-                    margin-bottom           : 18px;
-                    color                   : var(--heading);
-                    font-size               : clamp(2.5rem, 6vw, 5rem);
-                    line-height             : 1.02;
-                    letter-spacing          : -0.04em;
-    }
+  .media_label {
+    max-width                 : 360px;
+    text-align                : center;
+  }
 
-    .page_intro_header {
-                    text-align              : center;
-                    animation               : fadeUp 0.7s ease forwards;
-    }
+  .media_label strong {
+    display                   : block;
+    margin-bottom             : 8px;
+    font-family               : Georgia, "Times New Roman", serif;
+    font-size                 : 1.55rem;
+  }
 
-    .page_intro {
-                    max-width               : 740px;
-                    margin                  : 0 auto;
-                    color                   : var(--text-muted);
-                    font-size               : clamp(1.05rem, 2vw, 1.28rem);
-    }
+  .media_label span {
+    color                     : rgba(255, 255, 255, 0.78);
+  }
 
-    .hardware_path_wrap {
-                    margin                  : 46px;
-                    animation               : fadeUp 0.7s ease forwards;
-    }
+  .featured_content {
+    display                   : flex;
+    flex-direction            : column;
+    justify-content           : center;
+    padding                   : clamp(30px, 5vw, 58px);
+  }
 
-    .hardware_path_label {
-                    margin-bottom           : 16px;
-                    color                   : var(--primary-dark);
-                    font-size               : 0.78rem;
-                    font-weight             : 800;
-                    letter-spacing          : 0.12em;
-                    text-align              : center;
-                    text-transform          : uppercase;
-    }
+  .featured_content h3 {
+    margin-bottom             : 14px;
+    color                     : var(--heading);
+    font-size                 : clamp(1.7rem, 3vw, 2.45rem);
+    line-height               : 1.15;
+  }
 
+  .featured_summary {
+    margin-bottom             : 22px;
+    color                     : var(--text-muted);
+  }
+
+  .project_facts {
+    display                   : grid;
+    grid-template-columns     : repeat(2, minmax(0, 1fr));
+    gap                       : 12px 20px;
+    margin-bottom             : 24px;
+  }
+
+  .project_fact {
+    padding-top               : 10px;
+    border-top                : 1px solid var(--border);
+  }
+
+  .project_fact dt {
+    color                     : var(--text-muted);
+    font-size                 : 0.75rem;
+    font-weight               : 800;
+    letter-spacing            : 0.08em;
+    text-transform            : uppercase;
+  }
+
+  .project_fact dd {
+    margin                    : 3px 0 0;
+    color                     : var(--text);
+    font-weight               : 700;
+  }
+
+  .site-page .filter-row {
+    justify-content           : center;
+    margin-bottom             : 34px;
+  }
+
+  .site-page .filter-button {
+    flex                      : 0 1 170px;
+  }
+
+  .project_group + .project_group {
+    margin-top                : 68px;
+  }
+
+  .project_group[hidden] {
+    display                   : none;
+  }
+
+  .project_group[hidden] + .project_group {
+    margin-top                : 0;
+  }
+
+  .group_heading {
+    margin-bottom             : 24px;
+  }
+
+  .group_heading h3 {
+    margin-bottom             : 5px;
+    color                     : var(--heading);
+    font-size                 : clamp(1.5rem, 3vw, 2.1rem);
+  }
+
+  .group_heading p {
+    color                     : var(--text-muted);
+  }
+
+/* =========================================================
+   04. PROJECT GRID AND FILTERING
+   ========================================================= */
+
+  .project_grid {
+    display                   : grid;
+    grid-template-columns     : repeat(3, minmax(0, 1fr));
+    gap                       : 24px;
+  }
+
+  .project_card {
+    display                   : flex;
+    flex-direction            : column;
+  }
+
+  .card_visual {
+    min-height                : 180px;
+    display                   : grid;
+    place-items               : center;
+    padding                   : 26px;
+    background                : linear-gradient(135deg, rgba(217, 237, 248, 0.92), rgba(184, 214, 231, 0.72));
+    color                     : var(--heading);
+    text-align                : center;
+  }
+
+  .card_visual strong {
+    display                   : block;
+    font-family               : Georgia, "Times New Roman", serif;
+    font-size                 : 1.25rem;
+  }
+
+  .card_body {
+    flex                      : 1;
+    display                   : flex;
+    flex-direction            : column;
+    padding                   : 24px;
+  }
+
+  .card_body h4 {
+    margin-bottom             : 10px;
+    color                     : var(--heading);
+    font-family               : Georgia, "Times New Roman", serif;
+    font-size                 : 1.3rem;
+    line-height               : 1.25;
+  }
+
+  .card_body p {
+    margin-bottom             : 18px;
+    color                     : var(--text-muted);
+  }
+
+  .card_body .tag_list {
+    margin-top                : auto;
+    margin-bottom             : 18px;
+  }
+
+  .text_link {
+    color                     : var(--primary-dark);
+    font-weight               : 800;
+    text-decoration           : none;
+  }
+
+  .text_link:hover, .text_link:focus-visible {
+    text-decoration           : underline;
+  }
+
+/* =========================================================
+   05. COLLABORATION SECTION
+   ========================================================= */
+
+  .collaboration_box {
+    padding                   : clamp(34px, 6vw, 64px);
+    border-radius             : var(--radius-lg);
+    background                : #ffffff;
+    color                     : var(--heading);
+    text-align                : center;
+    box-shadow                : var(--shadow);
+  }
+
+  .collaboration_box h2 {
+    margin-bottom             : 12px;
+    font-size                 : clamp(1.6rem, 2.5vw, 2.1rem);
+    font-weight               : 700;
+    line-height               : 1.25;
+    letter-spacing            : -0.02em;
+}
+
+  .collaboration_box p {
+    max-width                 : 700px;
+    margin                    : 0 auto 24px;
+    color                     : var(--text-muted);
+  }
+
+/* =========================================================
+   06. RESPONSIVE AND MOTION PREFERENCES
+   ========================================================= */
+
+  @media (max-width: 980px) {
     .hardware_path {
-                    display                 : grid;
-                    grid-template-columns   : repeat(4, minmax(0, 1fr));
-                    gap                     : 44px;
-    }
-
-    .hardware_step {
-                    position                : relative;
-                    min-width               : 0;
-                    min-height              : 218px;
-                    padding                 : 22px 20px 20px;
-                    background              : rgba(255, 255, 255, 0.88);
-                    border                  : 1px solid rgba(23, 107, 158, 0.18);
-                    border-radius           : var(--radius-md);
-                    box-shadow              : 0 16px 38px rgba(19, 55, 82, 0.10);
-                    text-align              : center;
-                    transition              :
-                                              transform var(--transition),
-                                              box-shadow var(--transition);
-    }
-
-    .hardware_step:hover {
-                    transform               : translateY(-5px);
-                    box-shadow              : 0 22px 48px rgba(19, 55, 82, 0.15);
+      grid-template-columns     : repeat(2, minmax(0, 1fr));
+      gap                       : 20px;
     }
 
     .hardware_step:not(:last-child)::after {
-                    content                 : "→";
-                    position                : absolute;
-                    top                     : 50%;
-                    right                   : -35px;
-                    color                   : var(--primary);
-                    font-size               : 1.65rem;
-                    font-weight             : 800;
-                    line-height             : 1;
-                    transform               : translateY(-50%);
-    }
-
-
-
-    .hardware_icon {
-                    width           : 66px;
-                    height          : 66px;
-                    margin          : 0 auto 12px;
-                    display         : flex;
-                    align-items     : center;
-                    justify-content : center;
-    }
-
-    .hardware_icon img {
-                    display         : block;
-                    width           : 100%;
-                    height          : 100%;
-                    object-fit      : contain;
-    }
-
-
-    .hardware_step h2 {
-                    margin-bottom           : 4px;
-                    color                   : var(--heading);
-                    font-size               : 1.28rem;
-                    line-height             : 1.2;
-    }
-
-    .hardware_project {
-                    margin-bottom           : 6px;
-                    color                   : var(--text);
-                    font-size               : 0.9rem;
-                    font-weight             : 700;
-                    line-height             : 1.35;
-    }
-
-    .hardware_focus {
-                    color                   : var(--text-muted);
-                    font-size               : 0.79rem;
-                    line-height             : 1.45;
-    }
-
-
-    /* =========================================================
-       3. FEATURED PROJECTS
-    ========================================================== */
-    .project_video {
-                    width                   : 100%;
-                    aspect-ratio            : 4/3;
-                    display                 : block;
-                    object-fit              : cover;
-                    background              : #e7eef8;
-                }
-
-    .featured_projects_list {
-                    display                 : grid;
-                    gap                     : 34px;
-    }
-
-    .featured_project {
-                    display                 : grid;
-                    grid-template-columns   :
-                                              minmax(0, 1.08fr)
-                                              minmax(0, 0.92fr);
-                    align-items             : stretch;
-                    border-radius           : var(--radius-lg);
-                    box-shadow              : var(--shadow);
-    }
-
-    .featured_project:nth-child(even) .featured_media {
-                    order                   : 2;
-    }
-
-    .featured_media {
-                    min-height              : 390px;
-                    display                 : grid;
-                    place-items             : center;
-                    padding                 : 34px;
-                    background              :
-                                              linear-gradient(
-                                                135deg,
-                                                rgba(13, 45, 77, 0.94),
-                                                rgba(23, 107, 158, 0.86)
-                                              );
-                    color                   : #ffffff;
-    }
-
-    .featured_media svg {
-                    width                   : min(100%, 560px);
-                    height                  : auto;
-    }
-
-    .media_label {
-                    max-width               : 360px;
-                    text-align              : center;
-    }
-
-    .media_label strong {
-                    display                 : block;
-                    margin-bottom           : 8px;
-                    font-family             : Georgia, "Times New Roman", serif;
-                    font-size               : 1.55rem;
-    }
-
-    .media_label span {
-                    color                   : rgba(255, 255, 255, 0.78);
-    }
-
-    .featured_content {
-                    display                 : flex;
-                    flex-direction          : column;
-                    justify-content         : center;
-                    padding                 : clamp(30px, 5vw, 58px);
-    }
-
-    .featured_content h3 {
-                    margin-bottom           : 14px;
-                    color                   : var(--heading);
-                    font-size               : clamp(1.7rem, 3vw, 2.45rem);
-                    line-height             : 1.15;
-    }
-
-    .featured_summary {
-                    margin-bottom           : 22px;
-                    color                   : var(--text-muted);
-    }
-
-    .project_facts {
-                    display                 : grid;
-                    grid-template-columns   : repeat(2, minmax(0, 1fr));
-                    gap                     : 12px 20px;
-                    margin-bottom           : 24px;
-    }
-
-    .project_fact {
-                    padding-top             : 10px;
-                    border-top              : 1px solid var(--border);
-    }
-
-    .project_fact dt {
-                    color                   : var(--text-muted);
-                    font-size               : 0.75rem;
-                    font-weight             : 800;
-                    letter-spacing          : 0.08em;
-                    text-transform          : uppercase;
-    }
-
-    .project_fact dd {
-                    margin                  : 3px 0 0;
-                    color                   : var(--text);
-                    font-weight             : 700;
-    }
-
-
-    /* =========================================================
-       4. ALL PROJECTS
-    ========================================================== */
-
-    /* Project category filters */
-    .filter-row {
-                    display                 : flex;
-                    flex-wrap               : wrap;
-                    justify-content         : center;
-                    gap                     : 9px;
-                    margin-top              : 15px;
-                    margin-bottom           : 34px;
-    }
-
-    .filter-button {
-                    flex                    : 0 1 170px;
-                    min-height              : 48px;
-                    display                 : inline-flex;
-                    align-items             : center;
-                    justify-content         : center;
-                    cursor                  : pointer;
-                    padding                 : 11px 20px;
-                    border                  : 1px solid var(--border);
-                    border-radius           : 999px;
-                    background              : var(--surface);
-                    color                   : var(--text-muted);
-                    font-size               : 0.88rem;
-                    font-weight             : 750;
-                    line-height             : 1.2;
-                    text-align              : center;
-                    transition              :
-                                              background-color var(--transition),
-                                              border-color var(--transition),
-                                              color var(--transition);
-    }
-
-    .filter-button:hover,
-    .filter-button:focus-visible {
-                    border-color            : var(--line);
-                    color                   : var(--primary-dark);
-    }
-
-    .filter-button.is-active {
-                    border-color            : var(--primary);
-                    background              : var(--primary);
-                    color                   : #ffffff;
-    }
-
-
-    /* Project groups */
-    .project_group + .project_group {
-                    margin-top              : 68px;
-    }
-
-    .project_group[hidden] {
-                    display                 : none;
-    }
-
-    .project_group[hidden] + .project_group {
-                    margin-top              : 0;
-    }
-
-    .group_heading {
-                    margin-bottom           : 24px;
-    }
-
-    .group_heading h3 {
-                    margin-bottom           : 5px;
-                    color                   : var(--heading);
-                    font-size               : clamp(1.5rem, 3vw, 2.1rem);
-    }
-
-    .group_heading p {
-                    color                   : var(--text-muted);
-    }
-
-
-    /* Project grid and cards */
-    .project_grid {
-                    display                 : grid;
-                    grid-template-columns   : repeat(3, minmax(0, 1fr));
-                    gap                     : 24px;
-    }
-
-    .project_card {
-                    display                 : flex;
-                    flex-direction          : column;
-                    border-radius           : var(--radius-md);
-                    box-shadow              : 0 14px 34px rgba(19, 55, 82, 0.08);
-                    transition              :
-                                              transform var(--transition),
-                                              box-shadow var(--transition);
-    }
-
-    .project_card:hover {
-                    transform               : translateY(-5px);
-                    box-shadow              : 0 20px 45px rgba(19, 55, 82, 0.13);
-    }
-
-    .card_visual {
-                    min-height              : 180px;
-                    display                 : grid;
-                    place-items             : center;
-                    padding                 : 26px;
-                    background              :
-                                              linear-gradient(
-                                                135deg,
-                                                rgba(217, 237, 248, 0.92),
-                                                rgba(184, 214, 231, 0.72)
-                                              );
-                    color                   : var(--heading);
-                    text-align              : center;
-    }
-
-    .card_visual strong {
-                    display                 : block;
-                    font-family             : Georgia, "Times New Roman", serif;
-                    font-size               : 1.25rem;
-    }
-
-    .card_body {
-                    flex                    : 1;
-                    display                 : flex;
-                    flex-direction          : column;
-                    padding                 : 24px;
-    }
-
-    .card_body h4 {
-                    margin-bottom           : 10px;
-                    color                   : var(--heading);
-                    font-family             : Georgia, "Times New Roman", serif;
-                    font-size               : 1.3rem;
-                    line-height             : 1.25;
-    }
-
-    .card_body p {
-                    margin-bottom           : 18px;
-                    color                   : var(--text-muted);
-    }
-
-    .card_body .tag_list {
-                    margin-top              : auto;
-                    margin-bottom           : 18px;
-    }
-
-    .text_link {
-                    color                   : var(--primary-dark);
-                    font-weight             : 800;
-                    text-decoration         : none;
-    }
-
-    .text_link:hover,
-    .text_link:focus-visible {
-                    text-decoration         : underline;
-    }
-
-    .project_link   {
-                    color                   : #365f91;
-                    text-decoration         : none;
-                    font-weight             : 700;
-                }
-
-    .project_link:hover {
-                    text-decoration         : none;
-                }
-
-
-    /* =========================================================
-       5. COLLABORATION SECTION
-    ========================================================== */
-    .collaboration_box {
-                    padding                 : clamp(34px, 6vw, 64px);
-                    border-radius           : var(--radius-lg);
-                    background              :
-                                              linear-gradient(
-                                                135deg,
-                                                var(--heading),
-                                                var(--primary)
-                                              );
-                    color                   : #ffffff;
-                    text-align              : center;
-                    box-shadow              : var(--shadow);
-    }
-
-    .collaboration_box h2 {
-                    margin-bottom           : 12px;
-                    font-size               : clamp(1.8rem, 4vw, 2.8rem);
-    }
-
-    .collaboration_box p {
-                    max-width               : 700px;
-                    margin                  : 0 auto 24px;
-                    color                   : rgba(255, 255, 255, 0.82);
-    }
-
-    .collaboration_box .button_link {
-                    background              : #ffffff;
-                    color                   : var(--heading);
-    }
-
-    .collaboration_box .button_link:hover,
-    .collaboration_box .button_link:focus-visible {
-                    background              : var(--primary-light);
-    }
-
-
-    /* =========================================================
-       6. RESPONSIVE STYLES
-    ========================================================== */
-    @media (max-width: 980px) {
-    .hardware_path {
-                    grid-template-columns   : repeat(2, minmax(0, 1fr));
-                    gap                     : 20px;
-    }
-
-    .hardware_step:not(:last-child)::after {
-                    display                 : none;
+      display                   : none;
     }
 
     .project_grid {
-                    grid-template-columns   : repeat(2, minmax(0, 1fr));
+      grid-template-columns     : repeat(2, minmax(0, 1fr));
     }
-    }
+  }
 
-
-    @media (max-width: 720px) {
+  @media (max-width: 720px) {
     .section_block {
-                    padding                 : 64px 0;
+      padding                   : 64px 0;
     }
 
     .section_header {
-                    align-items             : start;
-                    flex-direction          : column;
+      align-items               : start;
+      flex-direction            : column;
     }
 
     .hardware_header {
-                    padding                 : 58px 0;
+      padding                   : 58px 0;
     }
 
     .hardware_path_wrap {
-                    margin                  : 36px 20px 0;
+      margin                    : 36px 20px 0;
     }
 
     .hardware_path {
-                    grid-template-columns   : 1fr;
-                    max-width               : 470px;
-                    gap                     : 38px;
-                    margin-inline           : auto;
+      grid-template-columns     : 1fr;
+      max-width                 : 470px;
+      gap                       : 38px;
+      margin-inline             : auto;
     }
 
     .hardware_step:not(:last-child)::after {
-                    content                 : "↓";
-                    display                 : block;
-                    top                     : auto;
-                    right                   : 50%;
-                    bottom                  : -31px;
-                    transform               : translateX(50%);
+      content                   : "↓";
+      display                   : block;
+      top                       : auto;
+      right                     : 50%;
+      bottom                    : -31px;
+      transform                 : translateX(50%);
     }
 
     .featured_project {
-                    grid-template-columns   : 1fr;
+      grid-template-columns     : 1fr;
     }
 
     .featured_project:nth-child(even) .featured_media {
-                    order                   : 0;
+      order                     : 0;
     }
 
     .featured_media {
-                    min-height              : 310px;
+      min-height                : 310px;
     }
 
-    .project_facts,
-    .project_grid {
-                    grid-template-columns   : 1fr;
+    .project_facts, .project_grid {
+      grid-template-columns     : 1fr;
     }
 
-    .filter-button {
-                    flex-basis              : 150px;
-                    min-height              : 46px;
-                    padding                 : 10px 16px;
-                    font-size               : 0.84rem;
+    .site-page .filter-button {
+      flex-basis                : 150px;
     }
-    }
+  }
+    </style>
+  </head>
 
+  <!-- =========================================================
+                       HTML BODY
+       ========================================================= -->
+  <body class="site-page secondary-page">
 
-  </style>
+    <!-- =========================================================
+                         MAIN MENU
+         ========================================================= -->
 
-</head>
-
-
-
-  <!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-  HTML BODY
-  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- -->
-<body>
-
-  <!--================================================
-  MAIN MENU
-  ====================================================-->
-  <header class="header_menu">
-    <a href="/" aria-label="Go to homepage">
-      <img    class="logo_image"
-        src="media/profile/logo.svg"
-        alt="Logo"
+    <header class="header_menu">
+      <a href="/" aria-label="Go to homepage">
+        <img
+          class="logo_image"
+          src="media/profile/logo.svg"
+          alt="Logo"
         >
-    </a>
+      </a>
 
-    <nav class="menu_links">
-      <a href="about.html">About</a>
-      <a href="project.html">Projects</a>
-      <a href="blog.html">Blog</a>
-      <a href="life_and_events.html">Life & Events</a>
-      <a href="index.html#contact_box_section">Contact</a>
-    </nav>
-  </header>
+      <nav class="menu_links">
+        <a href="about.html">About</a>
+        <a href="project.html">Projects</a>
+        <a href="blog.html">Blog</a>
+        <a href="life_and_events.html">Life & Events</a>
+        <a href="index.html#contact_box_section">Contact</a>
 
-  <!--================================================
-  PROJECTS HERO AND HARDWARE PATH
-  ====================================================-->
+      </nav>
 
-  <!-- ------------------------------
-  Intro
-  ----------------------------------- -->
-  <header class ="hardware_header" id="project">
-    <div class="page_intro_header">
-      <h1>Projects</h1>
-      <p class="page_intro">
-        The deployment of computer vision solutions across various hardware platforms.
-      </p>
-    </div>
+    </header>
 
-    <!-- ------------------------------
-    Hardware deployment path
-    ----------------------------------- -->
-    <div class="hardware_path_wrap">
-      <p class="hardware_path_label">Hardware deployment evolution</p>
+    <!-- =========================================================
+                         PROJECTS HERO AND HARDWARE PATH
+         ========================================================= -->
 
+    <!-- =========================================================
+                         INTRO
+         ========================================================= -->
 
-      <div class="hardware_path" aria-label="Hardware deployment range from microcontrollers to GPU servers">
-        <!-- STM32 -->
-        <article class="hardware_step">
-
-          <div class="hardware_icon">
-            <img
-              src="media/projects/hardware/stm32.png"
-              alt="STM32"
-              >
-          </div>
-
-          <p class="hardware_level">Microcontroller</p>
-          <h2>STM32</h2>
-          <p class="hardware_project">Embedded fingerprint recognition</p>
-          <p class="hardware_focus">
-            Memory-constrained image processing and matching in C.
-          </p>
-
-        </article>
-
-        <!-- Raspberry Pi -->
-        <article class="hardware_step">
-          <div class="hardware_icon">
-            <img
-              src="media/projects/hardware/pi.png"
-              alt="PI 3"
-              >
-          </div>
-          <p class="hardware_level">Single-board computer</p>
-          <h2>Raspberry Pi</h2>
-          <p class="hardware_project">Object detection and sorting</p>
-          <p class="hardware_focus">Lightweight real-time vision with OpenCV and compact models.</p>
-        </article>
-
-        <!-- NVIDIA Jetson -->
-        <article class="hardware_step">
-
-          <div class="hardware_icon">
-            <img
-              src="media/projects/hardware/jetson.png"
-              alt="NVIDIA Jetson"
-              >
-          </div>
-          <p class="hardware_level">Accelerated edge AI</p>
-          <h2>NVIDIA Jetson</h2>
-          <p class="hardware_project">Industrial edge monitoring</p>
-          <p class="hardware_focus">GPU-accelerated deployment for Edge AI and IoT systems.</p>
-        </article>
-
-        <!-- Multi-camera server -->
-        <article class="hardware_step">
-          <div class="hardware_icon">
-            <img
-              src="media/projects/hardware/server.png"
-              alt="server"
-              >
-          </div>
-          <p class="hardware_level">Server infrastructure</p>
-          <h2>GPU Server</h2>
-          <p class="hardware_project">Multi-camera vision platform</p>
-          <p class="hardware_focus">Concurrent real-time detection, tracking, and other vision tasks.</p>
-        </article>
-      </div>
-    </div>
-  </header>
-
-
-
-
-  <!--================================================
-  ALL PROJECTS
-  ====================================================-->
-  <section class="section_block" aria-labelledby="all-projects-title" id="all_projects">
-    <div class="container">
-
-      <!-- ------------------------------
-      Project category filters
-      ----------------------------------- -->
-      <div class="filter-row" aria-label="Filter projects by category">
-        <button class="filter-button is-active" type="button" data-filter="all">All Projects</button>
-        <button class="filter-button" type="button" data-filter="computer_vision">Computer Vision</button>
-        <button class="filter-button" type="button" data-filter="explainable_ai">Explainable AI</button>
-        <button class="filter-button" type="button" data-filter="additional">Others</button>
+    <header class="hardware_header" id="project">
+      <div class="page_intro_header">
+        <h1>Projects</h1>
+        <p class="page_intro">The deployment of computer vision solutions across various hardware platforms.</p>
       </div>
 
+      <!-- =========================================================
+                           HARDWARE DEPLOYMENT PATH
+           ========================================================= -->
+      <div class="hardware_path_wrap">
+        <p class="hardware_path_label">Hardware deployment evolution</p>
+        <div class="hardware_path" aria-label="Hardware deployment range from microcontrollers to GPU servers">
+          <!-- STM32 -->
 
+          <article class="hardware_step">
+            <div class="hardware_icon">
+              <img
+                src="media/projects/hardware/stm32.png"
+                alt="STM32"
+              >
+            </div>
+            <p class="hardware_level">Microcontroller</p>
+            <h2>STM32</h2>
+            <p class="hardware_project">Embedded fingerprint recognition</p>
+            <p class="hardware_focus">Memory-constrained image processing and matching in C.</p>
 
-      <!-- ------------------------------
-      Computer vision group
-      ----------------------------------- -->
-      <section class="project_group" id="computer_vision" aria-labelledby="computer-vision-title" data-category="computer_vision">
-        <div class="group_heading">
-          <h3 id="computer-vision-title">Computer Vision</h3>
-          <p>Image processing, computer vision deep learning, real-time applications, edge deployment.</p>
+          </article>
+          <!-- Raspberry Pi -->
+
+          <article class="hardware_step">
+            <div class="hardware_icon">
+              <img
+                src="media/projects/hardware/pi.png"
+                alt="PI 3"
+              >
+            </div>
+            <p class="hardware_level">Single-board computer</p>
+            <h2>Raspberry Pi</h2>
+            <p class="hardware_project">Object detection and sorting</p>
+            <p class="hardware_focus">Lightweight real-time vision with OpenCV and compact models.</p>
+
+          </article>
+          <!-- NVIDIA Jetson -->
+
+          <article class="hardware_step">
+            <div class="hardware_icon">
+              <img
+                src="media/projects/hardware/jetson.png"
+                alt="NVIDIA Jetson"
+              >
+            </div>
+            <p class="hardware_level">Accelerated edge AI</p>
+            <h2>NVIDIA Jetson</h2>
+            <p class="hardware_project">Industrial edge monitoring</p>
+            <p class="hardware_focus">GPU-accelerated deployment for Edge AI and IoT systems.</p>
+
+          </article>
+          <!-- Multi-camera server -->
+
+          <article class="hardware_step">
+            <div class="hardware_icon">
+              <img
+                src="media/projects/hardware/server.png"
+                alt="server"
+              >
+            </div>
+            <p class="hardware_level">Server infrastructure</p>
+            <h2>GPU Server</h2>
+            <p class="hardware_project">Multi-camera vision platform</p>
+            <p class="hardware_focus">Concurrent real-time detection, tracking, and other vision tasks.</p>
+
+          </article>
+        </div>
+      </div>
+
+    </header>
+
+    <!-- =========================================================
+                         ALL PROJECTS
+         ========================================================= -->
+
+    <section class="section_block" aria-labelledby="all-projects-title" id="all_projects">
+      <div class="container">
+
+        <!-- =========================================================
+                             PROJECT CATEGORY FILTERS
+             ========================================================= -->
+        <div class="filter-row" aria-label="Filter projects by category">
+          <button class="filter-button is-active" type="button" data-filter="all">All Projects</button>
+          <button class="filter-button" type="button" data-filter="computer_vision">Computer Vision</button>
+          <button class="filter-button" type="button" data-filter="explainable_ai">Explainable AI</button>
+          <button class="filter-button" type="button" data-filter="additional">Others</button>
         </div>
 
-        <div class="project_grid">
+        <!-- =========================================================
+                             COMPUTER VISION GROUP
+             ========================================================= -->
 
-          <!-- Aqua smart city -->
-          <article class="project_card">
-            <a href="projects/aqua_smart_city.html" class="project_link">
-              <video class="project_video" autoplay muted loop playsinline>
-                <source src="media/projects/aqua/aqua_trailer.mp4" type="video/mp4">
-              </video>
+        <section
+          class="project_group"
+          id="computer_vision"
+          aria-labelledby="computer-vision-title"
+          data-category="computer_vision"
+        >
+          <div class="group_heading">
+            <h3 id="computer-vision-title">Computer Vision</h3>
+            <p>Image processing, computer vision deep learning, real-time applications, edge deployment.</p>
+          </div>
+          <div class="project_grid">
+            <!-- Aqua smart city -->
+
+            <article class="project_card">
+              <a href="projects/aqua_smart_city.html" class="project_link">
+                <video class="project_video" autoplay muted loop playsinline>
+                  <source src="media/projects/aqua/aqua_trailer.mp4" type="video/mp4">
+                </video>
+                <div class="card_body">
+                  <h4>Smart City Surveillance System</h4>
+                  <p>
+                    Real-time multi-camera detection, tracking, segmentation, classification,
+                    and face recognition with a shared-backbone architecture.
+                  </p>
+                  <ul class="tag_list">
+                    <li>PyTorch</li>
+                    <li>OpenCV</li>
+                    <li>ONNX</li>
+                    <li>TensorRT</li>
+                  </ul>
+                </div>
+              </a>
+
+            </article>
+            <!-- Coffee sorting -->
+
+            <article class="project_card">
+              <a href="projects/coffee_bean_sorting_machine.html" class="project_link">
+                <video class="project_video" autoplay muted loop playsinline>
+                  <source src="media/projects/coffee_bean/coffee_bean.mp4" type="video/mp4">
+                </video>
+                <div class="card_body">
+                  <h4>Coffee Bean Sorting Machine</h4>
+                  <p>
+                    End-to-end image acquisition, enhancement, segmentation, classification,
+                    and embedded optimization for non-uniform lighting conditions.
+                  </p>
+                  <ul class="tag_list">
+                    <li>C/C++</li>
+                    <li>NVIDIA Jetson Nano</li>
+                    <li>OpenCV</li>
+                    <li>Linux</li>
+                    <li>Raspberry Pi 3</li>
+                  </ul>
+                </div>
+              </a>
+
+            </article>
+            <!-- Object detection with Raspberry Pi -->
+
+            <article class="project_card">
+              <a href="projects/raspberry_pi_object_detection.html" class="project_link">
+                <video class="project_video" autoplay muted loop playsinline>
+                  <source src="media/projects/pi_with_objectdetection/pi_detection.mp4" type="video/mp4">
+                </video>
+                <div class="card_body">
+                  <h4>Real-Time Object Detection on Raspberry Pi</h4>
+                  <p>A lightweight OpenCV and MobileNet application for real-time object detection on Raspberry Pi 3.</p>
+                  <ul class="tag_list">
+                    <li>Python</li>
+                    <li>Raspberry Pi 3</li>
+                    <li>OpenCV</li>
+                    <li>Caffe</li>
+                    <li>MobileNet</li>
+                  </ul>
+                </div>
+              </a>
+
+            </article>
+            <!-- Infrared computer vision -->
+
+            <article class="project_card">
+              <div class="project_link">
+                <video class="project_video" autoplay muted loop playsinline>
+                  <source src="media/profile/infrared_object_detection.mp4" type="video/mp4">
+                </video>
+                <div class="card_body">
+                  <h4>Infrared vision</h4>
+                  <p>An Edge AI system for real-time object detection in night vision.</p>
+                  <ul class="tag_list">
+                    <li>Python</li>
+                    <li>PyTorch</li>
+                    <li>OpenCV</li>
+                    <li>Jetson</li>
+                  </ul>
+                  <span class="coming_soon">Case study coming soon</span>
+                </div>
+              </div>
+
+            </article>
+            <!-- Fingerprint recognition -->
+
+            <article class="project_card">
+              <div class="card_visual">
+                <strong>STM32 fingerprint pipeline</strong>
+              </div>
               <div class="card_body">
-                <h4>Smart City Surveillance System</h4>
+                <h4>Embedded Fingerprint Recognition</h4>
                 <p>
-                  Real-time multi-camera detection, tracking, segmentation, classification,
-                  and face recognition with a shared-backbone architecture.
+                  Raw fingerprint acquisition through SPI, enhancement using STFT and
+                  Gabor filtering, ridge analysis, feature extraction, and efficient matching.
                 </p>
                 <ul class="tag_list">
-                  <li>PyTorch</li><li>OpenCV</li><li>ONNX</li><li>TensorRT</li>
+                  <li>C</li>
+                  <li>STM32</li>
+                  <li>SPI</li>
+                  <li>Gabor</li>
                 </ul>
+                <span class="coming_soon">Case study coming soon</span>
               </div>
-            </a>
-          </article>
 
-
-          <!-- Coffee sorting -->
-          <article class="project_card">
-            <a href="projects/coffee_bean_sorting_machine.html" class="project_link">
-
-              <video class="project_video" autoplay muted loop playsinline>
-                <source src="media/projects/coffee_bean/coffee_bean.mp4" type="video/mp4">
-              </video>
-
-            <div class="card_body">
-              <h4>Coffee Bean Sorting Machine</h4>
-              <p>
-                End-to-end image acquisition, enhancement, segmentation, classification,
-                and embedded optimization for non-uniform lighting conditions.
-              </p>
-              <ul class="tag_list">
-                <li>C/C++</li><li>NVIDIA Jetson Nano</li><li>OpenCV</li><li>Linux</li> <li>Raspberry Pi 3</li>
-              </ul>
-            </div>
-            </a>
-          </article>
-
-
-          
-
-          <!-- Object detection with Raspberry Pi -->
-          <article class="project_card">
-            <a href="projects/raspberry_pi_object_detection.html" class="project_link">
-
-              <video class="project_video" autoplay muted loop playsinline>
-                <source src="media/projects/pi_with_objectdetection/pi_detection.mp4" type="video/mp4">
-              </video>
-          
-              <div class="card_body">
-                <h4>Real-Time Object Detection on Raspberry Pi</h4>
-                <p>
-                  A lightweight OpenCV and MobileNet application for real-time object detection on Raspberry Pi 3.
-                </p>
-                <ul class="tag_list">
-                  <li>Python</li><li>Raspberry Pi 3</li><li>OpenCV</li><li>Caffe</li><li>MobileNet</li>
-                </ul>
-              </div>
-            </a>
-          </article>
-
-          <!-- Infrared computer vision -->
-          <article class="project_card">
-            <div class="project_link">
-            <video class="project_video" autoplay muted loop playsinline>
-                <source src="media/profile/infrared_object_detection.mp4" type="video/mp4">
-              </video>
-
-            <div class="card_body">
-              <h4>Infrared vision</h4>
-              <p>
-                An Edge AI system for real-time object detection in night vision.
-              </p>
-              <ul class="tag_list">
-                <li>Python</li><li>PyTorch</li><li>OpenCV</li><li>Jetson</li>
-              </ul>
-              <span class="coming_soon">Case study coming soon</span>
-            </div>
+            </article>
           </div>
-          </article>
 
-          <!-- Fingerprint recognition -->
+        </section>
 
-          <article class="project_card">
-            <div class="card_visual"><strong>STM32 fingerprint pipeline</strong></div>
-            <div class="card_body">
-              <h4>Embedded Fingerprint Recognition</h4>
-              <p>
-                Raw fingerprint acquisition through SPI, enhancement using STFT and
-                Gabor filtering, ridge analysis, feature extraction, and efficient matching.
-              </p>
-              <ul class="tag_list">
-                <li>C</li><li>STM32</li><li>SPI</li><li>Gabor</li>
-              </ul>
-              <span class="coming_soon">Case study coming soon</span>
-            </div>
-          </article>
+        <!-- =========================================================
+                             EXPLAINABLE AI GROUP
+             ========================================================= -->
+        <!-- <section class="project_group" id="explainable_ai" aria-labelledby="xai-title" data-category="explainable_ai">
+                <div class="group_heading">
+                  <h3 id="xai-title">Explainable AI</h3>
+                  <p>Pre-model, during-model, and post-model explainability for industrial applications.</p>
+                </div>
 
-        </div>
-      </section>
+                <div class="project_grid"> -->
+        <!-- Edge IoT Monitoring -->
+        <!-- <article class="project_card">
+                    <div class="card_visual"><strong>Jetson edge monitoring</strong></div>
+                    <div class="card_body">
+                      <h4>Edge IoT Monitoring</h4>
+                      <p>Industrial edge monitoring on Jetson Orin Nano with federated learning integration.</p>
+                      <ul class="tag_list">
+                        <li>Jetson Orin Nano</li><li>Edge AI</li><li>IoT</li><li>Federated Learning</li>
+                      </ul>
+                      <span class="coming_soon">Case study coming soon</span>
+                    </div>
 
+                  </article> -->
+        <!-- Multimodal Explanation Framework -->
+        <!-- <article class="project_card">
+                    <div class="card_visual"><strong>Multimodal explanation framework</strong></div>
+                    <div class="card_body">
+                      <h4>Post-Hoc Multimodal Explainability</h4>
+                      <p>
+                        A framework for interpreting deep learning models that combine image,
+                        text, and numerical sensor data.
+                      </p>
+                      <ul class="tag_list">
+                        <li>XAI</li><li>Multimodal AI</li><li>Industrial AI</li>
+                      </ul>
+                      <span class="coming_soon">Research case study coming soon</span>
+                    </div>
 
-      <!-- ------------------------------
-      Explainable AI group
-      ----------------------------------- -->
-      <!-- <section class="project_group" id="explainable_ai" aria-labelledby="xai-title" data-category="explainable_ai">
-        <div class="group_heading">
-          <h3 id="xai-title">Explainable AI</h3>
-          <p>Pre-model, during-model, and post-model explainability for industrial applications.</p>
-        </div>
+                  </article> -->
+        <!-- Interpretable Prognostics -->
+        <!-- <article class="project_card">
+                    <div class="card_visual"><strong>Interpretable prognostics</strong></div>
+                    <div class="card_body">
+                      <h4>Intrinsically Explainable Health Monitoring</h4>
+                      <p>An intrinsically explainable framework for system-level health monitoring and prognostics.</p>
+                      <ul class="tag_list">
+                        <li>Interpretable AI</li><li>Prognostics</li><li>Health Monitoring</li>
+                      </ul>
+                      <span class="coming_soon">Research case study coming soon</span>
+                    </div>
 
-        <div class="project_grid"> -->
-          <!-- Edge IoT Monitoring -->
-          <!-- <article class="project_card">
-            <div class="card_visual"><strong>Jetson edge monitoring</strong></div>
-            <div class="card_body">
-              <h4>Edge IoT Monitoring</h4>
-              <p>
-                Industrial edge monitoring on Jetson Orin Nano with federated learning integration.
-              </p>
-              <ul class="tag_list">
-                <li>Jetson Orin Nano</li><li>Edge AI</li><li>IoT</li><li>Federated Learning</li>
-              </ul>
-              <span class="coming_soon">Case study coming soon</span>
-            </div>
-          </article> -->
+                  </article> -->
+        <!-- Data-quality Explainability -->
+        <!-- <article class="project_card">
+                    <div class="card_visual"><strong>Data-quality explainability</strong></div>
+                    <div class="card_body">
+                      <h4>Pre-Model Explainability</h4>
+                      <p>
+                        Methods for analyzing data quality before model training and supporting
+                        AI model development for industrial prognostics.
+                      </p>
+                      <ul class="tag_list">
+                        <li>Data Quality</li><li>Pre-Model XAI</li><li>Industrial AI</li>
+                      </ul>
+                      <span class="coming_soon">Research case study coming soon</span>
+                    </div>
 
-          <!-- Multimodal Explanation Framework -->
-          <!-- <article class="project_card">
-            <div class="card_visual"><strong>Multimodal explanation framework</strong></div>
-            <div class="card_body">
-              <h4>Post-Hoc Multimodal Explainability</h4>
-              <p>
-                A framework for interpreting deep learning models that combine image,
-                text, and numerical sensor data.
-              </p>
-              <ul class="tag_list">
-                <li>XAI</li><li>Multimodal AI</li><li>Industrial AI</li>
-              </ul>
-              <span class="coming_soon">Research case study coming soon</span>
-            </div>
-          </article> -->
-
-          <!-- Interpretable Prognostics -->
-          <!-- <article class="project_card">
-            <div class="card_visual"><strong>Interpretable prognostics</strong></div>
-            <div class="card_body">
-              <h4>Intrinsically Explainable Health Monitoring</h4>
-              <p>
-                An intrinsically explainable framework for system-level health monitoring and prognostics.
-              </p>
-              <ul class="tag_list">
-                <li>Interpretable AI</li><li>Prognostics</li><li>Health Monitoring</li>
-              </ul>
-              <span class="coming_soon">Research case study coming soon</span>
-            </div>
-          </article> -->
-
-          <!-- Data-quality Explainability -->
-          <!-- <article class="project_card">
-            <div class="card_visual"><strong>Data-quality explainability</strong></div>
-            <div class="card_body">
-              <h4>Pre-Model Explainability</h4>
-              <p>
-                Methods for analyzing data quality before model training and supporting
-                AI model development for industrial prognostics.
-              </p>
-              <ul class="tag_list">
-                <li>Data Quality</li><li>Pre-Model XAI</li><li>Industrial AI</li>
-              </ul>
-              <span class="coming_soon">Research case study coming soon</span>
-            </div>
-          </article> -->
-
-        </div>
-      </section>
-
-      <!-- ------------------------------
-      Other projects group
-      ----------------------------------- -->
-      <!-- <section class="project_group" id="additional" aria-labelledby="additional-title" data-category="additional">
-        <div class="group_heading">
-          <h3 id="additional-title">Other Projects</h3>
-          <p>Signal processing and related projects.</p>
-        </div>
-
-        <div class="project_grid">
-          <article class="project_card">
-            <div class="card_visual"><strong>Neural signal analysis</strong></div>
-            <div class="card_body">
-              <h4>Neural Recording &amp; EEG Event Detection</h4>
-              <p>
-                A MATLAB interface for neural signal analysis and visualization,
-                with FIR filtering and EEG event-detection algorithms.
-              </p>
-              <ul class="tag_list">
-                <li>MATLAB</li><li>FIR Filters</li><li>EEG</li><li>Signal Processing</li>
-              </ul>
-              <span class="coming_soon">Project summary coming soon</span>
-            </div>
-          </article>
-        </div>
-      </section> -->
-    </div>
-  </section>
-
-
-  <!--================================================
-  COLLABORATION
-  ====================================================-->
-  <section class="section_block" aria-labelledby="collaboration-title">
-    <div class="container">
-      <div class="collaboration_box">
-        <h2 id="collaboration-title">Interested in collaborating?</h2>
-        <p>
-          I am open to applied research and engineering collaborations in edge computer
-          vision, explainable AI, and industrial AI.
-        </p>
-        <a class="button_link" href="mailto:contact@ducannguyen.net">Contact me</a>
+                  </article> -->
       </div>
-    </div>
-  </section>
 
+    </section>
 
+    <!-- =========================================================
+                         OTHER PROJECTS GROUP
+         ========================================================= -->
+    <!-- <section class="project_group" id="additional" aria-labelledby="additional-title" data-category="additional">
+            <div class="group_heading">
+              <h3 id="additional-title">Other Projects</h3>
+              <p>Signal processing and related projects.</p>
+            </div>
 
+            <div class="project_grid">
+
+              <article class="project_card">
+                <div class="card_visual"><strong>Neural signal analysis</strong></div>
+                <div class="card_body">
+                  <h4>Neural Recording &amp; EEG Event Detection</h4>
+                  <p>
+                    A MATLAB interface for neural signal analysis and visualization,
+                    with FIR filtering and EEG event-detection algorithms.
+                  </p>
+                  <ul class="tag_list">
+                    <li>MATLAB</li><li>FIR Filters</li><li>EEG</li><li>Signal Processing</li>
+                  </ul>
+                  <span class="coming_soon">Project summary coming soon</span>
+                </div>
+
+              </article>
+            </div>
+
+          </section> -->
   </div>
 
+</section>
 
-  <!--================================================
-  FOOTER
-  ====================================================-->
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <span>© <span id="current-year"></span> Duc An Nguyen</span>
+<!-- =========================================================
+                     COLLABORATION
+     ========================================================= -->
 
-      <div class="footer-links">
-        <a href="mailto:contact@ducannguyen.net">Email</a>
-        <a
-          href="https://github.com/duc-an-nguyen"
-          target="_blank"
-          rel="noopener noreferrer"
-          >
-          GitHub
-        </a>
-        <a
-          href="https://www.linkedin.com/in/ducannguyen"
-          target="_blank"
-          rel="noopener noreferrer"
-          >
-          LinkedIn
-        </a>
-        <a href="#project">Back to top ↑</a>
-      </div>
+<section class="section_block" aria-labelledby="collaboration-title">
+  <div class="container">
+    <div class="collaboration_box">
+      <h2 id="collaboration-title">Interested in collaborating?</h2>
+      <p>
+        I am open to applied research and engineering collaborations in edge computer
+        vision, explainable AI, and industrial AI.
+      </p>
+      <a class="button_link" href="mailto:contact@ducannguyen.net">Contact me</a>
     </div>
-  </footer>
+  </div>
 
+</section>
+</div>
 
+<!-- =========================================================
+                     FOOTER
+     ========================================================= -->
 
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <span>
+      ©
+      <span id="current-year">
+      </span>
+      Duc An Nguyen
+    </span>
+    <div class="footer-links">
+      <a href="mailto:contact@ducannguyen.net">Email</a>
+      <a href="https://github.com/duc-an-nguyen" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://www.linkedin.com/in/ducannguyen" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="#project">Back to top ↑</a>
+    </div>
+  </div>
 
-  <!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-  JAVASCRIPT
-  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- -->
-  <script>
-      /* =========================================================
-         CURRENT YEAR
-      ========================================================== */
-      document.getElementById("current-year").textContent =
-        new Date().getFullYear();
+</footer>
 
-      /* =========================================================
-         REVEAL ANIMATION
-      ========================================================== */
-      const revealElements = document.querySelectorAll(".reveal");
+<!-- =========================================================
+                     JAVASCRIPT
+     ========================================================= -->
+<script>
+  /* =========================================================
+     01. CURRENT YEAR
+     ========================================================= */
+  document.getElementById("current-year").textContent =
+    new Date().getFullYear();
 
-      if ("IntersectionObserver" in window) {
-        const observer = new IntersectionObserver(
-          (entries, currentObserver) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add("is-visible");
-                currentObserver.unobserve(entry.target);
-              }
-            });
-          },
-          { threshold: 0.10 }
-        );
+  /* =========================================================
+     02. PROJECT FILTER
+     ========================================================= */
+  const filterButtons = document.querySelectorAll(".filter-button");
+  const projectGroups = document.querySelectorAll(".project_group");
 
-        revealElements.forEach((element) => observer.observe(element));
-      } else {
-        revealElements.forEach((element) =>
-          element.classList.add("is-visible")
-        );
-      }
+  function setFilter(filterName) {
+    filterButtons.forEach((button) => {
+      const isActive = button.dataset.filter === filterName;
+      button.classList.toggle("is-active", isActive);
+    });
 
-      /* =========================================================
-         PROJECT FILTER
-      ========================================================== */
-      const filterButtons = document.querySelectorAll(".filter-button");
-      const projectGroups = document.querySelectorAll(".project_group");
+    projectGroups.forEach((group) => {
+      const categories = group.dataset.category.split(" ");
+      const shouldShow =
+        filterName === "all" || categories.includes(filterName);
 
-      function setFilter(filterName) {
-        filterButtons.forEach((button) => {
-          const isActive = button.dataset.filter === filterName;
-          button.classList.toggle("is-active", isActive);
-        });
+      group.hidden = !shouldShow;
+    });
+  }
 
-        projectGroups.forEach((group) => {
-          const categories = group.dataset.category.split(" ");
-          const shouldShow =
-            filterName === "all" || categories.includes(filterName);
-
-          group.hidden = !shouldShow;
-        });
-      }
-
-      filterButtons.forEach((button) => {
-        button.addEventListener("click", () => {
-          setFilter(button.dataset.filter);
-        });
-      });
-  </script>
-
-
+  filterButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      setFilter(button.dataset.filter);
+    });
+  });
+</script>
 </body>
-
-
 </html>

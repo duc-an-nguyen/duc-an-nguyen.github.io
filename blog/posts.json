@@ -1,4 +1,13 @@
 [
+  {
+    "title"             : "Metrics for Object Detection",
+    "type"              : "Computer Vision",
+    "subject"           : "Evaluation",
+    "description"       : "Precision, recall, F1 score, average precision, and mean average precision.",
+    "url"               : "blog/computer_vision/metrics_object_detection.html",
+    "updated"           : "2026-10-27T17:10:00+02:00"
+  },
+
     {
     "title"             : "DVC Notes",
     "type"              : "Deployment and optimization",
